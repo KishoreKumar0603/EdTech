@@ -1,0 +1,116 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url "home" %}">Ed<span class="theme">Tech</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 link-nav-align">
+          <li class="nav-item ms-auto ">
+            <a class="nav-link" aria-current="page" href="{% url "home" %}">Home</a>
+          </li>
+          <li class="nav-item ms-auto">
+            <a class="nav-link {% if active_page == 'course' %}active{% endif %}" href="{% url 'courses' %}">Course</a>
+          </li>
+          <li class="nav-item ms-auto">
+            <a class="nav-link" href="#">Live</a>
+          </li>
+          <li class="nav-item ms-auto">
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#notificationModal"><img src="{% static "img/notifications-icon.png" %} " class="img-fluid" alt="" height="26px" width="26px"></a>
+          </li>
+          <li class="nav-item ms-auto">
+            <a class="nav-link" href="#"  data-bs-dismiss="offcanvas" data-bs-target="#demo"><img src="{% static "img/Vector.png" %}" class="img-fluid" alt="" height="26px" width="26px"></a>
+          </li>
+      </div>
+    </div>
+  </nav>
+  <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Notifications Section -->
+                <div class="notification-section">
+                    <h5>Today</h5>
+
+                    <!-- Notification Card -->
+                    <div class="d-flex align-items-center notification-card">
+                        <div class="icon-container">
+                            <img src="https://via.placeholder.com/30" alt="icon">
+                        </div>
+                        <div>
+                            <h5>New Category Course!</h5>
+                            <p>New 3D Design Course is Available...</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center notification-card">
+                        <div class="icon-container">
+                            <img src="https://via.placeholder.com/30" alt="icon">
+                        </div>
+                        <div>
+                            <h5>New Category Course!</h5>
+                            <p>New 3D Design Course is Available...</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center notification-card">
+                        <div class="icon-container">
+                            <img src="https://via.placeholder.com/30" alt="icon">
+                        </div>
+                        <div>
+                            <h5>Today's Special Offers</h5>
+                            <p>You have made a course payment...</p>
+                        </div>
+                    </div>
+
+                    <!-- Yesterday Section -->
+                    <h5 class="mt-4">Yesterday</h5>
+
+                    <div class="d-flex align-items-center notification-card">
+                        <div class="icon-container">
+                            <img src="https://via.placeholder.com/30" alt="icon">
+                        </div>
+                        <div>
+                            <h5>Credit Card Connected!</h5>
+                            <p>Credit Card has been linked...</p>
+                        </div>
+                    </div>
+
+                    <!-- Earlier Section -->
+                    <h5 class="mt-4">Nov 20, 2024</h5>
+
+                    <div class="d-flex align-items-center notification-card">
+                        <div class="icon-container">
+                            <img src="https://via.placeholder.com/30" alt="icon">
+                        </div>
+                        <div>
+                            <h5>Account Setup Successful!</h5>
+                            <p>Your account has been created...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="demo">
+  <div class="offcanvas-header">
+      <h1 class="offcanvas-title">Heading</h1>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+      <p>Some text lorem ipsum.</p>
+      <p>Some text lorem ipsum.</p>
+      <p>Some text lorem ipsum.</p>
+      <button class="btn btn-secondary" type="button">A Button</button>
+  </div>
+</div>

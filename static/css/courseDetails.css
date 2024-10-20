@@ -1,0 +1,42 @@
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+.course-image img {
+    width: 100%;
+    height: auto;
+}
+
+h2 {
+    font-weight: bold;
+}
+
+.ongoing {
+    color: blue;
+    font-weight: bold;
+}
+
+.accordion-button {
+    background-color: #f7f7f7;
+    font-weight: bold;
+}
+
+.course-sections h5 {
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.course-sections .list-group-item {
+    border: none;
+    padding: 10px 15px;
+}
+
+.section-duration {
+    color: #888;
+}
+
+.btn-secondary[disabled] {
+    background-color: lightgray;
+    border: none;
+}

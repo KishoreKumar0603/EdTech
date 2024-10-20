@@ -1,0 +1,63 @@
+{% extends "course/layouts/main.html" %}
+{% load static %}
+{% block title %}
+    Kishore kumar | Profile
+{% endblock title %}
+{% block css %}{% static "css/profile.css" %}{% endblock css %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2 sidebar">
+            <ul>
+                <li>Profile</li>
+                <li>Courses</li>
+                <li>Certificates</li>
+                <li>Payments</li>
+                <li>About</li>
+                <li>Settings</li>
+            </ul>
+        </div>
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10 form-container">
+            <div class="profile-picture">
+                <img src="https://via.placeholder.com/80" alt="User">
+            </div>
+            <form>
+                <div class="mb-3">
+                    <label for="fullName" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="fullName" placeholder="Full Name">
+                </div>
+                <div class="mb-3">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="Last Name">
+                </div>
+                <div class="mb-3">
+                    <label for="dob" class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control" id="dob">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="phone" placeholder="(+91) Number">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select id="gender" class="form-select">
+                        <option selected>Choose...</option>
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                        <option value="3">Other</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

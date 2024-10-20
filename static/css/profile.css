@@ -1,0 +1,43 @@
+.sidebar {
+    background-color: #f2f2f2;
+    height: 100vh;
+}
+.sidebar ul {
+    padding: 0;
+    list-style: none;
+}
+.sidebar ul li {
+    padding: 15px 20px;
+    font-size: 1.2rem;
+}
+.sidebar ul li:hover {
+    background-color: #e0e0e0;
+}
+.form-container {
+    padding: 40px;
+}
+.form-container input, .form-container select {
+    background-color: #e0e0e0;
+}
+.form-container input[type="text"], .form-container input[type="email"], .form-container input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.form-container select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+}
+.profile-picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.profile-picture img {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+}

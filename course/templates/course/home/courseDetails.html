@@ -1,0 +1,77 @@
+{% extends "course/layouts/main.html" %}
+{% load static %}
+{% block title %}
+    Machine Learing | Course
+{% endblock title %}
+
+{%block css%}{% static "css/courseDetails.css" %}{%endblock css%}
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Left Side (Course Info) -->
+        <div class="col-md-4">
+            <div class="course-image mb-3">
+                <img src="{% static "img/courseImg/machine-learning.png" %}" alt="AI Image" class="img-fluid rounded">
+            </div>
+            <h2>Machine Learning</h2>
+            <p class="ongoing">Ongoing</p>
+            <p>Duration: 3 months</p>
+            <h4>Check Points</h4>
+            <div class="accordion" id="courseAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            1. Data Collection and Preprocessing using Python
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#courseAccordion">
+                        <div class="accordion-body">
+                            <span>Duration: 8 hrs</span><br>
+                            <span class="badge bg-secondary">Python</span>
+                            <span class="badge bg-secondary">Numpy</span>
+                            <span class="badge bg-secondary">Pandas</span>
+                            <p>In this course, you will learn how to collect and clean data, handle null values, and feed data into models.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more accordion items as needed -->
+            </div>
+        </div>
+
+        <!-- Right Side (Course Sections) -->
+        <div class="col-md-8">
+            <div class="course-sections">
+                <h5>Section 01 - Introduction <span class="section-duration float-end">25 Mins</span></h5>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>01. Why Using Graphic Design?</span>
+                        <span>15 Mins</span>
+                        <button class="btn btn-primary">Play</button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>02. Setup Your Graphic Design Tools</span>
+                        <span>10 Mins</span>
+                        <button class="btn btn-primary">Play</button>
+                    </li>
+                </ul>
+
+                <h5 class="mt-4">Section 02 - Graphic Design <span class="section-duration float-end">55 Mins</span></h5>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>03. Take a Look at Graphic Design</span>
+                        <span>08 Mins</span>
+                        <button class="btn btn-secondary" disabled>Locked</button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>04. Working with Graphic Design</span>
+                        <span>25 Mins</span>
+                        <button class="btn btn-secondary" disabled>Locked</button>
+                    </li>
+                    <!-- Add more locked/unlocked lessons -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
