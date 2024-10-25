@@ -26,7 +26,6 @@ class User(models.Model):
 class Domain(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
     description = models.TextField(max_length=2000, null=False, blank=False)
-    domain_img = models.ImageField(upload_to=getFileName, null=False, blank=False)
     
     def __str__(self):
         return self.name
@@ -37,9 +36,20 @@ class Course(models.Model):
     course_title = models.CharField(max_length=100, null=False, blank=False)
     course_description = models.TextField(max_length=2000, null=False, blank=False)
     course_thumbnail = models.ImageField(upload_to=getFileName, null=False, blank=False)
+    course_cost = models.IntegerField(null=False,blank=False)
     course_duration = models.CharField(max_length=30, null=False, blank=False)
+    course_skills = models.CharField(max_length=3000,blank=False,null=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    visibility = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")  # Changed Visibility to lowercase
+    visibility = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")
+    checkpoint_title = models.CharField(max_length=255, null=False, blank=False)
+    checkpoint_description = models.TextField(null=True, blank=True)
+    checkpoint_duration = models.CharField(max_length=30, null=False, blank=False)
+    technology_used = models.CharField(max_length=100,null=True,blank=True)
     
     def __str__(self):
         return self.course_title
+    
+class Checkpoint(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    
+    

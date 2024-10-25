@@ -5,6 +5,9 @@
     font-weight: 400;
     font-style: normal;
 }
+img{
+    user-select: none;
+}
 .navbar,.navbar-brand{
     backdrop-filter: blur(5px);
     font-size: 1.4rem !important;
@@ -15,6 +18,7 @@
 .nav-item .nav-link
 {
     color:#000000 !important;
+    transition: all 0.3s;
 }
 .theme{
     color:#FD5D00 !important;
@@ -25,14 +29,24 @@
 .nav-link.active{
     color:#FD5D00 !important;
 }
+
+.nav-link:hover
+{
+    transform: scale(1.09);
+
+}
+#offcanvas-height
+{
+    height: 250px !important;
+}
+
 .btn-color
 {
-    height: 45px !important;
-    width: 100px !important;
+    height: 35px !important;
+    width: 90px !important;
     color:white !important;
     background: #FD5D00 !important;
     border-radius: 20px !important;
-    text-align: center;
 }
 .content-div{
     padding-top:70px;

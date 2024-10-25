@@ -7,22 +7,25 @@
 {%block css%}{% static "css/home.css" %}{%endblock css%}
 {% block content %}
 <div class="container-fluid home-container d-flex flex-row align-items-center vh-100">
-    <div class="content-container w-50 d-flex justify-content-center flex-column align-items-center">
-        <div class="row w-75">
-            <div class="intro-content col-12">
-                <div class="welc"><h1>Welcome,<span class="theme"> Ashok</span></h1></div>
-                <p class="theme-2">What We Actually doing is that we teach people with Live Session and We provide multiple online session for people to clear their Doubts...</p>
+    <div class="row">
+        <div class="content-container d-flex justify-content-center flex-column align-items-center col-md-6 col-12">
+            <div class="row w-75">
+                <div class="intro-content col-12">
+                    <div class="welc"><h1>Welcome,<span class="theme"> <a href="{% url "login" %}" class="theme text-decoration-none">Login</a></span></h1></div>
+                    <p class="theme-2">What We Actually doing is that we teach people with Live Session and We provide multiple online session for people to clear their Doubts...</p>
+                </div>
+                <div class="btn-in-home mt-3 col-12">
+                    <a href="{% url "courses" %}" class="btn btn-color">Explore</a>
+                </div>
+    
             </div>
-            <div class="btn-in-home mt-3 col-12">
-                <a href="{% url "courses" %}" class="btn btn-color">Explore</a>
-            </div>
-
+            
+            
         </div>
-        
-        
+        <div class="img-container col-md-6 d-none d-md-block">
+            <img src="{%static 'img/background/home-bg.png'%}" alt="" class="img">
+        </div>
     </div>
-    <div class="img-container w-50">
-        <img src="{%static 'img/background/home-bg.png'%}" alt="" class="img">
-    </div>
+    
 </div>
 {% endblock content %}

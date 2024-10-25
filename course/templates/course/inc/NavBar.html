@@ -20,7 +20,7 @@
             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#notificationModal"><img src="{% static "img/notifications-icon.png" %} " class="img-fluid" alt="" height="26px" width="26px"></a>
           </li>
           <li class="nav-item ms-auto">
-            <a class="nav-link" href="#"  data-bs-dismiss="offcanvas" data-bs-target="#demo"><img src="{% static "img/Vector.png" %}" class="img-fluid" alt="" height="26px" width="26px"></a>
+            <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#demo"><img src="{% static "img/Vector.png" %}" class="img-fluid" alt="" height="26px" width="26px"></a>
           </li>
       </div>
     </div>
@@ -101,16 +101,21 @@
         </div>
     </div>
 </div>
-
-<div class="offcanvas offcanvas-start" tabindex="-1" id="demo">
+        
+<div class="offcanvas offcanvas-end" tabindex="-1" id="demo">
   <div class="offcanvas-header">
-      <h1 class="offcanvas-title">Heading</h1>
+        <h1 class="offcanvas-title"><a href="#" class="text-dark text-decoration-none">Ed<span class="theme">Tech</span></a></h1>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
-      <p>Some text lorem ipsum.</p>
-      <p>Some text lorem ipsum.</p>
-      <p>Some text lorem ipsum.</p>
+    <ul class="list-unstyled d-flex flex-column align-items-around justify-content-around" id="offcanvas-height">
+        <li><a href="{% url "profile" %}" class="text-dark text-decoration-none ">Profile</a></li>
+        <li><a href="#" class="text-dark text-decoration-none ">Courses</a></li>
+        <li><a href="#" class="text-dark text-decoration-none ">Certificates</a></li>
+        <li><a href="#" class="text-dark text-decoration-none ">Payments</a></li>
+        <li><a href="#" class="text-dark text-decoration-none ">About</a></li>
+        <li><a href="#" class="text-dark text-decoration-none ">Settings</a></li>
+    </ul>
       <button class="btn btn-secondary" type="button">A Button</button>
   </div>
 </div>
