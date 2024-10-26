@@ -51,5 +51,14 @@ class Course(models.Model):
     
 class Checkpoint(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+class RegisterUser(models.Model):
+    username = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.username
+
     
     
