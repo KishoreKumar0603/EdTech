@@ -14,13 +14,13 @@ def getProfile(request, fileName):
     return os.path.join('users/profileImg', new_fileName)
 
 # Models
-class User(models.Model):
-    first_name = models.CharField(max_length=40, null=False, blank=False)
-    last_name = models.CharField(max_length=40, null=False, blank=True)
-    profile_img = models.ImageField(upload_to=getProfile, null=True, blank=True)  # Changed null=False to null=True
+# class User(models.Model):
+#     first_name = models.CharField(max_length=40, null=False, blank=False)
+#     last_name = models.CharField(max_length=40, null=False, blank=True)
+#     profile_img = models.ImageField(upload_to=getProfile, null=True, blank=True)  # Changed null=False to null=True
     
-    def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+#     def __str__(self):
+#         return f'{self.first_name} {self.last_name}'
 
 
 class Domain(models.Model):
@@ -52,7 +52,7 @@ class Course(models.Model):
 class Checkpoint(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
-class RegisterUser(models.Model):
+class User(models.Model):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)

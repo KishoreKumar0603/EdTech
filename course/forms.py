@@ -1,14 +1,14 @@
 # forms.py
 
 from django import forms
-from .models import RegisterUser
+from .models import User
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     confirm_password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
-        model = RegisterUser
+        model = User
         fields = ['username', 'email', 'password']
 
     def clean(self):
