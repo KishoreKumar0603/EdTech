@@ -22,7 +22,7 @@ class Student(models.Model):
     # Add any additional fields specific to students
 
     def __str__(self):
-        return f"{self.user.username} - {self.enrollment_id}"
+        return f"{self.user.username}"
 
 
 class Domain(models.Model):
