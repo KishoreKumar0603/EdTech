@@ -1,12 +1,12 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import *
-from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.middleware.csrf import get_token
+from .models import *
+from .forms import *
 
 #home page View
 def home(request):
@@ -32,20 +32,49 @@ def login(request):
     
     return render(request, "course/registration/login.html")
 
+#old view of register (store data in auth_user)
+# def register(request):
+#     get_token(request)
+#     if request.method == 'POST':
+#         form = UserRegistrationForm(request.POST)
+#         if form.is_valid():
+#             user = form.save(commit=False)
+#             user.password = make_password(form.cleaned_data['password'])
+#             user.save()
+#             messages.success(request, "Registration successful!")
+#             return redirect('login')
+#     else:
+#         form = UserRegistrationForm()
+    
+#     return render(request, 'course/registration/register.html', {'form': form})
+
+#new view for storing data in custom db
 def register(request):
-    get_token(request)
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.password = make_password(form.cleaned_data['password'])
-            user.save()
+            # Create user in auth_user table
+            user = User.objects.create_user(
+                username=form.cleaned_data['username'],
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password'],
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name']
+            )
+            # Create student profile in Student table
+            Student.objects.create(
+                user=user,
+                phone=form.cleaned_data['phone'],
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name']
+            )
             messages.success(request, "Registration successful!")
             return redirect('login')
     else:
         form = UserRegistrationForm()
     
     return render(request, 'course/registration/register.html', {'form': form})
+
 
 
 # course View

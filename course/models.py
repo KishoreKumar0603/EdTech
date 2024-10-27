@@ -1,6 +1,7 @@
 from django.db import models
 import os
 import datetime
+from django.contrib.auth.models import User
 
 # Helper functions to generate file paths for uploads
 def getFileName(request, fileName):
@@ -13,14 +14,15 @@ def getProfile(request, fileName):
     new_fileName = "%s%s" % (now_time, fileName)
     return os.path.join('users/profileImg', new_fileName)
 
-# Models
-# class User(models.Model):
-#     first_name = models.CharField(max_length=40, null=False, blank=False)
-#     last_name = models.CharField(max_length=40, null=False, blank=True)
-#     profile_img = models.ImageField(upload_to=getProfile, null=True, blank=True)  # Changed null=False to null=True
-    
-#     def __str__(self):
-#         return f'{self.first_name} {self.last_name}'
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
+    phone = models.CharField(max_length=15)
+    first_name = models.CharField(max_length=40)
+    last_name = models.CharField(max_length=40)
+    # Add any additional fields specific to students
+
+    def __str__(self):
+        return f"{self.user.username} - {self.enrollment_id}"
 
 
 class Domain(models.Model):
@@ -52,13 +54,6 @@ class Course(models.Model):
 class Checkpoint(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
-class User(models.Model):
-    username = models.CharField(max_length=150, unique=True)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)
-
-    def __str__(self):
-        return self.username
 
     
     
