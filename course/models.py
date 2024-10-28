@@ -21,7 +21,6 @@ class Student(models.Model):
     phone = models.CharField(max_length=15)
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
-
     def __str__(self):
         return self.username
 
