@@ -84,8 +84,8 @@ DATABASES = {
       'ENGINE': 'django.db.backends.postgresql',
       'NAME': 'Edtech',
       'USER': 'postgres',
-      'PASSWORD': '1606',
-      'HOST': 'localhost',
+      'PASSWORD': 'lohieth',
+      'HOST': 'localhost' ,
       'PORT': '5432',
   }
     

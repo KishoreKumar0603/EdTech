@@ -8,6 +8,10 @@ from django.middleware.csrf import get_token
 from .models import *
 from .forms import *
 
+#
+
+from django.contrib.auth import logout
+
 #home page View
 def home(request):
     student_username = request.session.get('student_user', None)
@@ -18,6 +22,10 @@ def home(request):
     return render(request,'course/home/home.html',context)
 
 
+#logout
+def logout(request):
+    logout(request)
+    return redirect('login')
 
 # login & register view
 
