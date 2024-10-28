@@ -1,55 +1,66 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
+from django.contrib import messages
+from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth.hashers import make_password,check_password
+from django.contrib.auth.models import User
+from django.middleware.csrf import get_token
 from .models import *
 from .forms import *
-from django.contrib import messages
-# Create your views here.
 
 #home page View
 def home(request):
-    return render(request,'course/home/home.html')
+    student_username = request.session.get('student_user', None)
+    user= Student.objects.get(username=student_username)
+    context = {
+        'student_username': user.first_name.capitalize()
+    }
+    return render(request,'course/home/home.html',context)
 
 
 
 # login & register view
 
-# def login_view(request):
-#     if request.method == 'POST':
-#         form = AuthenticationForm(request, data=request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password')
-#             user = authenticate(username=username, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 messages.success(request, f"Welcome, {username}!")
-#                 return redirect('home')  # Redirect to a home or dashboard page
-#             else:
-#                 messages.error(request, "Invalid username or password.")
-#         else:
-#             messages.error(request, "Invalid username or password.")
-#     else:
-#         form = AuthenticationForm()
-    
-#     return render(request, 'course/login/login.html', {'form': form})
 def login(request):
-    return render(request,"course/registration/login.html")
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        try:
+            # Fetch the student user
+            student = Student.objects.get(username=username)
+            
+            # Validate the password
+            if check_password(password, student.password):
+                request.session['student_user'] = student.username
+                return redirect('home')
+            else:
+                messages.error(request, "Invalid username or password")
+        except Student.DoesNotExist:
+            messages.error(request, "Invalid username or password")
+    
+    return render(request, "course/registration/login.html")
 
+# Registration view
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            # Hash the password before saving (Django's auth should ideally be used for this)
-            user.password = form.cleaned_data['password']
-            user.save()
+            student = Student(
+                username = form.cleaned_data['username'],
+                email = form.cleaned_data['email'],
+                password = make_password(form.cleaned_data['password']),  
+                first_name = form.cleaned_data['first_name'],
+                last_name = form.cleaned_data['last_name'],
+                phone = form.cleaned_data['phone']  
+            )
+            student.save()
             messages.success(request, "Registration successful!")
             return redirect('login')
     else:
         form = UserRegistrationForm()
-    
-    return render(request, 'course/registration/register.html', {'form': form})
 
+    return render(request, 'course/registration/register.html', {'form': form})
 
 # course View
 def course(request):

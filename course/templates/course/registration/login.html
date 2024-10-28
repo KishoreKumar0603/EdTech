@@ -1,27 +1,36 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../../static/css/style.css">
-    <title>Login</title>
+    <link rel="stylesheet" href="{%static "css/style.css"%}">
+    <title>Login | EdTech</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="vh-100">
     <div class="container-fluid h-100">
         <div class="row h-100 d-flex justify-content-center align-items-center">
             <div class="col-md-5 d-none d-md-block">
-                <img src="../../../../static/img/login_signin/Fingerprint-bro.png" class="img-fluid" alt="">
+                <img src="{% static "img/login_signin/Fingerprint-bro.png" %}" class="img-fluid" alt="Login illustration">
             </div>
-            
+
             <!-- Login Form Side -->
             <div class="col-md-6 d-flex align-items-center justify-content-center flex-column">
                 <div class="card shadow-sm p-4" style="width: 100%; max-width: 400px;">
                     <h1 class="text-center mb-4 theme">Login</h1>
+
+                    <!-- Display error messages -->
+                    {% if messages %}
+                        <div class="alert alert-success">
+                            {% for message in messages %}
+                                <p>{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
                     <form method="POST" action="{% url 'login' %}">
                         {% csrf_token %}
-                        {{form}}
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" class="form-control" id="username" name="username" required>
@@ -32,11 +41,13 @@
                         </div>
                         <button type="submit" class="btn w-100 btn-color">Login</button>
                     </form>
+
                     <p class="text-center mt-3">
                         Don't have an account? <a href="{% url 'register' %}" class="theme">Sign Up</a>
                     </p>
                 </div>
-                <p class="py-2"><a href="{% url "home" %}" class="theme"><- Back Home</a></p>
+
+                <p class="py-2"><a href="{% url 'home' %}" class="theme">&larr; Back Home</a></p>
             </div>
         </div>
     </div>
