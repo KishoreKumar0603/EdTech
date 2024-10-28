@@ -11,7 +11,7 @@
         <div class="content-container d-flex justify-content-center flex-column align-items-center col-md-6 col-12">
             <div class="row w-75">
                 <div class="intro-content col-12">
-                    <div class="welc"><h1>Welcome,<span class="theme"> <a href="{% url "login" %}" class="theme text-decoration-none">Login</a></span></h1></div>
+                    <div class="welc"><h1>Welcome,<span class="theme"> {% if student_username %}{{student_username}}{% else %}<a href="{% url "login" %}" class="theme text-decoration-none">Login</a>{% endif %}</span></h1></div>
                     <p class="theme-2">What We Actually doing is that we teach people with Live Session and We provide multiple online session for people to clear their Doubts...</p>
                 </div>
                 <div class="btn-in-home mt-3 col-12">

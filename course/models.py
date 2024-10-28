@@ -15,11 +15,12 @@ def getProfile(request, fileName):
     return os.path.join('users/profileImg', new_fileName)
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
+    username = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=128)  # Store hashed password
     phone = models.CharField(max_length=15)
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
-    # Add any additional fields specific to students
 
     def __str__(self):
         return f"{self.user.username}"

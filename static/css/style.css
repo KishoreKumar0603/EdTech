@@ -22,6 +22,8 @@ img{
 }
 .theme{
     color:#FD5D00 !important;
+    
+    text-decoration: none !important;
 }
 .theme-2{
     color:#696767 !important;
@@ -47,6 +49,7 @@ img{
     color:white !important;
     background: #FD5D00 !important;
     border-radius: 20px !important;
+    text-decoration: none !important;
 }
 .content-div{
     padding-top:70px;
