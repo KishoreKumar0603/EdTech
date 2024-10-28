@@ -118,9 +118,9 @@
     </ul>
       <button class="btn btn-color w-50" type="button">
         {% if not student_username %}
-        <a href="{% url 'login' %}">Login / Sign Up </a>
+        <a href="{% url 'login' %}" class="btn-color">Login / Sign Up </a>
         {% else %}
-        <a href="{% url 'logout' %}">Logout</a>
+        <a href="{% url 'logout' %}" class="btn-color">Logout</a>
         {% endif %}
         </button>
   </div>

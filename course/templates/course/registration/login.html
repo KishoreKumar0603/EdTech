@@ -22,11 +22,12 @@
 
                     <!-- Display error messages -->
                     {% if messages %}
-                        <div class="alert alert-success">
+                        
                             {% for message in messages %}
+                            <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% endif %}">
                                 <p>{{ message }}</p>
+                            </div>
                             {% endfor %}
-                        </div>
                     {% endif %}
 
                     <form method="POST" action="{% url 'login' %}">
