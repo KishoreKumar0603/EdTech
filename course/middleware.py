@@ -15,7 +15,7 @@ class StudentUserMiddleware:
         return self.get_response(request)
 
     def process_view(self, request, view_func, view_args, view_kwargs):
-        if request.path in ['/login/', '/register/']:
+        if request.path in ['/login/', '/register/', '/']:
             return None
 
         # Check if user is authenticated
