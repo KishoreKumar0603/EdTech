@@ -8,16 +8,38 @@ from django.middleware.csrf import get_token
 from .models import *
 from .forms import *
 
+#
+
+from django.contrib.auth import logout
+
 #home page View
+# def home(request):
+#     student_username = request.session.get('student_user', None)
+#     user= Student.objects.get(username=student_username)
+#     context = {
+#         'student_username': user.first_name.capitalize()
+#     }
+#     return render(request,'course/home/home.html',context)
+
 def home(request):
     student_username = request.session.get('student_user', None)
-    user= Student.objects.get(username=student_username)
-    context = {
-        'student_username': user.first_name.capitalize()
-    }
-    return render(request,'course/home/home.html',context)
+    if not student_username:
+        return render(request, 'course/home/home.html', context=None)
+    try:
+        user = Student.objects.get(username=student_username)
+        context = {
+            'student_username': user.first_name.capitalize()
+        }
+    except Student.DoesNotExist:
+        context = None
 
+    return render(request, 'course/home/home.html', context)
 
+#logout
+def logout_view(request):
+    logout(request)
+    request.session.flush() 
+    return redirect('login')
 
 # login & register view
 

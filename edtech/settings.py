@@ -85,7 +85,7 @@ DATABASES = {
       'NAME': 'Edtech',
       'USER': 'postgres',
       'PASSWORD': '1606',
-      'HOST': 'localhost',
+      'HOST': 'localhost' ,
       'PORT': '5432',
   }
     

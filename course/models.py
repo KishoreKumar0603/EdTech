@@ -22,7 +22,7 @@ class Student(models.Model):
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
     def __str__(self):
-        return self.username
+        return f"{self.user.username}"
 
 
 class Domain(models.Model):
