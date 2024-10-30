@@ -86,8 +86,19 @@ def register(request):
 
 # course View
 def course(request):
+    student_username = request.session.get('student_user', None)
     courses = Course.objects.all().order_by('id')
-    return render(request,'course/home/course.html',{"courses":courses})
+    if not student_username:
+        return render(request, 'course/home/home.html', {"courses":courses})
+    try:
+        user = Student.objects.get(username=student_username)
+        context = {
+            "courses":courses,
+            'student_username': user.first_name.capitalize()
+        }
+    except Student.DoesNotExist:
+        context = None
+    return render(request,'course/home/course.html',context)
 
 # course About
 def courseAbout(request,course_title):
