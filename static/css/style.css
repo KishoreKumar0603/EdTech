@@ -54,3 +54,7 @@ img{
 .content-div{
     padding-top:70px;
 }
+
+.home-container{
+    height: 100vh;
+}

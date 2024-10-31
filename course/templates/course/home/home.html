@@ -4,28 +4,93 @@
 {% block title %}
     Home | EdTech
 {% endblock title %}
-{%block css%}{% static "css/home.css" %}{%endblock css%}
 {% block content %}
-<div class="container-fluid home-container d-flex flex-row align-items-center vh-100">
+<style>
+    .home-container{
+        height: 85vh;
+    }
+</style>
+
+<div class="container-fluid home-container d-flex flex-row align-items-center">
     <div class="row">
         <div class="content-container d-flex justify-content-center flex-column align-items-center col-md-6 col-12">
             <div class="row w-75">
                 <div class="intro-content col-12">
-                    <div class="welc"><h1>Welcome,<span class="theme"> {% if student_username %}{{student_username}}{% else %}<a href="{% url "login" %}" class="theme text-decoration-none">Login</a>{% endif %}</span></h1></div>
-                    <p class="theme-2">What We Actually doing is that we teach people with Live Session and We provide multiple online session for people to clear their Doubts...</p>
+                    <div class="welc">
+                        <h1>Welcome,<span class="theme"> {% if student_username %}{{student_username}}{% else %}<a href="{% url 'login' %}" class="theme text-decoration-none">Login</a>{% endif %}</span></h1>
+                    </div>
+                    <p class="theme-2">What We Actually doing is that we teach people with Live Session and We provide multiple online sessions for people to clear their Doubts...</p>
                 </div>
                 <div class="btn-in-home mt-3 col-12">
-                    <a href="{% url "courses" %}" class="btn btn-color">Explore</a>
+                    <a href="{% url 'courses' %}" class="btn btn-color">Explore</a>
                 </div>
-    
             </div>
-            
-            
         </div>
-        <div class="img-container col-md-6 d-none d-md-block">
-            <img src="{%static 'img/background/home-bg.png'%}" alt="" class="img">
+        <div class="col-md-6 d-none d-md-block">
+            <img src="{%static "img/background/homeback.png"%}" class="img-fluid" width="500" alt="" class="img">
         </div>
     </div>
-    
 </div>
+<div class="container vh-100">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h2>ABOUT</h2>
+        </div><br><br>
+        <hr>
+        <div class="col-md-6 ">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis praesentium nisi pariatur commodi voluptates aspernatur modi, debitis doloremque a eligendi iste! Ratione quod maiores similique rem amet, odio facere magnam reprehenderit alias ducimus assumenda dicta deserunt iste! Dolores explicabo assumenda quisquam nobis maxime soluta, ipsum veritatis molestiae voluptatibus maiores illum expedita accusantium nulla consectetur reiciendis doloribus, repellendus similique quod accusamus dolorum qui labore tenetur facilis corrupti. Enim nam veniam ut quae odio consequatur, minus incidunt veritatis maxime dolore alias deleniti nobis vel exercitationem porro assumenda atque aliquid repudiandae dolor consectetur laudantium. Soluta alias beatae distinctio nisi magnam doloribus accusantium cupiditate?
+        </div>
+        <div class="col-md-6 ">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis praesentium nisi pariatur commodi voluptates aspernatur modi, debitis doloremque a eligendi iste! Ratione quod maiores similique rem amet, odio facere magnam reprehenderit alias ducimus assumenda dicta deserunt iste! Dolores explicabo assumenda quisquam nobis maxime soluta, ipsum veritatis molestiae voluptatibus maiores illum expedita accusantium nulla consectetur reiciendis doloribus, repellendus similique quod accusamus dolorum qui labore tenetur facilis corrupti. Enim nam veniam ut quae odio consequatur, minus incidunt veritatis maxime dolore alias deleniti nobis vel exercitationem porro assumenda atque aliquid repudiandae dolor consectetur laudantium. Soluta alias beatae distinctio nisi magnam doloribus accusantium cupiditate?
+        </div>
+    </div>
+</div>
+<footer class="footer mt-auto py-3 bg-dark text-light">
+    <div class="container">
+        <div class="row">
+            <!-- Footer Links -->
+            <div class="col-md-4 mb-3 mb-md-0">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="" class="text-light text-decoration-none">Home</a></li>
+                    <li><a href="" class="text-light text-decoration-none">Courses</a></li>
+                    <li><a href="" class="text-light text-decoration-none">About Us</a></li>
+                    <li><a href="" class="text-light text-decoration-none">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-md-4 mb-3 mb-md-0">
+                <h5>Contact Us</h5>
+                <p>Email: info@example.com</p>
+                <p>Phone: +91 1234567890</p>
+                <p>Address: 123 Main St, New Delhi, India</p>
+            </div>
+
+            <!-- Social Media Links -->
+            <div class="col-md-4 text-md-end">
+                <h5>Follow Us</h5>
+                <a href="#" class="text-light me-3">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="#" class="text-light me-3">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="text-light me-3">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-light">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <p class="mb-0">&copy; 2024 EdTech. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
 {% endblock content %}

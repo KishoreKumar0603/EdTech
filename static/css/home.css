@@ -1,17 +1,4 @@
-.img
-{
-    height: 450px !important;
-    width: 500px !important;
-}
-.home-container
-{
-    position: relative;
-}
-.img{
-    position: fixed;
-    left: 50%;
-    top: 20%;
-}
-.welc h1{
-    font-size: 50px !important;
+.home_container{
+    height: 100vh;
+    background-color: red;
 }
