@@ -190,9 +190,30 @@ def live(request):
 
 #profile view
 
-def profile(request):
-    return render(request,'course/home/profile.html')
+# def profile(request):
+#     return render(request,'course/home/profile.html')
 
+def profile_view(request):
+    student_username = request.session.get('student_user')
+    student = get_object_or_404(Student, username=student_username)
+    # Assumes user is a Student; adjust if necessary
+
+    if request.method == 'POST':
+        # Update user details if form is submitted
+        student.first_name = request.POST.get('first_name')
+        student.last_name = request.POST.get('last_name')
+        student.email = request.POST.get('email')
+        student.phone = request.POST.get('phone')
+        student.profile_picture = request.FILES.get('profile_picture') or student.profile_picture
+
+        student.save()
+        messages.success(request, "Profile updated successfully!")
+        return redirect('profile')  # Redirect to avoid re-submission on refresh
+
+    context = {
+        'student': student,
+    }
+    return render(request, 'course/home/profile.html', context)
 
 #Notification View
 

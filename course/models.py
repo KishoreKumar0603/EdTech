@@ -21,6 +21,7 @@ class Student(models.Model):
     phone = models.CharField(max_length=15)
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
+    profile_picture = models.ImageField(upload_to='profile_pics/', default='profile_pics/default.png', blank=True)
     def __str__(self):
         return f"{self.username}"
 
