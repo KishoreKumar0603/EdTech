@@ -22,7 +22,7 @@ class Student(models.Model):
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
     def __str__(self):
-        return f"{self.user.username}"
+        return f"{self.username}"
 
 
 class Domain(models.Model):
@@ -51,8 +51,21 @@ class Course(models.Model):
     def __str__(self):
         return self.course_title
     
+## Multiple check points for Course
 class Checkpoint(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    
+    
+#Course Enrollment Model
+class Enrollment(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='enrollments')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='enrollments')
+    progress_percentage = models.IntegerField(default=0)
+    enrollment_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.username} enrolled in {self.course.course_title}"
+    
 
 
     

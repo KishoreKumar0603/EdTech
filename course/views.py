@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
@@ -7,33 +7,8 @@ from django.contrib.auth.models import User
 from django.middleware.csrf import get_token
 from .models import *
 from .forms import *
-
-#
-
 from django.contrib.auth import logout
 
-#home page View
-# def home(request):
-#     student_username = request.session.get('student_user', None)
-#     user= Student.objects.get(username=student_username)
-#     context = {
-#         'student_username': user.first_name.capitalize()
-#     }
-#     return render(request,'course/home/home.html',context)
-
-def home(request):
-    student_username = request.session.get('student_user', None)
-    if not student_username:
-        return render(request, 'course/home/home.html', context=None)
-    try:
-        user = Student.objects.get(username=student_username)
-        context = {
-            'student_username': user.first_name.capitalize()
-        }
-    except Student.DoesNotExist:
-        context = None
-
-    return render(request, 'course/home/home.html', context)
 
 #logout
 def logout_view(request):
@@ -84,24 +59,41 @@ def register(request):
 
     return render(request, 'course/registration/register.html', {'form': form})
 
-# course View
-def course(request):
+def home(request):
     student_username = request.session.get('student_user', None)
-    courses = Course.objects.all().order_by('id')
     if not student_username:
-        return render(request, 'course/home/home.html', {"courses":courses})
+        return render(request, 'course/home/home.html', context=None)
     try:
         user = Student.objects.get(username=student_username)
         context = {
-            "courses":courses,
             'student_username': user.first_name.capitalize()
         }
     except Student.DoesNotExist:
         context = None
+
+    return render(request, 'course/home/home.html', context)
+# course View
+def course(request):
+    student_username = request.session.get('student_user', None)
+    courses = Course.objects.all().order_by('id')
+    context = {'courses': courses}
+    
+    if student_username:
+        try:
+            user = Student.objects.get(username=student_username)
+            user_enrolled_course = user.enrollments.all()
+            context.update({
+                "courses":courses,
+                'student_username': user.first_name.capitalize(),
+                'enrolled_coures':user_enrolled_course
+            })
+        
+        except Student.DoesNotExist:
+            pass
     return render(request,'course/home/course.html',context)
 
 # course About
-def courseAbout(request,course_id):
+def course_about(request,course_id):
     
     course = Course.objects.filter(id = course_id).first()
     if course:
@@ -113,19 +105,51 @@ def courseAbout(request,course_id):
         return redirect('courses')
 
 
-#course Details
 
-def courseDetails(request):
+
+
+
+def course_enroll(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+
+    # Retrieve the authenticated student
+    student_username = request.session.get('student_user')
+    student = get_object_or_404(Student, username=student_username)
+
+    # Pre-fill the form with student data
+    initial_data = {
+        'name': f"{student.first_name} {student.last_name}",
+        'email': student.email,
+        'phone': student.phone,
+    }
+
+    if request.method == 'POST':
+        # Check if the student is already enrolled
+        if Enrollment.objects.filter(student=student, course=course).exists():
+            messages.info(request, "You are already enrolled in this course.")
+            return redirect('course_detail', course_id=course_id)
+        
+        # Create a new enrollment record
+        Enrollment.objects.create(student=student, course=course)
+        messages.success(request, "You have been successfully enrolled in the course!")
+        return redirect('course_detail', course_id=course_id)
+
+    context = {
+        'course': course,
+        'initial_data': initial_data,
+    }
+    return render(request, 'course/home/courseEnroll.html', context)
+
+#Enrolled course Details
+
+def course_details(request,course_id):
+    course = get_object_or_404(Course, id=course_id)
+    if course:
+        technologies = course.technology_used.split(",") if course.technology_used else []
+        skills = course.course_skills.split(",") if course.course_skills else []
+        context = {'active_page': 'course','course':course,'technologies':technologies,'skills':skills}
     
-    return render(request,'course/home/courseDetails.html',{'active_page': 'course'})
-
-
-
-def courseEnroll(request,course_id):
-    course = Course.objects.filter(id= course_id).first()
-    
-    return render(request , 'course/home/courseEnroll.html',{"course":course})
-
+    return render(request,'course/home/courseDetails.html',context)
 
 
 

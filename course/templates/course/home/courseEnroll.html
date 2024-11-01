@@ -7,39 +7,41 @@
 {% block content %}
 <div class="container my-5">
     <h2 class="text-center mb-4">Course Registration</h2>
-    <form>
+    <form method="post">
+        {% csrf_token %}
         <!-- Name Field -->
         <div class="mb-3">
             <label for="name" class="form-label">Full Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter your full name" required>
+            <input type="text" class="form-control" id="name" name="name" value="{{ initial_data.name }}" readonly>
         </div>
-
+    
         <!-- Email Field -->
         <div class="mb-3">
             <label for="email" class="form-label">Email Address</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            <input type="email" class="form-control" id="email" name="email" value="{{ initial_data.email }}" readonly>
         </div>
-
+    
         <!-- Phone Field -->
         <div class="mb-3">
             <label for="phone" class="form-label">Phone Number</label>
-            <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+            <input type="tel" class="form-control" id="phone" name="phone" value="{{ initial_data.phone }}" >
         </div>
-
+    
         <!-- Course Selection Field -->
         <div class="mb-3">
-            <label for="course" class="form-label">Select Course</label>
-            <select class="form-select" id="course" required>
-                <option value="" disabled selected>Select a course</option>
-                <option value="course1">Course 1</option>
-                <option value="course2">Course 2</option>
-                <option value="course3">Course 3</option>
-            </select>
+            <label class="form-label">Selected Course</label>
+            <p class="form-control-plaintext">{{ course.course_title }}</p>
+            <input type="hidden" name="course_title" value="{{ course.course_title }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Price :{{course.course_cost}} </label>
         </div>
 
         <!-- Submit Button -->
         <button type="submit" class="btn btn-primary w-100">Register</button>
     </form>
+    
 </div>
 
 {% endblock content%}

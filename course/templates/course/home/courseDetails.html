@@ -1,7 +1,7 @@
 {% extends "course/layouts/main.html" %}
 {% load static %}
 {% block title %}
-    Machine Learing | Course
+    {{course.course_title | default:"Course"}} | Course
 {% endblock title %}
 
 {%block css%}{% static "css/courseDetails.css" %}{%endblock css%}
@@ -11,26 +11,27 @@
         <!-- Left Side (Course Info) -->
         <div class="col-md-4">
             <div class="course-image mb-3">
-                <img src="{% static "img/courseImg/machine-learning.png" %}" alt="AI Image" class="img-fluid rounded">
+                <img src="{{course.course_thumbnail.url}}" class="img-fluid rounded">
             </div>
-            <h2>Machine Learning</h2>
+            <h2>{{course.course_title | default:"course title"}}</h2>
+            
             <p class="ongoing">Ongoing</p>
-            <p>Duration: 3 months</p>
+            <p class="theme-2">Duration: {{course.course_duration}}</p>
             <h4>Check Points</h4>
             <div class="accordion" id="courseAccordion">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            1. Data Collection and Preprocessing using Python
+                            1. {{course.checkpoint_title}}
                         </button>
                     </h2>
                     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#courseAccordion">
                         <div class="accordion-body">
-                            <span>Duration: 8 hrs</span><br>
-                            <span class="badge bg-secondary">Python</span>
-                            <span class="badge bg-secondary">Numpy</span>
-                            <span class="badge bg-secondary">Pandas</span>
-                            <p>In this course, you will learn how to collect and clean data, handle null values, and feed data into models.</p>
+                            <span class="theme-2 mt-1">Duration: {{course.checkpoint_duration}}</span><br>
+                            {% for technology in technologies%}
+                                <span class="badge tech-badge">{{technology}}</span>
+                            {% endfor %}
+                            <p class="theme-2 my-1">{{course.checkpoint_description}}</p>
                         </div>
                     </div>
                 </div>
@@ -41,33 +42,27 @@
         <!-- Right Side (Course Sections) -->
         <div class="col-md-8">
             <div class="course-sections">
-                <h5>Section 01 - Introduction <span class="section-duration float-end">25 Mins</span></h5>
+                <h5>About Course</h5>
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>01. Why Using Graphic Design?</span>
-                        <span>15 Mins</span>
-                        <button class="btn btn-primary">Play</button>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>02. Setup Your Graphic Design Tools</span>
-                        <span>10 Mins</span>
-                        <button class="btn btn-primary">Play</button>
+                        <span>{{ course.course_description|default:"This course will help develop your skills in this domain and may assist you in achieving higher positions." }}</span>
                     </li>
                 </ul>
-
-                <h5 class="mt-4">Section 02 - Graphic Design <span class="section-duration float-end">55 Mins</span></h5>
+                
+                <h5 class="mt-4">Skill Learning</h5>
+                <ul class="">
+                    {% for skill in skills %}
+                        <li class="mt-2">
+                            <span>{{ skill }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                
+                <h5 class="mt-4">Schedule for Live Class</h5>
                 <ul class="list-group">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>03. Take a Look at Graphic Design</span>
-                        <span>08 Mins</span>
-                        <button class="btn btn-secondary" disabled>Locked</button>
+                    <li class="list-group-item">
+                        <span>The live class will happen via Zoom or Google Meet. The link will be sent to your registered email and will also be available in the live section on our site.</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span>04. Working with Graphic Design</span>
-                        <span>25 Mins</span>
-                        <button class="btn btn-secondary" disabled>Locked</button>
-                    </li>
-                    <!-- Add more locked/unlocked lessons -->
                 </ul>
             </div>
         </div>
