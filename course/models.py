@@ -43,10 +43,11 @@ class Course(models.Model):
     course_skills = models.CharField(max_length=3000,blank=False,null=False)
     created_at = models.DateTimeField(auto_now_add=True)
     visibility = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")
-    checkpoint_title = models.CharField(max_length=255, null=False, blank=False)
-    checkpoint_description = models.TextField(null=True, blank=True)
-    checkpoint_duration = models.CharField(max_length=30, null=False, blank=False)
-    technology_used = models.CharField(max_length=100,null=True,blank=True)
+   
+    def get_technology_list(self):
+           return [checkpoint.technology_used for checkpoint in self.checkpoints.all() if checkpoint.technology_used]
+    def get_skill_list(self):
+        return self.course_skills.split(",") if self.course_skills else []
     
     def __str__(self):
         return self.course_title
@@ -54,6 +55,13 @@ class Course(models.Model):
 ## Multiple check points for Course
 class Checkpoint(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    checkpoint_title = models.CharField(max_length=255, null=False, blank=False,default="Default Checkpoint Title")
+    checkpoint_description = models.TextField(null=True, blank=True, default="Default Checkpoint Description")
+    checkpoint_duration = models.CharField(max_length=30, null=False, blank=False, default="1 hour")
+    technology_used = models.CharField(max_length=100,null=True,blank=True, default="Not specified")
+    
+    def __str__(self):
+        return f"{self.checkpoint_title} ({self.course.course_title})"
     
     
 #Course Enrollment Model

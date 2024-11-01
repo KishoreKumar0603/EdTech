@@ -96,17 +96,56 @@ def course(request):
 def course_about(request,course_id):
     
     course = Course.objects.filter(id = course_id).first()
+    checkpoints = course.checkpoint_set.all()
     if course:
-        technologies = course.technology_used.split(",") if course.technology_used else []
-        skills = course.course_skills.split(",") if course.course_skills else []
-        return render(request,'course/home/courseAbout.html',{"course":course,'active_page': 'course','technologies':technologies,'skills':skills})
+        # technologies = course.get_technology_list()
+        skills = course.get_skill_list()  
+        checkpoints = Checkpoint.objects.filter(course=course)
+        for checkpoint in checkpoints:
+        # Split `technology_used` field by commas and store it in a new attribute
+            checkpoint.technology_list = checkpoint.technology_used.split(",")
+        context = {
+            'active_page': 'course',
+            'course': course,
+            # 'technologies': technologies,
+            'skills': skills,
+            'checkpoints': checkpoints
+        }
+        return render(request,'course/home/courseAbout.html',context)
     else:
         messages.warning(request,"No such course found")
         return redirect('courses')
 
 
+def course_details(request, course_id):
+    course = get_object_or_404(Course, id=course_id)
+    checkpoints = Checkpoint.objects.filter(course=course)  # Retrieve all checkpoints for the course
+    for checkpoint in checkpoints:
+        # Split `technology_used` field by commas and store it in a new attribute
+            checkpoint.technology_list = checkpoint.technology_used.split(",")
+    if course:
+        # technologies = course.get_technology_list()  # Use the method to get technologies
+        skills = course.get_skill_list()              # Use the method to get skills
+        context = {
+            'active_page': 'course',
+            'course': course,
+            # 'technologies': technologies,
+            'skills': skills,
+            'checkpoints': checkpoints  # Pass checkpoints to the template
+        }
+    
+    return render(request, 'course/home/courseDetails.html', context)
 
+#Enrolled course Details
 
+# def course_details(request,course_id):
+#     course = get_object_or_404(Course, id=course_id)
+#     if course:
+#         technologies = course.technology_used.split(",") if course.technology_used else []
+#         skills = course.course_skills.split(",") if course.course_skills else []
+#         context = {'active_page': 'course','course':course,'technologies':technologies,'skills':skills}
+    
+#     return render(request,'course/home/courseDetails.html',context)
 
 
 def course_enroll(request, course_id):
@@ -140,16 +179,6 @@ def course_enroll(request, course_id):
     }
     return render(request, 'course/home/courseEnroll.html', context)
 
-#Enrolled course Details
-
-def course_details(request,course_id):
-    course = get_object_or_404(Course, id=course_id)
-    if course:
-        technologies = course.technology_used.split(",") if course.technology_used else []
-        skills = course.course_skills.split(",") if course.course_skills else []
-        context = {'active_page': 'course','course':course,'technologies':technologies,'skills':skills}
-    
-    return render(request,'course/home/courseDetails.html',context)
 
 
 

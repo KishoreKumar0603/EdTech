@@ -1,6 +1,107 @@
 {% extends "course/layouts/main.html" %}
 {% load static %}
 {% block title %}
+    {{ course.course_title | default:"Course" }} | Course
+{% endblock title %}
+
+{% block css %}{% static "css/courseDetails.css" %}{% endblock css %}
+{% block content %}
+<div class="container mt-4 vh-100">
+    <div class="row">
+        <!-- Left Side (Course Info) -->
+        <div class="col-md-4">
+            <div class="course-image mb-3">
+                <img src="{{ course.course_thumbnail.url }}" class="img-fluid rounded" alt="Course Thumbnail">
+            </div>
+            <h2>{{ course.course_title | default:"Course Title" }}</h2>
+            <p class="ongoing">Ongoing</p>
+            <p class="theme-2">Duration: {{ course.course_duration }}</p>
+            
+            <!-- Dynamic Checkpoints Section -->
+            <h4>Checkpoints</h4>
+            <div class="accordion" id="courseAccordion">
+                {% for checkpoint in checkpoints %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                        <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="{{ forloop.first }}" aria-controls="collapse{{ forloop.counter }}">
+                            {{ forloop.counter }}. {{ checkpoint.checkpoint_title }}
+                        </button>
+                    </h2>
+                    <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#courseAccordion">
+                        <div class="accordion-body">
+                            <span class="theme-2 mt-1">Duration: {{ checkpoint.checkpoint_duration }}</span><br>
+                            {% for technology in checkpoint.technology_list %}
+                                <span class="badge tech-badge">{{ technology |default:"none"}}</span>
+                            {% endfor %}
+                            <p class="theme-2 my-1">{{ checkpoint.checkpoint_description }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Right Side (Course Sections) -->
+        <div class="col-md-8">
+            <div class="course-sections">
+                <h5>About Course</h5>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>{{ course.course_description | default:"This course will help develop your skills in this domain and may assist you in achieving higher positions." }}</span>
+                    </li>
+                </ul>
+                
+                <h5 class="mt-4">Skill Learning</h5>
+                <ul>
+                    {% for skill in skills %}
+                        <li class="mt-2">
+                            <span>{{ skill }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                
+                <h5 class="mt-4">Schedule for Live Class</h5>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span>The live class will happen via Zoom or Google Meet. The link will be sent to your registered email and will also be available in the live section on our site.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends "course/layouts/main.html" %}
+{% load static %}
+{% block title %}
     {{course.course_title | default:"Course"}} | Course
 {% endblock title %}
 
@@ -17,6 +118,8 @@
             
             <p class="ongoing">Ongoing</p>
             <p class="theme-2">Duration: {{course.course_duration}}</p>
+            <p>Rs.{{course.course_cost}}</p>
+            <a href="{% url "enroll" course.id %}" class="btn btn-color mb-3">enroll</a>
             <h4>Check Points</h4>
             <div class="accordion" id="courseAccordion">
                 <div class="accordion-item">
@@ -69,4 +172,4 @@
     </div>
 </div>
 
-{% endblock content %}
+{% endblock content %} {% endcomment %}

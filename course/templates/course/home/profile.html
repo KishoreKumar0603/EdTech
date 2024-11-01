@@ -68,10 +68,10 @@
                             <a class="nav-link" href="{% url 'home' %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'home' %}">Profile</a>
+                            <a class="nav-link active" href="{% url 'profile' %}">Profile</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Courses</a>
+                            <a class="nav-link" href="{% url "courses" %}">Courses</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="">Certificates</a>
@@ -80,7 +80,7 @@
                             <a class="nav-link disabled" href="">Payments</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">About</a>
+                            <a class="nav-link" href="{% url "home" %}#about">About</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link disabled" href="">Settings</a>
