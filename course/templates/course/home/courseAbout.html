@@ -16,7 +16,7 @@
             <h2>{{course.course_title | default:"course title"}}</h2>
             <p class="theme-2">Duration: {{course.course_duration}}</p>
             <p>Rs.{{course.course_cost}}</p>
-            <a href="#" class="btn btn-color mb-3">enroll</a>
+            <a href="{% url "enroll" course.id %}" class="btn btn-color mb-3">enroll</a>
             <h4>Check Points</h4>
             <div class="accordion" id="courseAccordion">
                 <div class="accordion-item">

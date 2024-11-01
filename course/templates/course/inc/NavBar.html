@@ -14,10 +14,10 @@
             <a class="nav-link {% if active_page == 'course' %}active{% endif %}" href="{% url 'courses' %}">Courses</a>
           </li>
           <li class="nav-item ms-auto">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="{% url 'home' %}#about">About</a>
           </li>
           <li class="nav-item ms-auto">
-            <a class="nav-link" href="#">Contact</a>
+            <a class="nav-link" href="{% url 'home' %}#contact">Contact</a>
           </li>
           <li class="nav-item ms-auto">
             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#notificationModal"><img src="{% static "img/notifications-icon.png" %} " class="img-fluid" alt="" height="26px" width="26px"></a>

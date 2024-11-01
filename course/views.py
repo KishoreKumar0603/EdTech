@@ -101,9 +101,9 @@ def course(request):
     return render(request,'course/home/course.html',context)
 
 # course About
-def courseAbout(request,course_title):
+def courseAbout(request,course_id):
     
-    course = Course.objects.filter(course_title = course_title).first()
+    course = Course.objects.filter(id = course_id).first()
     if course:
         technologies = course.technology_used.split(",") if course.technology_used else []
         skills = course.course_skills.split(",") if course.course_skills else []
@@ -120,7 +120,17 @@ def courseDetails(request):
     return render(request,'course/home/courseDetails.html',{'active_page': 'course'})
 
 
+
+def courseEnroll(request,course_id):
+    course = Course.objects.filter(id= course_id).first()
+    
+    return render(request , 'course/home/courseEnroll.html',{"course":course})
+
+
+
+
 # live link view
+
 
 def live(request):
     return render(request,)

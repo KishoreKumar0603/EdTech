@@ -37,7 +37,7 @@
                               <h4 class="card-title col-12 h-100">{{course.course_title}}</h4>
                               <div class="col-12"><img src="{%static 'img/courseImg/components/course-ratings.png'%}" class=" ratings" alt=""></div>
                               
-                              <a href="{% url "courseAbout" course.course_title %}" class="btn btn-color col-12 mt-2">More</a>
+                              <a href="{% url "courseAbout" course.id %}" class="btn btn-color col-12 mt-2">More</a>
                             </div>
                           </div>
                         </div>
