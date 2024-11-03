@@ -14,10 +14,10 @@
             <a class="nav-link {% if active_page == 'course' %}active{% endif %}" href="{% url 'courses' %}">Courses</a>
           </li>
           <li class="nav-item ms-auto">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="{% url 'home' %}#about">About</a>
           </li>
           <li class="nav-item ms-auto">
-            <a class="nav-link" href="#">Contact</a>
+            <a class="nav-link" href="{% url 'home' %}#contact">Contact</a>
           </li>
           <li class="nav-item ms-auto">
             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#notificationModal"><img src="{% static "img/notifications-icon.png" %} " class="img-fluid" alt="" height="26px" width="26px"></a>
@@ -113,10 +113,10 @@
   <div class="offcanvas-body">
     <ul class="list-unstyled d-flex flex-column align-items-around justify-content-around" id="offcanvas-height">
         <li><a href="{% url "profile" %}" class="text-dark text-decoration-none ">Profile</a></li>
-        <li><a href="#" class="text-dark text-decoration-none ">Courses</a></li>
+        <li><a href="{% url "courses" %}" class="text-dark text-decoration-none ">Courses</a></li>
         <li><a href="#" class="text-dark text-decoration-none ">Certificates</a></li>
         <li><a href="#" class="text-dark text-decoration-none ">Payments</a></li>
-        <li><a href="#" class="text-dark text-decoration-none ">About</a></li>
+        <li><a href="{% url "home" %}#about" class="text-dark text-decoration-none ">About</a></li>
         <li><a href="#" class="text-dark text-decoration-none ">Settings</a></li>
     </ul>
       <button class="btn btn-color w-50" type="button">

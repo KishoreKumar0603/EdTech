@@ -7,6 +7,195 @@
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <title>{{student.first_name | default:" User"}} | Profile</title>
+    <style>
+        /* Custom styling for sidebar */
+        .sidebar {
+            height: 100vh;
+            padding-top: 20px;
+            background-color: #e6e6e6;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            width: 250px;
+            transition: transform 0.3s ease;
+        }
+        .sidebar a {
+            /* color: #aaa; */
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .btn-success,.btn-primary{
+            height: 35px !important;
+            width: 90px !important;
+            color:white !important;
+            border-radius: 20px !important;
+            text-decoration: none !important;
+        }
+        /* Sidebar hidden on small screens */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 100%;
+            }
+            .sidebar.show {
+                transform: translateX(0); 
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <div class="row m-0">
+            <!-- Sidebar (same as before) -->
+            <div id="sidebarMenu" class="col-md-3 col-lg-2 sidebar">
+                <button class="btn btn-dark d-md-none mb-3" onclick="toggleSidebar()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-xl-heavy md:hidden"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 8C3 7.44772 3.44772 7 4 7H20C20.5523 7 21 7.44772 21 8C21 8.55228 20.5523 9 20 9H4C3.44772 9 3 8.55228 3 8ZM3 16C3 15.4477 3.44772 15 4 15H14C14.5523 15 15 15.4477 15 16C15 16.5523 14.5523 17 14 17H4C3.44772 17 3 16.5523 3 16Z" fill="currentColor"></path></svg></button>
+                <nav>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home' %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{% url 'profile' %}">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "courses" %}">Courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Certificates</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="">Payments</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "home" %}#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="">Settings</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="col main-content">
+                <div class="d-flex align-items-center p-0">
+                    <button class="btn d-md-none mb-3 btn-dark" type="button" onclick="toggleSidebar()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-xl-heavy md:hidden"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 8C3 7.44772 3.44772 7 4 7H20C20.5523 7 21 7.44772 21 8C21 8.55228 20.5523 9 20 9H4C3.44772 9 3 8.55228 3 8ZM3 16C3 15.4477 3.44772 15 4 15H14C14.5523 15 15 15.4477 15 16C15 16.5523 14.5523 17 14 17H4C3.44772 17 3 16.5523 3 16Z" fill="currentColor"></path></svg></button>
+                </div>
+                <div class="profile-picture mb-3">
+                    <img src="{{ student.profile_picture.url }}" alt="User" class="img-thumbnail">
+                </div>
+                
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="first_name" value="{{ student.first_name }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" name="last_name" value="{{ student.last_name }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ student.email }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="phone" name="phone" value="{{ student.phone }}" placeholder="(+91)"readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="profilePicture" class="form-label">Profile Picture</label>
+                        <input type="file" class="form-control" id="profilePicture" name="profile_picture" disabled>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary" onclick="enableEditing()">Edit</button>
+                        <button type="submit" class="btn btn-success" id="saveButton" disabled>Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle sidebar visibility on small screens
+        function toggleSidebar() {
+            document.getElementById("sidebarMenu").classList.toggle("show");
+        }
+    </script>
+
+    <script>
+        // JavaScript to toggle form fields between readonly and editable
+        function enableEditing() {
+            document.getElementById("firstName").removeAttribute("readonly");
+            document.getElementById("lastName").removeAttribute("readonly");
+            document.getElementById("email").removeAttribute("readonly");
+            document.getElementById("phone").removeAttribute("readonly");
+            document.getElementById("profilePicture").removeAttribute("disabled");
+
+            document.getElementById("saveButton").removeAttribute("disabled");
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <title>Document</title>
     <style>
         /* Custom styling for sidebar */
@@ -68,10 +257,10 @@
                             <a class="nav-link" href="{% url 'home' %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'home' %}">Profile</a>
+                            <a class="nav-link active" href="{% url 'profile' %}">Profile</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Courses</a>
+                            <a class="nav-link" href="{% url "courses" %}">Courses</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="">Certificates</a>
@@ -80,7 +269,7 @@
                             <a class="nav-link disabled" href="">Payments</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">About</a>
+                            <a class="nav-link" href="{% url "home" %}#about">About</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link disabled" href="">Settings</a>
@@ -148,4 +337,4 @@
         }
     </script>
 </body>
-</html>
+</html> {% endcomment %}
