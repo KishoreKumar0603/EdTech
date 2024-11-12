@@ -8,13 +8,18 @@ from django.middleware.csrf import get_token
 from .models import *
 from .forms import *
 from django.contrib.auth import logout
-
+from datetime import timedelta
+from django.utils import timezone
 
 #logout
+
 def logout_view(request):
     logout(request)
     request.session.flush() 
     return redirect('login')
+
+
+
 
 # login & register view
 
@@ -38,7 +43,10 @@ def login(request):
     
     return render(request, "course/registration/login.html")
 
+
+
 # Registration view
+
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -59,6 +67,10 @@ def register(request):
 
     return render(request, 'course/registration/register.html', {'form': form})
 
+
+
+#Home view
+
 def home(request):
     student_username = request.session.get('student_user', None)
     if not student_username:
@@ -72,7 +84,10 @@ def home(request):
         context = None
 
     return render(request, 'course/home/home.html', context)
+
+
 # course View
+
 def course(request):
     student_username = request.session.get('student_user', None)
     courses = Course.objects.all().order_by('id')
@@ -92,22 +107,22 @@ def course(request):
             pass
     return render(request,'course/home/course.html',context)
 
+
 # course About
 def course_about(request,course_id):
     
     course = Course.objects.filter(id = course_id).first()
     checkpoints = course.checkpoint_set.all()
     if course:
-        # technologies = course.get_technology_list()
         skills = course.get_skill_list()  
         checkpoints = Checkpoint.objects.filter(course=course)
+        
+        #split the technology user string to list for rendering as badge in html
         for checkpoint in checkpoints:
-        # Split `technology_used` field by commas and store it in a new attribute
             checkpoint.technology_list = checkpoint.technology_used.split(",")
         context = {
             'active_page': 'course',
             'course': course,
-            # 'technologies': technologies,
             'skills': skills,
             'checkpoints': checkpoints
         }
@@ -119,39 +134,29 @@ def course_about(request,course_id):
 
 def course_details(request, course_id):
     course = get_object_or_404(Course, id=course_id)
-    checkpoints = Checkpoint.objects.filter(course=course)  # Retrieve all checkpoints for the course
+    checkpoints = Checkpoint.objects.filter(course=course)  # Retrieve all checkpoints
     for checkpoint in checkpoints:
-        # Split `technology_used` field by commas and store it in a new attribute
             checkpoint.technology_list = checkpoint.technology_used.split(",")
     if course:
-        # technologies = course.get_technology_list()  # Use the method to get technologies
-        skills = course.get_skill_list()              # Use the method to get skills
+        skills = course.get_skill_list()
         context = {
             'active_page': 'course',
             'course': course,
-            # 'technologies': technologies,
             'skills': skills,
-            'checkpoints': checkpoints  # Pass checkpoints to the template
+            'checkpoints': checkpoints
         }
     
     return render(request, 'course/home/courseDetails.html', context)
 
+
+
+
 #Enrolled course Details
-
-# def course_details(request,course_id):
-#     course = get_object_or_404(Course, id=course_id)
-#     if course:
-#         technologies = course.technology_used.split(",") if course.technology_used else []
-#         skills = course.course_skills.split(",") if course.course_skills else []
-#         context = {'active_page': 'course','course':course,'technologies':technologies,'skills':skills}
-    
-#     return render(request,'course/home/courseDetails.html',context)
-
 
 def course_enroll(request, course_id):
     course = get_object_or_404(Course, id=course_id)
 
-    # Retrieve the authenticated student
+    # get the authenticated student
     student_username = request.session.get('student_user')
     student = get_object_or_404(Student, username=student_username)
 
@@ -163,12 +168,11 @@ def course_enroll(request, course_id):
     }
 
     if request.method == 'POST':
-        # Check if the student is already enrolled
+        
         if Enrollment.objects.filter(student=student, course=course).exists():
             messages.info(request, "You are already enrolled in this course.")
             return redirect('course_detail', course_id=course_id)
         
-        # Create a new enrollment record
         Enrollment.objects.create(student=student, course=course)
         messages.success(request, "You have been successfully enrolled in the course!")
         return redirect('course_detail', course_id=course_id)
@@ -184,22 +188,18 @@ def course_enroll(request, course_id):
 
 # live link view
 
-
 def live(request):
     return render(request,)
 
-#profile view
 
-# def profile(request):
-#     return render(request,'course/home/profile.html')
+
+#profile view
 
 def profile_view(request):
     student_username = request.session.get('student_user')
     student = get_object_or_404(Student, username=student_username)
-    # Assumes user is a Student; adjust if necessary
-
+    
     if request.method == 'POST':
-        # Update user details if form is submitted
         student.first_name = request.POST.get('first_name')
         student.last_name = request.POST.get('last_name')
         student.email = request.POST.get('email')
@@ -208,14 +208,33 @@ def profile_view(request):
 
         student.save()
         messages.success(request, "Profile updated successfully!")
-        return redirect('profile')  # Redirect to avoid re-submission on refresh
+        return redirect('profile')
 
     context = {
         'student': student,
     }
     return render(request, 'course/home/profile.html', context)
 
+
+
 #Notification View
 
 def notifications(request):
     return render(request,'course/home/notifications.html')
+
+def notifications_view(request):
+    now = timezone.now()
+    today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    yesterday_start = today_start - timedelta(days=1)
+
+    # Query notifications based on time categories
+    today_notifications = Notification.objects.filter(created_at__gte=today_start)
+    yesterday_notifications = Notification.objects.filter(created_at__gte=yesterday_start, created_at__lt=today_start)
+    earlier_notifications = Notification.objects.filter(created_at__lt=yesterday_start)
+
+    context = {
+        'today_notifications': today_notifications,
+        'yesterday_notifications': yesterday_notifications,
+        'earlier_notifications': earlier_notifications,
+    }
+    return render(request, 'course/home/notifications.html', context)

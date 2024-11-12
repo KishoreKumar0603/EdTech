@@ -14,6 +14,10 @@ def getProfile(request, fileName):
     new_fileName = "%s%s" % (now_time, fileName)
     return os.path.join('users/profileImg', new_fileName)
 
+
+
+
+#Student Table
 class Student(models.Model):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
@@ -25,7 +29,7 @@ class Student(models.Model):
     def __str__(self):
         return f"{self.username}"
 
-
+#Domain Table
 class Domain(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
     description = models.TextField(max_length=2000, null=False, blank=False)
@@ -34,6 +38,7 @@ class Domain(models.Model):
         return self.name
 
 
+# Course Table
 class Course(models.Model):
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
     course_title = models.CharField(max_length=100, null=False, blank=False)
@@ -52,6 +57,9 @@ class Course(models.Model):
     
     def __str__(self):
         return self.course_title
+    
+    
+    
     
 ## Multiple check points for Course
 class Checkpoint(models.Model):
@@ -76,6 +84,25 @@ class Enrollment(models.Model):
         return f"{self.student.username} enrolled in {self.course.course_title}"
     
 
+# Notification Table
+class Notification(models.Model):
+    TYPE_CHOICES = [
+        ('course', 'New Course'),
+        ('message', 'Message'),
+        ('payment', 'Payment Update'),
+        ('other', 'Other')
+    ]
+    
+    title = models.CharField(max_length=255, help_text="Title of the notification, e.g., 'New Course Available'")
+    message = models.TextField(help_text="Detailed message content of the notification")
+    type = models.CharField(max_length=50, choices=TYPE_CHOICES, default='other', help_text="Type of notification for categorization")
+    created_at = models.DateTimeField(auto_now_add=True, help_text="Timestamp when the notification was created")
+    extra_data = models.JSONField(null=True, blank=True, help_text=" additional information like {links: , passcodes: , or metadata: }")
 
-    
-    
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = "Notification"
+        verbose_name_plural = "Notifications"
+
+    def __str__(self):
+        return f"{self.title} - {self.get_type_display()}"
