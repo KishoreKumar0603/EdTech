@@ -10,7 +10,7 @@ from .forms import *
 from django.contrib.auth import logout
 from datetime import timedelta
 from django.utils import timezone
-
+from django.http import JsonResponse
 #logout
 
 def logout_view(request):
@@ -43,6 +43,20 @@ def login(request):
     
     return render(request, "course/registration/login.html")
 
+#userName Validation
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def validate_username(request):
+    username = request.GET.get('username', None)
+    if username is None:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    
+    data = {
+        'is_taken': Student.objects.filter(username=username).exists()
+    }
+    return JsonResponse(data)
+
 
 
 # Registration view
@@ -51,23 +65,27 @@ def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
+            # Save the user after validation
             student = Student(
-                username = form.cleaned_data['username'],
-                email = form.cleaned_data['email'],
-                password = make_password(form.cleaned_data['password']),  
-                first_name = form.cleaned_data['first_name'],
-                last_name = form.cleaned_data['last_name'],
-                phone = form.cleaned_data['phone']  
+                username=form.cleaned_data['username'],
+                email=form.cleaned_data['email'],
+                password=make_password(form.cleaned_data['password']),
+                first_name=form.cleaned_data['first_name'],
+                last_name=form.cleaned_data['last_name'],
+                phone=form.cleaned_data['phone']
             )
             student.save()
-            messages.success(request, "Registration successful!")
+            messages.success(request, "Registration successful!")  # Success message
             return redirect('login')
+        else:
+            # Form is invalid; capture form errors and display them
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, error)
     else:
         form = UserRegistrationForm()
-
+    
     return render(request, 'course/registration/register.html', {'form': form})
-
-
 
 #Home view
 
@@ -77,9 +95,21 @@ def home(request):
         return render(request, 'course/home/home.html', context=None)
     try:
         user = Student.objects.get(username=student_username)
+        now = timezone.now()
+        today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        yesterday_start = today_start - timedelta(days=1)
+
+        # Query notifications based on time categories
+        today_notifications = Notification.objects.filter(created_at__gte=today_start)
+        yesterday_notifications = Notification.objects.filter(created_at__gte=yesterday_start, created_at__lt=today_start)
+        earlier_notifications = Notification.objects.filter(created_at__lt=yesterday_start)
+
         context = {
-            'student_username': user.first_name.capitalize()
-        }
+            'student_username': user.first_name.capitalize(),
+            'today_notifications': today_notifications,
+            'yesterday_notifications': yesterday_notifications,
+            'earlier_notifications': earlier_notifications,
+        }  
     except Student.DoesNotExist:
         context = None
 

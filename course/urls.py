@@ -10,6 +10,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('course/course-detail/<int:course_id>/',views.course_about,name='course_about'),
     path('enroll/<int:course_id>/',views.course_enroll,name='enroll'),
-    path('notification/',views.notifications_view,name='notification')
+    path('notification/',views.notifications_view,name='notification'),
+    path('validate-username/', views.validate_username, name='validate_username'),
 
 ]

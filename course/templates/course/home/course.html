@@ -69,8 +69,9 @@
                               <p class="text-blue-ongoing ps-1 ">OnGoing <img src="{% static "img/courseImg/components/course-fire.png" %}" alt="" height="15px" width="18px" class=" ps-1"></p>
                             </div>
                             <p class="theme-2">Duration: {{ enrolled_course.course.course_duration }}</p>
-                            <div class="d-flex flex-row w-100">
-                              <div class="progress" style="height: 10px;flex-grow:1;">
+                            <p class="mt-0 theme-2 ">{{enrolled_course.course.course_description | truncatechars:100}}</p>
+                            <div class="d-flex flex-row w-100 align-items-center justify-content-between">
+                              <div class="progress w-75" style="height: 10px;">
                                 <div class="progress-bar course-progress-bar" role="progressbar" style="width:{{ enrolled_course.progress_percentage }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                               <div>
