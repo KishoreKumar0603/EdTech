@@ -11,7 +11,7 @@
     }
 </style>
 
-<div class="container-fluid home-container d-flex flex-row align-items-center vh-100">
+<div class="container-fluid home-container d-flex flex-row align-items-center vh-75">
     <div class="row">
         <div class="content-container d-flex justify-content-center flex-column align-items-center col-md-6 col-12">
             <div class="row w-75">
@@ -35,39 +35,27 @@
     <div class="row">
         <div class="col-md-12 text-center">
             <h2>ABOUT</h2>
-        </div><br><br>
+        </div>
         <hr>
-        <div class="col-md-6">
+        <div class="col-md-6 col-12">
             At EdTech, we redefine online learning with flexible, weekend-focused classes designed for busy learners. Whether you're a student, a professional, or someone looking to acquire new skills, our platform ensures a seamless and enriching learning experience. With interactive sessions led by expert educators, we empower you to achieve your goals from the comfort of your home.
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 col-12">
             Our weekend classes combine convenience with quality, allowing you to balance learning with your daily commitments. Featuring live sessions, engaging study materials, and collaborative activities, our programs are crafted to enhance your knowledge and skills. Join us to unlock your potential and stay ahead in today’s fast-paced world.
         </div>
     </div>
-    {% comment %} <div class="row">
-        <div class="col-md-12 text-center">
-            <h2>ABOUT</h2>
-        </div><br><br>
-        <hr>
-        <div class="col-md-6 ">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis praesentium nisi pariatur commodi voluptates aspernatur modi, debitis doloremque a eligendi iste! Ratione quod maiores similique rem amet, odio facere magnam reprehenderit alias ducimus assumenda dicta deserunt iste! Dolores explicabo assumenda quisquam nobis maxime soluta, ipsum veritatis molestiae voluptatibus maiores illum expedita accusantium nulla consectetur reiciendis doloribus, repellendus similique quod accusamus dolorum qui labore tenetur facilis corrupti. Enim nam veniam ut quae odio consequatur, minus incidunt veritatis maxime dolore alias deleniti nobis vel exercitationem porro assumenda atque aliquid repudiandae dolor consectetur laudantium. Soluta alias beatae distinctio nisi magnam doloribus accusantium cupiditate?
-        </div>
-        <div class="col-md-6 ">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis praesentium nisi pariatur commodi voluptates aspernatur modi, debitis doloremque a eligendi iste! Ratione quod maiores similique rem amet, odio facere magnam reprehenderit alias ducimus assumenda dicta deserunt iste! Dolores explicabo assumenda quisquam nobis maxime soluta, ipsum veritatis molestiae voluptatibus maiores illum expedita accusantium nulla consectetur reiciendis doloribus, repellendus similique quod accusamus dolorum qui labore tenetur facilis corrupti. Enim nam veniam ut quae odio consequatur, minus incidunt veritatis maxime dolore alias deleniti nobis vel exercitationem porro assumenda atque aliquid repudiandae dolor consectetur laudantium. Soluta alias beatae distinctio nisi magnam doloribus accusantium cupiditate?
-        </div>
-    </div> {% endcomment %}
 </div>
-<footer class="footer mt-auto py-3 bg-dark text-light" id="contact">
+<footer class="footer mt-auto py-3 theme-bg" id="contact">
     <div class="container">
         <div class="row">
             <!-- Footer Links -->
             <div class="col-md-4 mb-3 mb-md-0">
                 <h5>Quick Links</h5>
                 <ul class="list-unstyled">
-                    <li><a href="{% url 'home' %}" class="text-light text-decoration-none">Home</a></li>
-                    <li><a href="{% url 'courses' %}" class="text-light text-decoration-none">Courses</a></li>
-                    <li><a href="{% url 'home' %}#about" class="text-light text-decoration-none">About Us</a></li>
-                    <li><a href="{% url "home" %}#contact" class="text-light text-decoration-none">Contact</a></li>
+                    <li><a href="{% url 'home' %}" class="text-decoration-none">Home</a></li>
+                    <li><a href="{% url 'courses' %}" class="text-decoration-none">Courses</a></li>
+                    <li><a href="{% url 'home' %}#about" class="text-decoration-none">About Us</a></li>
+                    <li><a href="{% url "home" %}#contact" class="text-decoration-none">Contact</a></li>
                 </ul>
             </div>
 

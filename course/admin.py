@@ -9,7 +9,7 @@ class CheckPointInline(admin.StackedInline):
 
 class CourseAdmin(admin.ModelAdmin):
     inlines = [CheckPointInline]
-    list_display = ('course_title', 'domain', 'course_duration', 'course_cost', 'visibility')
+    list_display = ('course_title', 'domain', 'course_duration', 'course_cost', 'lock')
     search_fields = ('course_title',)
     
 

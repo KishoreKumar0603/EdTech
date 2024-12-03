@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import get_object_or_404, render,redirect
 from django.http import HttpResponse
 from django.contrib import messages
@@ -44,9 +45,9 @@ def login(request):
     return render(request, "course/registration/login.html")
 
 #userName Validation
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 
-@csrf_exempt
+@ensure_csrf_cookie
 def validate_username(request):
     username = request.GET.get('username', None)
     if username is None:
@@ -54,6 +55,17 @@ def validate_username(request):
     
     data = {
         'is_taken': Student.objects.filter(username=username).exists()
+    }
+    return JsonResponse(data)
+
+#Email Validation
+@ensure_csrf_cookie
+def validate_userEmail(request):
+    userEmail= request.GET.get('email',None)
+    if userEmail is None:
+        return JsonResponse({'error':'Invalid request'},status=400)
+    data = {
+        'is_taken':Student.objects.filter(email=userEmail).exists()
     }
     return JsonResponse(data)
 
@@ -161,7 +173,7 @@ def course_about(request,course_id):
         messages.warning(request,"No such course found")
         return redirect('courses')
 
-
+#course details
 def course_details(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     checkpoints = Checkpoint.objects.filter(course=course)  # Retrieve all checkpoints
@@ -212,6 +224,24 @@ def course_enroll(request, course_id):
         'initial_data': initial_data,
     }
     return render(request, 'course/home/courseEnroll.html', context)
+
+
+#Progress view
+from django.utils.safestring import mark_safe
+
+def student_progress_chart(request, username):
+    student = get_object_or_404(Student, username=username)
+    enrollments = Enrollment.objects.filter(student=student).order_by('enrollment_date')
+
+    courses = [enrollment.course.course_title for enrollment in enrollments]
+    progress = [enrollment.progress_percentage for enrollment in enrollments]
+
+    context = {
+        'courses': mark_safe(json.dumps(courses)),  # Ensure valid JSON
+        'progress': mark_safe(json.dumps(progress)),  # Ensure valid JSON
+        'student_name': student.username,
+    }
+    return render(request, 'course/home/student_progress_chart.html', context)
 
 
 

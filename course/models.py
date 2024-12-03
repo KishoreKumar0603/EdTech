@@ -48,7 +48,7 @@ class Course(models.Model):
     course_duration = models.CharField(max_length=30, null=False, blank=False)
     course_skills = models.CharField(max_length=3000,blank=False,null=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    visibility = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")
+    lock = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")
    
     def get_technology_list(self):
            return [checkpoint.technology_used for checkpoint in self.checkpoints.all() if checkpoint.technology_used]

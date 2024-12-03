@@ -28,7 +28,7 @@
               <div class="container-fluid">
                 <div class="row">
                   {% for course in courses  %}
-                    <div class="col-sm-12 col-lg-3 mb-3  {% if course.visibility %}lock{% endif %}">
+                    <div class="col-sm-12 col-lg-3 mb-3  {% if course.lock %}lock{% endif %}">
                       <div class="course-1">
                         <div class="card shadow-for-course">
                           <img class="card-img-top image" src="{{course.course_thumbnail.url}}" alt="Card image">
@@ -42,7 +42,7 @@
                           </div>
                         </div>
                       </div>
-                      {% if course.visibility %}
+                      {% if course.lock %}
                         <img src="{% static "img/img-course-lock.svg" %}" alt="" class="img img-fluid img-course-lock">
                       {% endif %}
                     </div>
@@ -52,8 +52,6 @@
               </div>
             </div>
             <div id="myCourse-panel" class="container tab-pane fade"><br>
-              
-
               <div class="container-fluid p-2">
                 {% for enrolled_course in enrolled_coures %}
                   <div class="course-navs course-1 rounded shadow-for-course p-3 course-details-user mt-4">
@@ -90,7 +88,7 @@
             </div>
             <div id="progress-panel" class="container tab-pane fade"><br>
               <h3>Progress</h3>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+              {% block progress %}{% endblock progress %}
             </div>
             <div id="live-panel" class="container tab-pane fade"><br>
               <h3>Live</h3>
@@ -99,3 +97,9 @@
           </div>
     </div>
 {% endblock content %}
+{% block extra_js %}
+{% endblock extra_js %}
+
+
+
+

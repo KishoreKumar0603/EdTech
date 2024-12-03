@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>Register | EdTech</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{%static "css/form.css"%}">
 </head>
+
 <body class="vh-100">
     <div class="container-fluid h-100">
-        <div class="row h-100 d-flex justify-content-center align-items-center">
+        <div class="row h-100 d-flex justify-content-center align-items-center pt-3">
             <div class="col-md-5 d-none d-md-block">
                 <img src="{% static 'img/login_signin/Sign up-bro.png' %}" class="img-fluid" alt="Sign Up Image">
             </div>
@@ -46,10 +48,12 @@
                         <div class="mb-3">
                             <label for="phone" class="form-label">Phone Number</label>
                             <input type="text" class="form-control" id="phone" name="phone" required>
+                            <div id="phone-feedback" class="invalid-feedback"></div>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" required>
+                            <div id="email-feedback" class="invalid-feedback"></div>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
@@ -58,6 +62,7 @@
                         <div class="mb-3">
                             <label for="confirm_password" class="form-label">Confirm Password</label>
                             <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                            <div id="password-feedback" class="invalid-feedback"></div>
                         </div>
                         <button type="submit" class="btn w-100 btn-color">Sign Up</button>
                     </form>
@@ -69,53 +74,9 @@
             </div>
         </div>
     </div>
-    
-    <script>
-        document.getElementById('username').addEventListener('input', function () {
-    const username = this.value.trim();
-    const feedback = document.getElementById('username-feedback');
-    const inputField = this;
+  
 
-    // Clear feedback on empty input
-    if (!username) {
-        feedback.textContent = '';
-        inputField.classList.remove('is-invalid', 'is-valid');
-        return;
-    }
-
-    // Make AJAX call
-    fetch(`/validate-username/?username=${username}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.is_taken) {
-            feedback.textContent = 'This username is already taken.';
-            inputField.classList.add('is-invalid');
-            inputField.classList.remove('is-valid');
-        } else {
-            feedback.textContent = 'Username is available!';
-            inputField.classList.add('is-valid');
-            inputField.classList.remove('is-invalid');
-        }
-    })
-    .catch(error => {
-        feedback.textContent = 'An error occurred. Please try again later.';
-        inputField.classList.add('is-invalid');
-        inputField.classList.remove('is-valid');
-        console.error('Error:', error); // Log the actual error for debugging
-    });
-
-
-
-});
-
-    </script>
-    
-
+    <script src="{% static 'js/register.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
