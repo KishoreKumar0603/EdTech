@@ -46,7 +46,7 @@ class Course(models.Model):
     course_thumbnail = models.ImageField(upload_to=getFileName, null=False, blank=False)
     course_cost = models.IntegerField(null=False,blank=False)
     course_duration = models.CharField(max_length=30, null=False, blank=False)
-    course_skills = models.CharField(max_length=3000,blank=False,null=False)
+    course_skills = models.CharField(max_length=3000,blank=True,null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     lock = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")
    
