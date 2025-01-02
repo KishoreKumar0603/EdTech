@@ -4,4 +4,8 @@ db.sqlite3
 package-lock.json
 package.json
 myenv
+<<<<<<< Updated upstream
 db.sqlite3
+=======
+newEnv
+>>>>>>> Stashed changes
