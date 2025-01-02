@@ -17,6 +17,15 @@ document.getElementById('username').addEventListener('input', function () {
     const numberRegex = /^[0-9]+$/;
     const startsWithNumberRegex = /^[0-9]/;
     const containsSpaceRegex = /\s/;
+    const userNameRegex = /^[a-zA-Z]+^[0-9]+$/;
+
+    if(!userNameRegex.test(username))
+    {
+        feedback.textContent = 'Username should be Combination of Alphabets & Numbers';
+        inputField.classList.add('is-invalid');
+        inputField.classList.remove('is-valid');
+        return;
+    }
 
     if (numberRegex.test(username)) {
         feedback.textContent = 'Username cannot be just numbers.';
