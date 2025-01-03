@@ -30,10 +30,7 @@ def login(request):
         password = request.POST.get('password')
         
         try:
-            # Fetch the student user
             student = Student.objects.get(username=username)
-            
-            # Validate the password
             if check_password(password, student.password):
                 request.session['student_user'] = student.username
                 return redirect('home')
@@ -77,7 +74,6 @@ def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            # Save the user after validation
             student = Student(
                 username=form.cleaned_data['username'],
                 email=form.cleaned_data['email'],
@@ -87,10 +83,9 @@ def register(request):
                 phone=form.cleaned_data['phone']
             )
             student.save()
-            messages.success(request, "Registration successful!")  # Success message
+            messages.success(request, "Registration successful!") 
             return redirect('login')
         else:
-            # Form is invalid; capture form errors and display them
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, error)
@@ -99,8 +94,8 @@ def register(request):
     
     return render(request, 'course/registration/register.html', {'form': form})
 
-#Home view
 
+#Home view
 def home(request):
     student_username = request.session.get('student_user', None)
     if not student_username:
@@ -110,12 +105,9 @@ def home(request):
         now = timezone.now()
         today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
         yesterday_start = today_start - timedelta(days=1)
-
-        # Query notifications based on time categories
         today_notifications = Notification.objects.filter(created_at__gte=today_start)
         yesterday_notifications = Notification.objects.filter(created_at__gte=yesterday_start, created_at__lt=today_start)
         earlier_notifications = Notification.objects.filter(created_at__lt=yesterday_start)
-
         context = {
             'student_username': user.first_name.capitalize(),
             'today_notifications': today_notifications,
@@ -125,11 +117,11 @@ def home(request):
     except Student.DoesNotExist:
         context = None
 
+
     return render(request, 'course/home/home.html', context)
 
 
 # course View
-
 def course(request):
     student_username = request.session.get('student_user', None)
     courses = Course.objects.all().order_by('id')
@@ -159,7 +151,6 @@ def course_about(request,course_id):
         skills = course.get_skill_list()  
         checkpoints = Checkpoint.objects.filter(course=course)
         
-        #split the technology user string to list for rendering as badge in html
         for checkpoint in checkpoints:
             checkpoint.technology_list = checkpoint.technology_used.split(",")
         context = {
@@ -176,7 +167,7 @@ def course_about(request,course_id):
 #course details
 def course_details(request, course_id):
     course = get_object_or_404(Course, id=course_id)
-    checkpoints = Checkpoint.objects.filter(course=course)  # Retrieve all checkpoints
+    checkpoints = Checkpoint.objects.filter(course=course) 
     for checkpoint in checkpoints:
             checkpoint.technology_list = checkpoint.technology_used.split(",")
     if course:
@@ -194,21 +185,15 @@ def course_details(request, course_id):
 
 
 #Enrolled course Details
-
 def course_enroll(request, course_id):
     course = get_object_or_404(Course, id=course_id)
-
-    # get the authenticated student
     student_username = request.session.get('student_user')
     student = get_object_or_404(Student, username=student_username)
-
-    # Pre-fill the form with student data
     initial_data = {
         'name': f"{student.first_name} {student.last_name}",
         'email': student.email,
         'phone': student.phone,
     }
-
     if request.method == 'POST':
         
         if Enrollment.objects.filter(student=student, course=course).exists():
@@ -220,6 +205,7 @@ def course_enroll(request, course_id):
         return redirect('course_detail', course_id=course_id)
 
     context = {
+        'active_page': 'course',
         'course': course,
         'initial_data': initial_data,
     }
@@ -237,8 +223,8 @@ def student_progress_chart(request, username):
     progress = [enrollment.progress_percentage for enrollment in enrollments]
 
     context = {
-        'courses': mark_safe(json.dumps(courses)),  # Ensure valid JSON
-        'progress': mark_safe(json.dumps(progress)),  # Ensure valid JSON
+        'courses': mark_safe(json.dumps(courses)),
+        'progress': mark_safe(json.dumps(progress)), 
         'student_name': student.username,
     }
     return render(request, 'course/home/student_progress_chart.html', context)
@@ -282,12 +268,12 @@ def profile_view(request):
 def notifications(request):
     return render(request,'course/home/notifications.html')
 
+
+
 def notifications_view(request):
     now = timezone.now()
     today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
     yesterday_start = today_start - timedelta(days=1)
-
-    # Query notifications based on time categories
     today_notifications = Notification.objects.filter(created_at__gte=today_start)
     yesterday_notifications = Notification.objects.filter(created_at__gte=yesterday_start, created_at__lt=today_start)
     earlier_notifications = Notification.objects.filter(created_at__lt=yesterday_start)

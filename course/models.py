@@ -67,7 +67,7 @@ class Checkpoint(models.Model):
     checkpoint_title = models.CharField(max_length=255, null=False, blank=False,default="Default Checkpoint Title")
     checkpoint_description = models.TextField(null=True, blank=True, default="Default Checkpoint Description")
     checkpoint_duration = models.CharField(max_length=30, null=False, blank=False, default="1 hour")
-    technology_used = models.CharField(max_length=100,null=True,blank=True, default="Not specified")
+    technology_used = models.CharField(max_length=100,null=True,blank=True)
     
     def __str__(self):
         return f"{self.checkpoint_title} ({self.course.course_title})"
