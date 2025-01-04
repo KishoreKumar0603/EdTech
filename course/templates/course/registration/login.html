@@ -22,9 +22,9 @@
                     <h1 class="text-center mb-4 theme">Login</h1>
 
                     <!-- Display error messages -->
-                    {% if messages %}
+                    {% if msg %}
                         
-                            {% for message in messages %}
+                            {% for message in msg %}
                             <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% endif %}">
                                 <p>{{ message }}</p>
                             </div>

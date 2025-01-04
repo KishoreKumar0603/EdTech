@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('first_name', models.CharField(max_length=40)),
                 ('last_name', models.CharField(blank=True, max_length=40)),
-                ('profile_img', models.ImageField(blank=True, null=True, upload_to=course.models.getProfile)),
+                ('profile_img', models.CharField(blank=True, null=True, max_length=500)),
             ],
         ),
         migrations.AddField(

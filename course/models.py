@@ -2,20 +2,11 @@ from django.db import models
 import os
 import datetime
 from django.contrib.auth.models import User
-
 # Helper functions to generate file paths for uploads
 def getFileName(request, fileName):
     now_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     new_fileName = "%s%s" % (now_time, fileName)
     return os.path.join('uploads/', new_fileName)
-
-def getProfile(request, fileName):
-    now_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-    new_fileName = "%s%s" % (now_time, fileName)
-    return os.path.join('users/profileImg', new_fileName)
-
-
-
 
 #Student Table
 class Student(models.Model):
@@ -25,7 +16,14 @@ class Student(models.Model):
     phone = models.CharField(max_length=15)
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
-    profile_picture = models.ImageField(upload_to='profile_pics/', default='profile_pics/default.png', blank=True)
+    profile_picture = models.CharField(max_length=500, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        # Check if profile picture is not set, assign default image URL
+        if not self.profile_picture:
+            self.profile_picture = 'https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/userProfilePic/defaultProfile/profile.png?t=2025-01-03T18%3A33%3A12.293Z'  # Replace with your default image URL
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.username}"
 

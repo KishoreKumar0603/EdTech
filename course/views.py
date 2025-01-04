@@ -12,8 +12,9 @@ from django.contrib.auth import logout
 from datetime import timedelta
 from django.utils import timezone
 from django.http import JsonResponse
-#logout
 
+
+#logout
 def logout_view(request):
     logout(request)
     request.session.flush() 
@@ -23,12 +24,10 @@ def logout_view(request):
 
 
 # login & register view
-
 def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
-        password = request.POST.get('password')
-        
+        password = request.POST.get('password')      
         try:
             student = Student.objects.get(username=username)
             if check_password(password, student.password):
@@ -37,8 +36,7 @@ def login(request):
             else:
                 messages.error(request, "Invalid username or password")
         except Student.DoesNotExist:
-            messages.error(request, "Invalid username or password")
-    
+            messages.error(request, "Invalid username or password")  
     return render(request, "course/registration/login.html")
 
 #userName Validation
@@ -240,7 +238,7 @@ def live(request):
 
 
 #profile view
-
+from utils.supabase_utils import upload_profile_image
 def profile_view(request):
     student_username = request.session.get('student_user')
     student = get_object_or_404(Student, username=student_username)
@@ -250,7 +248,10 @@ def profile_view(request):
         student.last_name = request.POST.get('last_name')
         student.email = request.POST.get('email')
         student.phone = request.POST.get('phone')
-        student.profile_picture = request.FILES.get('profile_picture') or student.profile_picture
+
+        if request.FILES.get('profile_picture'):
+            profile_picture = request.FILES.get('profile_picture')
+            student.profile_picture = upload_profile_image(profile_picture,student)
 
         student.save()
         messages.success(request, "Profile updated successfully!")
@@ -259,6 +260,7 @@ def profile_view(request):
     context = {
         'student': student,
     }
+    print("Student.image",student.profile_picture)
     return render(request, 'course/home/profile.html', context)
 
 
@@ -284,3 +286,8 @@ def notifications_view(request):
         'earlier_notifications': earlier_notifications,
     }
     return render(request, 'course/home/notifications.html', context)
+
+
+
+
+#upload profile

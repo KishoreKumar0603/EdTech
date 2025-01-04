@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 from urllib.parse import urlparse
 from dotenv import load_dotenv
+from supabase import create_client
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,7 +26,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost', '127.0.0.1',
-    '.vercel.app'
+    '.vercel.app',
+    'db.supabase.co',
+    'db.ogfopexbppxzxnmbsqxe.supabase.co',
 ]
 
 
@@ -77,26 +81,28 @@ WSGI_APPLICATION = 'edtech.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 
-#SUPABASE_URL = "postgresql://postgres:[YOUR-PASSWORD]@db.ogfopexbppxzxnmbsqxe.supabase.co:5432/postgres"
-
-# SUPABASE_URL = os.getenv('SUPABASE_URL', 'postgresql://postgres:[YOUR-PASSWORD]@db.ogfopexbppxzxnmbsqxe.supabase.co:5432/postgres')
-
-# parsed_url = urlparse(SUPABASE_URL)
 load_dotenv()
-print("SUPABASE_URL:", os.getenv('SUPABASE_URL'))
+SUPABASE_STORAGE_URL = os.getenv('SUPABASE_STORAGE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY')
+if not SUPABASE_STORAGE_URL or not SUPABASE_KEY:
+    raise ValueError("Supabase URL or Key is missing in environment variables.")
 
-SUPABASE_URL = os.getenv('SUPABASE_URL')
+supabase = create_client(SUPABASE_STORAGE_URL, SUPABASE_KEY)
+
+
+
+POSTGRES_URL = os.getenv('POSTGRES_URL')
+url = urlparse(POSTGRES_URL)
 DATABASES = {
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': SUPABASE_URL.split('/')[-1],  # Database name from URL
-        'USER': SUPABASE_URL.split(':')[1].split('//')[1],  # User from URL
-        'PASSWORD': SUPABASE_URL.split(':')[2].split('@')[0],  # Password from URL
-        'HOST': SUPABASE_URL.split('@')[1].split(':')[0],  # Host from URL
-        'PORT': SUPABASE_URL.split(':')[3].split('/')[0],  # Port from URL
+        'NAME': url.path[1:],
+        'USER': url.username,
+        'PASSWORD': url.password,
+        'HOST': url.hostname,
+        'PORT': url.port,
     }
-    
 }
 
 
