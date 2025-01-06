@@ -102,6 +102,9 @@ DATABASES = {
         'PASSWORD': url.password,
         'HOST': url.hostname,
         'PORT': url.port,
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
     }
 }
 
