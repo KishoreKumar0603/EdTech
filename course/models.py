@@ -2,7 +2,11 @@ from django.db import models
 import os
 import datetime
 from django.contrib.auth.models import User
-# Helper functions to generate file paths for uploads
+import requests
+from django.core.exceptions import ValidationError
+
+
+
 def getFileName(request, fileName):
     now_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     new_fileName = "%s%s" % (now_time, fileName)
@@ -16,12 +20,21 @@ class Student(models.Model):
     phone = models.CharField(max_length=15)
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
-    profile_picture = models.CharField(max_length=500, blank=True, null=True)
+    profile_picture = models.CharField(max_length=500, blank=True, null=True,default='https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/userProfilePic/defaultProfile/profile.png?t=2025-01-07T17%3A02%3A26.665Z')
+    
+    def get_valid_profile_picture(self):
+        default_url = 'https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/userProfilePic/defaultProfile/profile.png?t=2025-01-03T18%3A33%3A12.293Z'
 
-    def save(self, *args, **kwargs):
-        if not self.profile_picture:
-            self.profile_picture = 'https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/userProfilePic/defaultProfile/profile.png?t=2025-01-03T18%3A33%3A12.293Z'
-        super().save(*args, **kwargs)
+        if self.profile_picture:
+            try:
+                import requests
+                response = requests.head(self.profile_picture)
+                if response.status_code == 200:
+                    return self.profile_picture
+            except requests.RequestException:
+                pass 
+
+        return default_url
 
     def __str__(self):
         return f"{self.username}"

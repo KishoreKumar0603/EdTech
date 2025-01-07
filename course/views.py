@@ -254,13 +254,11 @@ def profile_view(request):
             student.profile_picture = upload_profile_image(profile_picture,student)
 
         student.save()
-        messages.success(request, "Profile updated successfully!")
         return redirect('profile')
 
     context = {
         'student': student,
     }
-    print("Student.image",student.profile_picture)
     return render(request, 'course/home/profile.html', context)
 
 
