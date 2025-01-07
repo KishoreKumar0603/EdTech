@@ -19,9 +19,8 @@ class Student(models.Model):
     profile_picture = models.CharField(max_length=500, blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        # Check if profile picture is not set, assign default image URL
         if not self.profile_picture:
-            self.profile_picture = 'https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/userProfilePic/defaultProfile/profile.png?t=2025-01-03T18%3A33%3A12.293Z'  # Replace with your default image URL
+            self.profile_picture = 'https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/userProfilePic/defaultProfile/profile.png?t=2025-01-03T18%3A33%3A12.293Z'
         super().save(*args, **kwargs)
 
     def __str__(self):
