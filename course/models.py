@@ -4,9 +4,6 @@ import datetime
 from django.contrib.auth.models import User
 import requests
 from django.core.exceptions import ValidationError
-
-
-
 def getFileName(request, fileName):
     now_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     new_fileName = "%s%s" % (now_time, fileName)

@@ -44,6 +44,7 @@ def upload_to_supabase(file, bucket_name, old_file_url=None):
             if old_file_url:
                 print(f"Attempting to delete old file: {old_file_url}")
                 delete_old_file_from_supabase(bucket_name, old_file_url)
+
             full_url = f"{supabase_url}/storage/v1/object/public/{bucket_name}/{response.path}"
             print(f"File uploaded successfully at URL: {full_url}")
             return full_url
