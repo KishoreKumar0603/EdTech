@@ -19,7 +19,6 @@ if not supabase_url or not supabase_key:
     raise ValueError("SUPABASE_URL or SUPABASE_KEY is missing")
 
 supabase = create_client(supabase_url, supabase_key)
-
 class CourseAdmin(admin.ModelAdmin):
     form = CourseAdminForm
     inlines = [CheckPointInline]
