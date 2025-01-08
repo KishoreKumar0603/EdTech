@@ -58,3 +58,36 @@ img{
 .home-container{
     height: 100vh;
 }
+.notification-card {
+    background-color: #e8f1ff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+.notification-card h5 {
+    font-weight: bold;
+}
+.notification-card p {
+    color: gray;
+}
+.icon-container {
+    width: 50px;
+    height: 50px;
+    background-color: #d6e4ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.icon-container img {
+    width: 30px;
+}
+.theme-bg
+{
+    background: #FD5D00 !important;
+    color: rgb(4, 4, 4) !important;
+}
+.theme-bg a{
+    color: #000000 !important;
+}

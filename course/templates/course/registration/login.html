@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{%static "css/style.css"%}">
     <title>Login | EdTech</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{%static "css/form.css"%}">
 </head>
 <body class="vh-100">
     <div class="container-fluid h-100">
@@ -21,9 +22,9 @@
                     <h1 class="text-center mb-4 theme">Login</h1>
 
                     <!-- Display error messages -->
-                    {% if messages %}
+                    {% if msg %}
                         
-                            {% for message in messages %}
+                            {% for message in msg %}
                             <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% endif %}">
                                 <p>{{ message }}</p>
                             </div>

@@ -12,21 +12,23 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+from urllib.parse import urlparse
+from dotenv import load_dotenv
+from supabase import create_client
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-9wy1_vxo)x@mudw$t75+d+f-g42y=nc0ku%kx(&(yt&eei)kg&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost', '127.0.0.1'
+    'localhost', '127.0.0.1',
+    '.vercel.app',
+    'db.supabase.co',
+    'db.ogfopexbppxzxnmbsqxe.supabase.co',
 ]
 
 
@@ -78,17 +80,31 @@ WSGI_APPLICATION = 'edtech.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
+load_dotenv()
+SUPABASE_STORAGE_URL = os.getenv('SUPABASE_STORAGE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_KEY')
+if not SUPABASE_STORAGE_URL or not SUPABASE_KEY:
+    raise ValueError("Supabase URL or Key is missing in environment variables.")
+
+supabase = create_client(SUPABASE_STORAGE_URL, SUPABASE_KEY)
+
+
+
+POSTGRES_URL = os.getenv('POSTGRES_URL')
+url = urlparse(POSTGRES_URL)
+print("Database Url : ",POSTGRES_URL)
+print("User Name : ",url.username ," password : ",url.password)
 DATABASES = {
-    
-  'default': {
-      'ENGINE': 'django.db.backends.postgresql',
-      'NAME': 'Edtech',
-      'USER': 'postgres',
-      'PASSWORD': '1606',
-      'HOST': 'localhost' ,
-      'PORT': '5432',
-  }
-    
+
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': url.path[1:],
+        'USER': url.username,
+        'PASSWORD': url.password,
+        'HOST': url.hostname,
+        'PORT': url.port,
+    }
 }
 
 
