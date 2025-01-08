@@ -31,7 +31,7 @@
                     <div class="col-sm-12 col-lg-3 mb-3  {% if course.lock %}lock{% endif %}">
                       <div class="course-1">
                         <div class="card shadow-for-course">
-                          <img class="card-img-top image" src="{{course.course_thumbnail.url}}" alt="Card image">
+                          <img class="card-img-top image" src="{{course.course_thumbnail}}" alt="Card image">
                           <div class="card-body">
                             <div class="row ps-2">
                               <h4 class="card-title col-12 h-100">{{course.course_title}}</h4>
@@ -57,7 +57,7 @@
                   <div class="course-navs course-1 rounded shadow-for-course p-3 course-details-user mt-4">
                     <div class="row">
                       <div class="col-3 h-100 ">
-                        <img src="{{enrolled_course.course.course_thumbnail.url}}" alt=""class="img img-fluid h-100" >
+                        <img src="{{enrolled_course.course.course_thumbnail}}" alt=""class="img img-fluid h-100" >
                       </div>
                       <div class="col-9">
                         <div class="row g-0">
@@ -92,7 +92,7 @@
             </div>
             <div id="live-panel" class="container tab-pane fade"><br>
               <h3>Live</h3>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+              <p>No OnGoing Live Sessions </p>
             </div>
           </div>
     </div>
