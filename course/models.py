@@ -3,7 +3,6 @@ import os
 import datetime
 from django.contrib.auth.models import User
 import requests
-from django.core.exceptions import ValidationError
 def getFileName(request, fileName):
     now_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     new_fileName = "%s%s" % (now_time, fileName)
@@ -13,7 +12,7 @@ def getFileName(request, fileName):
 class Student(models.Model):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)  # Store hashed password
+    password = models.CharField(max_length=128)
     phone = models.CharField(max_length=15)
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
@@ -24,7 +23,6 @@ class Student(models.Model):
 
         if self.profile_picture:
             try:
-                import requests
                 response = requests.head(self.profile_picture)
                 if response.status_code == 200:
                     return self.profile_picture
@@ -46,28 +44,46 @@ class Domain(models.Model):
 
 
 # Course Table
+# class Course(models.Model):
+#     domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
+#     course_title = models.CharField(max_length=100, null=False, blank=False)
+#     course_description = models.TextField(max_length=2000, null=False, blank=False)
+#     course_thumbnail = models.ImageField(upload_to=getFileName, null=False, blank=False)
+#     course_cost = models.IntegerField(null=False,blank=False)
+#     course_duration = models.CharField(max_length=30, null=False, blank=False)
+#     course_skills = models.CharField(max_length=3000,blank=True,null=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     lock = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")
+   
+#     def get_technology_list(self):
+#            return [checkpoint.technology_used for checkpoint in self.checkpoints.all() if checkpoint.technology_used]
+#     def get_skill_list(self):
+#         return self.course_skills.split(",") if self.course_skills else []
+    
+#     def __str__(self):
+#         return self.course_title
+
+
 class Course(models.Model):
-    domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
+    domain = models.ForeignKey("Domain", on_delete=models.CASCADE)
     course_title = models.CharField(max_length=100, null=False, blank=False)
     course_description = models.TextField(max_length=2000, null=False, blank=False)
-    course_thumbnail = models.ImageField(upload_to=getFileName, null=False, blank=False)
-    course_cost = models.IntegerField(null=False,blank=False)
+    course_thumbnail = models.URLField(max_length=500, null=True, blank=True)
+    course_cost = models.IntegerField(null=False, blank=False)
     course_duration = models.CharField(max_length=30, null=False, blank=False)
-    course_skills = models.CharField(max_length=3000,blank=True,null=True)
+    course_skills = models.CharField(max_length=3000, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     lock = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")
-   
+
     def get_technology_list(self):
-           return [checkpoint.technology_used for checkpoint in self.checkpoints.all() if checkpoint.technology_used]
+        return [checkpoint.technology_used for checkpoint in self.checkpoints.all() if checkpoint.technology_used]
+
     def get_skill_list(self):
         return self.course_skills.split(",") if self.course_skills else []
     
     def __str__(self):
         return self.course_title
-    
-    
-    
-    
+
 ## Multiple check points for Course
 class Checkpoint(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)

@@ -17,7 +17,7 @@ document.getElementById('username').addEventListener('input', function () {
     const numberRegex = /^[0-9]+$/;
     const startsWithNumberRegex = /^[0-9]/;
     const containsSpaceRegex = /\s/;
-    const userNameRegex = /^[a-zA-Z]+^[0-9]+$/;
+    const userNameRegex = /^[a-zA-Z0-9]+$/;
 
     if(!userNameRegex.test(username))
     {

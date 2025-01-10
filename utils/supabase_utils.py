@@ -19,9 +19,6 @@ def get_profile_path(file_name):
     return f"{now_time}_{sanitized_name}"
 
 def delete_old_file_from_supabase(bucket_name, old_file_url):
-    """
-    Extracts the file path from the full URL and deletes it from Supabase.
-    """
     try:
         # Extract the file path from the full URL
         file_path = old_file_url.split(f"{bucket_name}/")[-1]
@@ -31,9 +28,6 @@ def delete_old_file_from_supabase(bucket_name, old_file_url):
         print(f"Error during old file deletion: {e}")
 
 def upload_to_supabase(file, bucket_name, old_file_url=None):
-    """
-    Uploads a file to Supabase storage. Deletes the old file if provided.
-    """
     file_path = get_profile_path(file.name)
     file_content = file.read()
 
