@@ -13,7 +13,6 @@ from datetime import timedelta
 from django.utils import timezone
 from django.http import JsonResponse
 
-
 #logout
 def logout_view(request):
     logout(request)
@@ -88,8 +87,7 @@ def register(request):
                 for error in errors:
                     messages.error(request, error)
     else:
-        form = UserRegistrationForm()
-    
+        form = UserRegistrationForm()  
     return render(request, 'course/registration/register.html', {'form': form})
 
 

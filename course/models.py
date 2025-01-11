@@ -43,26 +43,6 @@ class Domain(models.Model):
         return self.name
 
 
-# Course Table
-# class Course(models.Model):
-#     domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
-#     course_title = models.CharField(max_length=100, null=False, blank=False)
-#     course_description = models.TextField(max_length=2000, null=False, blank=False)
-#     course_thumbnail = models.ImageField(upload_to=getFileName, null=False, blank=False)
-#     course_cost = models.IntegerField(null=False,blank=False)
-#     course_duration = models.CharField(max_length=30, null=False, blank=False)
-#     course_skills = models.CharField(max_length=3000,blank=True,null=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     lock = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")
-   
-#     def get_technology_list(self):
-#            return [checkpoint.technology_used for checkpoint in self.checkpoints.all() if checkpoint.technology_used]
-#     def get_skill_list(self):
-#         return self.course_skills.split(",") if self.course_skills else []
-    
-#     def __str__(self):
-#         return self.course_title
-
 
 class Course(models.Model):
     domain = models.ForeignKey("Domain", on_delete=models.CASCADE)
