@@ -1,0 +1,28 @@
+.notification-section {
+    margin: 20px;
+}
+.notification-card {
+    background-color: #e8f1ff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+.notification-card h5 {
+    font-weight: bold;
+}
+.notification-card p {
+    color: gray;
+}
+.icon-container {
+    width: 50px;
+    height: 50px;
+    background-color: #d6e4ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.icon-container img {
+    width: 30px;
+}
