@@ -3,6 +3,11 @@ import os
 import datetime
 from django.contrib.auth.models import User
 import requests
+from django.utils.text import slugify
+from django.db import IntegrityError
+from django.utils.text import slugify
+import re
+
 def getFileName(request, fileName):
     now_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     new_fileName = "%s%s" % (now_time, fileName)
@@ -43,26 +48,6 @@ class Domain(models.Model):
         return self.name
 
 
-# Course Table
-# class Course(models.Model):
-#     domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
-#     course_title = models.CharField(max_length=100, null=False, blank=False)
-#     course_description = models.TextField(max_length=2000, null=False, blank=False)
-#     course_thumbnail = models.ImageField(upload_to=getFileName, null=False, blank=False)
-#     course_cost = models.IntegerField(null=False,blank=False)
-#     course_duration = models.CharField(max_length=30, null=False, blank=False)
-#     course_skills = models.CharField(max_length=3000,blank=True,null=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     lock = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")
-   
-#     def get_technology_list(self):
-#            return [checkpoint.technology_used for checkpoint in self.checkpoints.all() if checkpoint.technology_used]
-#     def get_skill_list(self):
-#         return self.course_skills.split(",") if self.course_skills else []
-    
-#     def __str__(self):
-#         return self.course_title
-
 
 class Course(models.Model):
     domain = models.ForeignKey("Domain", on_delete=models.CASCADE)
@@ -74,12 +59,37 @@ class Course(models.Model):
     course_skills = models.CharField(max_length=3000, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     lock = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")
+    slug = models.SlugField(unique=True, null=False, blank=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            # Generate slug from course title
+            self.slug = slugify(self.course_title)
+        
+        # Ensure the slug is unique
+        original_slug = self.slug
+        counter = 1
+        while Course.objects.filter(slug=self.slug).exists():
+            self.slug = f"{original_slug}-{counter}"
+            counter += 1
+        
+        super(Course, self).save(*args, **kwargs)
 
     def get_technology_list(self):
         return [checkpoint.technology_used for checkpoint in self.checkpoints.all() if checkpoint.technology_used]
 
+    import re
+
     def get_skill_list(self):
-        return self.course_skills.split(",") if self.course_skills else []
+        if not self.course_skills:
+            return []
+        # Regex to split on commas not inside parentheses
+        pattern = r',(?![^\(]*\))'
+        return [skill.strip() for skill in re.split(pattern, self.course_skills)]
+    
+    
+    # def get_skill_list(self):
+    #     return self.course_skills.split(",") if self.course_skills else []
     
     def __str__(self):
         return self.course_title

@@ -17,7 +17,7 @@
             <p class="theme-2">Duration: {{ course.course_duration }}</p>
             
             <p>Rs.{{course.course_cost}}</p>
-            <a href="{% url "enroll" course.id %}" class="btn btn-color mb-3">enroll</a>
+            <a href="{% url "enroll" course.slug %}" class="btn btn-color mb-3">enroll</a>
             
             <!-- Dynamic Checkpoints Section -->
             <h4>Checkpoints</h4>

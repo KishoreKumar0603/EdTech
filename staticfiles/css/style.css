@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+
+*{
+    font-family: "Itim", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+img{
+    user-select: none;
+}
+.navbar,.navbar-brand{
+    backdrop-filter: blur(5px);
+    font-size: 1.4rem !important;
+}
+.link-nav-align{
+    width:30%;
+}
+.nav-item .nav-link
+{
+    color:#000000 !important;
+    transition: all 0.3s;
+}
+.theme{
+    color:#FD5D00 !important;
+    
+    text-decoration: none !important;
+}
+.theme-2{
+    color:#696767 !important;
+}
+.nav-link.active{
+    color:#FD5D00 !important;
+}
+
+.nav-link:hover
+{
+    transform: scale(1.09);
+
+}
+#offcanvas-height
+{
+    height: 250px !important;
+}
+
+.btn-color
+{
+    height: 35px !important;
+    width: 90px !important;
+    color:white !important;
+    background: #FD5D00 !important;
+    border-radius: 20px !important;
+    text-decoration: none !important;
+}
+.content-div{
+    padding-top:70px;
+}
+
+.home-container{
+    height: 100vh;
+}
+.notification-card {
+    background-color: #e8f1ff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+.notification-card h5 {
+    font-weight: bold;
+}
+.notification-card p {
+    color: gray;
+}
+.icon-container {
+    width: 50px;
+    height: 50px;
+    background-color: #d6e4ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.icon-container img {
+    width: 30px;
+}
+.theme-bg
+{
+    background: #FD5D00 !important;
+    color: rgb(4, 4, 4) !important;
+}
+.theme-bg a{
+    color: #000000 !important;
+}

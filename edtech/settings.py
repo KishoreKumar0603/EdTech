@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9wy1_vxo)x@mudw$t75+d+f-g42y=nc0ku%kx(&(yt&eei)kg&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost', '127.0.0.1',
@@ -40,7 +40,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'course.middleware.StudentUserMiddleware'
+    'course.middleware.StudentUserMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'edtech.urls'
@@ -81,8 +82,6 @@ supabase = create_client(SUPABASE_STORAGE_URL, SUPABASE_KEY)
 
 POSTGRES_URL = os.getenv('POSTGRES_URL')
 url = urlparse(POSTGRES_URL)
-print("Database Url : ",POSTGRES_URL)
-print("User Name : ",url.username ," password : ",url.password)
 DATABASES = {
 
     'default': {
@@ -94,8 +93,6 @@ DATABASES = {
         'PORT': url.port,
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -137,7 +134,8 @@ MEDIA_ROOT = BASE_DIR/'static'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -150,3 +148,9 @@ SESSION_COOKIE_AGE = 14400  # Ensures the session does not have a fixed timeout
 SESSION_SAVE_EVERY_REQUEST = True  # Prevents extending the session on each request
 
 LOGIN_URL = '/login/'
+
+
+DEBUG = False
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
