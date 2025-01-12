@@ -81,8 +81,6 @@ supabase = create_client(SUPABASE_STORAGE_URL, SUPABASE_KEY)
 
 POSTGRES_URL = os.getenv('POSTGRES_URL')
 url = urlparse(POSTGRES_URL)
-print("Database Url : ",POSTGRES_URL)
-print("User Name : ",url.username ," password : ",url.password)
 DATABASES = {
 
     'default': {

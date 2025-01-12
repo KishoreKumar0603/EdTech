@@ -3,6 +3,11 @@ import os
 import datetime
 from django.contrib.auth.models import User
 import requests
+from django.utils.text import slugify
+from django.db import IntegrityError
+from django.utils.text import slugify
+import re
+
 def getFileName(request, fileName):
     now_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     new_fileName = "%s%s" % (now_time, fileName)
@@ -54,12 +59,37 @@ class Course(models.Model):
     course_skills = models.CharField(max_length=3000, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     lock = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")
+    slug = models.SlugField(unique=True, null=False, blank=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            # Generate slug from course title
+            self.slug = slugify(self.course_title)
+        
+        # Ensure the slug is unique
+        original_slug = self.slug
+        counter = 1
+        while Course.objects.filter(slug=self.slug).exists():
+            self.slug = f"{original_slug}-{counter}"
+            counter += 1
+        
+        super(Course, self).save(*args, **kwargs)
 
     def get_technology_list(self):
         return [checkpoint.technology_used for checkpoint in self.checkpoints.all() if checkpoint.technology_used]
 
+    import re
+
     def get_skill_list(self):
-        return self.course_skills.split(",") if self.course_skills else []
+        if not self.course_skills:
+            return []
+        # Regex to split on commas not inside parentheses
+        pattern = r',(?![^\(]*\))'
+        return [skill.strip() for skill in re.split(pattern, self.course_skills)]
+    
+    
+    # def get_skill_list(self):
+    #     return self.course_skills.split(",") if self.course_skills else []
     
     def __str__(self):
         return self.course_title

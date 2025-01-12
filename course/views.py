@@ -139,9 +139,9 @@ def course(request):
 
 
 # course About
-def course_about(request,course_id):
+def course_about(request,course_slug):
     
-    course = Course.objects.filter(id = course_id).first()
+    course = Course.objects.filter(slug = course_slug).first()
     checkpoints = course.checkpoint_set.all()
     if course:
         skills = course.get_skill_list()  
@@ -161,8 +161,8 @@ def course_about(request,course_id):
         return redirect('courses')
 
 #course details
-def course_details(request, course_id):
-    course = get_object_or_404(Course, id=course_id)
+def course_details(request, course_slug):
+    course = get_object_or_404(Course, slug=course_slug)
     checkpoints = Checkpoint.objects.filter(course=course) 
     for checkpoint in checkpoints:
             checkpoint.technology_list = checkpoint.technology_used.split(",")
@@ -181,8 +181,8 @@ def course_details(request, course_id):
 
 
 #Enrolled course Details
-def course_enroll(request, course_id):
-    course = get_object_or_404(Course, id=course_id)
+def course_enroll(request, course_slug):
+    course = get_object_or_404(Course, slug=course_slug)
     student_username = request.session.get('student_user')
     student = get_object_or_404(Student, username=student_username)
     initial_data = {
@@ -194,11 +194,11 @@ def course_enroll(request, course_id):
         
         if Enrollment.objects.filter(student=student, course=course).exists():
             messages.info(request, "You are already enrolled in this course.")
-            return redirect('course_detail', course_id=course_id)
+            return redirect('course_detail', course_slug=course_slug)
         
         Enrollment.objects.create(student=student, course=course)
         messages.success(request, "You have been successfully enrolled in the course!")
-        return redirect('course_detail', course_id=course_id)
+        return redirect('course_detail', course_slug=course_slug)
 
     context = {
         'active_page': 'course',
@@ -208,6 +208,22 @@ def course_enroll(request, course_id):
     return render(request, 'course/home/courseEnroll.html', context)
 
 
+
+#unEnroll course 
+def unenroll_course(request, course_slug):
+    course = get_object_or_404(Course, slug=course_slug)
+    student_username = request.session.get('student_user')
+    student = get_object_or_404(Student, username=student_username)
+
+    # Check if the student is enrolled in the course
+    enrollment = Enrollment.objects.filter(student=student, course=course).first()
+    if enrollment:
+        enrollment.delete()
+    else:
+        messages.error(request, "You are not enrolled in this course.")
+
+    # Redirect back to the course detail page or another relevant page
+    return redirect('course_detail', course_slug=course_slug)  
 #Progress view
 from django.utils.safestring import mark_safe
 
