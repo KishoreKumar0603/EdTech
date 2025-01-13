@@ -1,7 +1,11 @@
 __pycache__
-uploads
 node_modules
 db.sqlite3
-package-locj.json
+package-lock.json
 package.json
 myenv
+<<<<<<< Updated upstream
+db.sqlite3
+=======
+newEnv
+>>>>>>> Stashed changes

@@ -30,14 +30,50 @@
   </nav>
   <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
+      {% if not student_username %}
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <h1>Please Login...</h1>
+              <a href="{% url 'login' %}" class="btn-color">Login / Sign Up </a>
+          </div>
+        </div>
+      {% else %}
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+                <a href="{% url "notification" %}" class="ms-3 theme text-decoration-underline">All</a>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Notifications Section -->
-                <div class="notification-section">
+                 <div class="notification-section">
+                  {% if today_notifications %}
+                    <h5>Today</h5>
+                    {% for notification in today_notifications %}
+                        <div class="d-flex align-items-center notification-card mb-3">
+                            <div class="icon-container me-2">
+                                <img src="https://via.placeholder.com/30" alt="icon">
+                            </div>
+                            <div>
+                                <h5>{{ notification.title }}</h5>
+                                <p>{{ notification.message }}</p>
+                                {% if notification.extra_data %}
+                                    {% for key, value in notification.extra_data.items %}
+                                        <p><strong>{{ key|title }}:</strong> {{ value }}</p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                  {% else %}
+                      <div>No new notifications for today.</div>
+                  {% endif %}
+                 </div>
+                {% comment %} <div class="notification-section">
                     <h5>Today</h5>
 
                     <!-- Notification Card -->
@@ -96,12 +132,13 @@
                             <p>Your account has been created...</p>
                         </div>
                     </div>
-                </div>
+                </div> {% endcomment %}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
+      {%endif%}
     </div>
 </div>
         
