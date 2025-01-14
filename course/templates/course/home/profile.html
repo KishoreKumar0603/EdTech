@@ -7,9 +7,8 @@
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <title>Document</title>
+    <title>{{student.first_name | default:" User"}} | Profile</title>
     <style>
-        /* Custom styling for sidebar */
         .sidebar {
             height: 100vh;
             padding-top: 20px;
@@ -22,7 +21,6 @@
             transition: transform 0.3s ease;
         }
         .sidebar a {
-            /* color: #aaa; */
             display: block;
             padding: 10px 20px;
             text-decoration: none;
@@ -39,7 +37,6 @@
             border-radius: 20px !important;
             text-decoration: none !important;
         }
-        /* Sidebar hidden on small screens */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -57,21 +54,19 @@
 <body>
     <div class="container-fluid p-0">
         <div class="row m-0">
-            <!-- Sidebar -->
+            <!-- Sidebar (same as before) -->
             <div id="sidebarMenu" class="col-md-3 col-lg-2 sidebar">
-                <!-- Close Button -->
                 <button class="btn btn-dark d-md-none mb-3" onclick="toggleSidebar()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-xl-heavy md:hidden"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 8C3 7.44772 3.44772 7 4 7H20C20.5523 7 21 7.44772 21 8C21 8.55228 20.5523 9 20 9H4C3.44772 9 3 8.55228 3 8ZM3 16C3 15.4477 3.44772 15 4 15H14C14.5523 15 15 15.4477 15 16C15 16.5523 14.5523 17 14 17H4C3.44772 17 3 16.5523 3 16Z" fill="currentColor"></path></svg></button>
-                
                 <nav>
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'home' %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'home' %}">Profile</a>
+                            <a class="nav-link active" href="{% url 'profile' %}">Profile</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Courses</a>
+                            <a class="nav-link" href="{% url "courses" %}">Courses</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="">Certificates</a>
@@ -80,7 +75,7 @@
                             <a class="nav-link disabled" href="">Payments</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">About</a>
+                            <a class="nav-link" href="{% url "home" %}#about">About</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link disabled" href="">Settings</a>
@@ -88,63 +83,66 @@
                     </ul>
                 </nav>
             </div>
-            
+
             <!-- Main Content Area -->
             <div class="col main-content">
-                <!-- Toggle Button for Sidebar -->
                 <div class="d-flex align-items-center p-0">
-                <button class="btn d-md-none mb-3 btn-dark" type="button" onclick="toggleSidebar()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-xl-heavy md:hidden"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 8C3 7.44772 3.44772 7 4 7H20C20.5523 7 21 7.44772 21 8C21 8.55228 20.5523 9 20 9H4C3.44772 9 3 8.55228 3 8ZM3 16C3 15.4477 3.44772 15 4 15H14C14.5523 15 15 15.4477 15 16C15 16.5523 14.5523 17 14 17H4C3.44772 17 3 16.5523 3 16Z" fill="currentColor"></path></svg></button>
-            </div>
-
+                    <button class="btn d-md-none mb-3 btn-dark" type="button" onclick="toggleSidebar()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-xl-heavy md:hidden"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 8C3 7.44772 3.44772 7 4 7H20C20.5523 7 21 7.44772 21 8C21 8.55228 20.5523 9 20 9H4C3.44772 9 3 8.55228 3 8ZM3 16C3 15.4477 3.44772 15 4 15H14C14.5523 15 15 15.4477 15 16C15 16.5523 14.5523 17 14 17H4C3.44772 17 3 16.5523 3 16Z" fill="currentColor"></path></svg></button>
+                </div>
                 <div class="profile-picture mb-3">
-                    <img src="https://via.placeholder.com/80" alt="User">
+                    <img src="{{ student.get_valid_profile_picture }}" alt="User" class="img-thumbnail">
                 </div>
                 
-                <form>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <div class="mb-3">
-                        <label for="fullName" class="form-label">Full Name</label>
-                        <input type="text" class="form-control" id="fullName" placeholder="Full Name">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="firstName" name="first_name" value="{{ student.first_name }}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="lastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" placeholder="Last Name">
-                    </div>
-                    <div class="mb-3">
-                        <label for="dob" class="form-label">Date of Birth</label>
-                        <input type="date" class="form-control" id="dob">
+                        <input type="text" class="form-control" id="lastName" name="last_name" value="{{ student.last_name }}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Email">
+                        <input type="email" class="form-control" id="email" name="email" value="{{ student.email }}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="phone" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="phone" placeholder="(+91) Number">
+                        <input type="text" class="form-control" id="phone" name="phone" value="{{ student.phone }}" placeholder="(+91)"readonly>
                     </div>
                     <div class="mb-3">
-                        <label for="gender" class="form-label">Gender</label>
-                        <select id="gender" class="form-select">
-                            <option selected>Choose...</option>
-                            <option value="1">Male</option>
-                            <option value="2">Female</option>
-                            <option value="3">Other</option>
-                        </select>
+                        <label for="profilePicture" class="form-label">Profile Picture</label>
+                        <input type="file" class="form-control" id="profilePicture" name="profile_picture" disabled>
                     </div>
                     <div>
-                        <button class="btn btn-primary me-2">Edit</button>
-                        <button class="btn btn-success">Save</button>
+                        <button type="button" class="btn btn-primary" onclick="enableEditing()">Edit</button>
+                        <button type="submit" class="btn btn-success" id="saveButton" disabled>Save</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
         // Toggle sidebar visibility on small screens
         function toggleSidebar() {
             document.getElementById("sidebarMenu").classList.toggle("show");
+        }
+    </script>
+
+    <script>
+        // JavaScript to toggle form fields between readonly and editable
+        function enableEditing() {
+            document.getElementById("firstName").removeAttribute("readonly");
+            document.getElementById("lastName").removeAttribute("readonly");
+            document.getElementById("email").removeAttribute("readonly");
+            document.getElementById("phone").removeAttribute("readonly");
+            document.getElementById("profilePicture").removeAttribute("disabled");
+
+            document.getElementById("saveButton").removeAttribute("disabled");
         }
     </script>
 </body>

@@ -14,10 +14,10 @@
             <a class="nav-link {% if active_page == 'course' %}active{% endif %}" href="{% url 'courses' %}">Courses</a>
           </li>
           <li class="nav-item ms-auto">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="{% url 'home' %}#about">About</a>
           </li>
           <li class="nav-item ms-auto">
-            <a class="nav-link" href="#">Contact</a>
+            <a class="nav-link" href="{% url 'home' %}#contact">Contact</a>
           </li>
           <li class="nav-item ms-auto">
             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#notificationModal"><img src="{% static "img/notifications-icon.png" %} " class="img-fluid" alt="" height="26px" width="26px"></a>
@@ -30,14 +30,50 @@
   </nav>
   <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
+      {% if not student_username %}
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <h1>Please Login...</h1>
+              <a href="{% url 'login' %}" class="btn-color">Login / Sign Up </a>
+          </div>
+        </div>
+      {% else %}
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+                <a href="{% url "notification" %}" class="ms-3 theme text-decoration-underline">All</a>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <!-- Notifications Section -->
-                <div class="notification-section">
+                 <div class="notification-section">
+                  {% if today_notifications %}
+                    <h5>Today</h5>
+                    {% for notification in today_notifications %}
+                        <div class="d-flex align-items-center notification-card mb-3">
+                            <div class="icon-container me-2">
+                                <img src="https://via.placeholder.com/30" alt="icon">
+                            </div>
+                            <div>
+                                <h5>{{ notification.title }}</h5>
+                                <p>{{ notification.message }}</p>
+                                {% if notification.extra_data %}
+                                    {% for key, value in notification.extra_data.items %}
+                                        <p><strong>{{ key|title }}:</strong> {{ value }}</p>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                  {% else %}
+                      <div>No new notifications for today.</div>
+                  {% endif %}
+                 </div>
+                {% comment %} <div class="notification-section">
                     <h5>Today</h5>
 
                     <!-- Notification Card -->
@@ -96,12 +132,13 @@
                             <p>Your account has been created...</p>
                         </div>
                     </div>
-                </div>
+                </div> {% endcomment %}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
+      {%endif%}
     </div>
 </div>
         
@@ -113,10 +150,10 @@
   <div class="offcanvas-body">
     <ul class="list-unstyled d-flex flex-column align-items-around justify-content-around" id="offcanvas-height">
         <li><a href="{% url "profile" %}" class="text-dark text-decoration-none ">Profile</a></li>
-        <li><a href="#" class="text-dark text-decoration-none ">Courses</a></li>
+        <li><a href="{% url "courses" %}" class="text-dark text-decoration-none ">Courses</a></li>
         <li><a href="#" class="text-dark text-decoration-none ">Certificates</a></li>
         <li><a href="#" class="text-dark text-decoration-none ">Payments</a></li>
-        <li><a href="#" class="text-dark text-decoration-none ">About</a></li>
+        <li><a href="{% url "home" %}#about" class="text-dark text-decoration-none ">About</a></li>
         <li><a href="#" class="text-dark text-decoration-none ">Settings</a></li>
     </ul>
       <button class="btn btn-color w-50" type="button">
