@@ -80,25 +80,27 @@ supabase = create_client(SUPABASE_STORAGE_URL, SUPABASE_KEY)
 POSTGRES_URL = os.getenv('POSTGRES_URL')
 url = urlparse(POSTGRES_URL)
 print(POSTGRES_URL)
+
+# print('NAME :', url.path[1:],'\nUSER : ',url.username,'\nPASSWORD : ', url.password,'\nHOST : ',url.hostname,'\nPORT: ', url.port,)
 DATABASES = {
+    
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': url.path[1:],  # Only the database name (e.g., 'postgres')
-        'USER': url.username,
-        'PASSWORD': url.password,
-        'HOST': url.hostname,
-        'PORT': url.port,
+        'NAME': 'postgres',  # Replace with your database name (likely "postgres")
+        'USER': 'postgres.ogfopexbppxzxnmbsqxe',  # Your Supabase database username
+        'PASSWORD': 'edtech0603KK',  # Your Supabase database password
+        'HOST': 'aws-0-ap-south-1.pooler.supabase.com',  # Your Supabase host
+        'PORT': '5432',  # Default PostgreSQL port
     }
-    
-#   'default': {
-#       'ENGINE': 'django.db.backends.postgresql',
-#       'NAME': 'Edtech',
-#       'USER': 'postgres',
-#       'PASSWORD': 'lohieth',
-#       'HOST': 'localhost' ,
-#       'PORT': '5432',
-#   }
-    
+
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': url.path[1:],  # Only the database name (e.g., 'postgres')
+    #     'USER': url.username,
+    #     'PASSWORD': url.password,
+    #     'HOST': url.hostname,
+    #     'PORT': url.port,
+    # }
 }
 
 # DATABASES = {
