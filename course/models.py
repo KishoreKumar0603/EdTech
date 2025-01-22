@@ -2,7 +2,12 @@ from django.db import models
 import os
 import datetime
 from django.contrib.auth.models import User
-# Helper functions to generate file paths for uploads
+import requests
+from django.utils.text import slugify
+from django.db import IntegrityError
+from django.utils.text import slugify
+import re
+
 def getFileName(request, fileName):
     now_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
     new_fileName = "%s%s" % (now_time, fileName)
@@ -12,17 +17,24 @@ def getFileName(request, fileName):
 class Student(models.Model):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)  # Store hashed password
+    password = models.CharField(max_length=128)
     phone = models.CharField(max_length=15)
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=40)
-    profile_picture = models.CharField(max_length=500, blank=True, null=True)
+    profile_picture = models.CharField(max_length=500, blank=True, null=True,default='https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/userProfilePic/defaultProfile/profile.png?t=2025-01-07T17%3A02%3A26.665Z')
+    
+    def get_valid_profile_picture(self):
+        default_url = 'https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/userProfilePic/defaultProfile/profile.png?t=2025-01-03T18%3A33%3A12.293Z'
 
-    def save(self, *args, **kwargs):
-        # Check if profile picture is not set, assign default image URL
-        if not self.profile_picture:
-            self.profile_picture = 'https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/userProfilePic/defaultProfile/profile.png?t=2025-01-03T18%3A33%3A12.293Z'  # Replace with your default image URL
-        super().save(*args, **kwargs)
+        if self.profile_picture:
+            try:
+                response = requests.head(self.profile_picture)
+                if response.status_code == 200:
+                    return self.profile_picture
+            except requests.RequestException:
+                pass 
+
+        return default_url
 
     def __str__(self):
         return f"{self.username}"
@@ -36,29 +48,52 @@ class Domain(models.Model):
         return self.name
 
 
-# Course Table
+
 class Course(models.Model):
-    domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
+    domain = models.ForeignKey("Domain", on_delete=models.CASCADE)
     course_title = models.CharField(max_length=100, null=False, blank=False)
     course_description = models.TextField(max_length=2000, null=False, blank=False)
-    course_thumbnail = models.ImageField(upload_to=getFileName, null=False, blank=False)
-    course_cost = models.IntegerField(null=False,blank=False)
+    course_thumbnail = models.URLField(max_length=500, null=True, blank=True)
+    course_cost = models.IntegerField(null=False, blank=False)
     course_duration = models.CharField(max_length=30, null=False, blank=False)
-    course_skills = models.CharField(max_length=3000,blank=True,null=True)
+    course_skills = models.CharField(max_length=3000, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     lock = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")
-   
+    slug = models.SlugField(unique=True, null=False, blank=False)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            # Generate slug from course title
+            self.slug = slugify(self.course_title)
+        
+        # Ensure the slug is unique
+        original_slug = self.slug
+        counter = 1
+        while Course.objects.filter(slug=self.slug).exists():
+            self.slug = f"{original_slug}-{counter}"
+            counter += 1
+        
+        super(Course, self).save(*args, **kwargs)
+
     def get_technology_list(self):
-           return [checkpoint.technology_used for checkpoint in self.checkpoints.all() if checkpoint.technology_used]
+        return [checkpoint.technology_used for checkpoint in self.checkpoints.all() if checkpoint.technology_used]
+
+    import re
+
     def get_skill_list(self):
-        return self.course_skills.split(",") if self.course_skills else []
+        if not self.course_skills:
+            return []
+        # Regex to split on commas not inside parentheses
+        pattern = r',(?![^\(]*\))'
+        return [skill.strip() for skill in re.split(pattern, self.course_skills)]
+    
+    
+    # def get_skill_list(self):
+    #     return self.course_skills.split(",") if self.course_skills else []
     
     def __str__(self):
         return self.course_title
-    
-    
-    
-    
+
 ## Multiple check points for Course
 class Checkpoint(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)

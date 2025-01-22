@@ -31,13 +31,13 @@
                     <div class="col-sm-12 col-lg-3 mb-3  {% if course.lock %}lock{% endif %}">
                       <div class="course-1">
                         <div class="card shadow-for-course">
-                          <img class="card-img-top image" src="{{course.course_thumbnail.url}}" alt="Card image">
+                          <img class="card-img-top image" src="{{course.course_thumbnail}}" alt="Card image">
                           <div class="card-body">
                             <div class="row ps-2">
                               <h4 class="card-title col-12 h-100">{{course.course_title}}</h4>
                               <div class="col-12"><img src="{%static 'img/courseImg/components/course-ratings.png'%}" class=" ratings" alt=""></div>
                               
-                              <a href="{% url 'course_about' course.id%}" class="btn btn-color col-12 mt-2">More</a>
+                              <a href="{% url 'course_about' course_slug=course.slug%}" class="btn btn-color col-12 mt-2">More</a>
                             </div>
                           </div>
                         </div>
@@ -57,7 +57,7 @@
                   <div class="course-navs course-1 rounded shadow-for-course p-3 course-details-user mt-4">
                     <div class="row">
                       <div class="col-3 h-100 ">
-                        <img src="{{enrolled_course.course.course_thumbnail.url}}" alt=""class="img img-fluid h-100" >
+                        <img src="{{enrolled_course.course.course_thumbnail}}" alt=""class="img img-fluid h-100" >
                       </div>
                       <div class="col-9">
                         <div class="row g-0">
@@ -66,6 +66,27 @@
                               <img src="{% static "img/courseImg/components/course-ratings.png" %}" alt="" class="ratings">
                               <p class="text-blue-ongoing ps-1 ">OnGoing <img src="{% static "img/courseImg/components/course-fire.png" %}" alt="" height="15px" width="18px" class=" ps-1"></p>
                             </div>
+                            <div class="dropdown">
+                              <button class="btn btn-link p-0" type="button" id="dropdownMenuButton{{ forloop.counter }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                              </button>
+                              {% if enrolled_course.course.slug %}
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ forloop.counter }}">
+                                  <li>
+                                    <form method="post" action="{% url 'unenroll_course' course_slug=enrolled_course.course.slug %}">
+                                      {% csrf_token %}
+                                      <button type="submit" class="dropdown-item">Unenroll</button>
+                                    </form>
+                                  </li>
+                                  <li>
+                                    <a class="dropdown-item" href="{% url 'course_detail' course_slug=enrolled_course.course.slug %}">View</a>
+                                  </li>
+                                </ul>
+                              {% else %}
+                                <p>Invalid course data.</p>
+                              {% endif %}
+
+                            </div>
                             <p class="theme-2">Duration: {{ enrolled_course.course.course_duration }}</p>
                             <p class="mt-0 theme-2 ">{{enrolled_course.course.course_description | truncatechars:100}}</p>
                             <div class="d-flex flex-row w-100 align-items-center justify-content-between">
@@ -73,7 +94,7 @@
                                 <div class="progress-bar course-progress-bar" role="progressbar" style="width:{{ enrolled_course.progress_percentage }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                               <div>
-                                <a href="{% url "course_detail" enrolled_course.course.id %}" class="btn btn-color col-5">View</a>
+                                <a href="{% url "course_detail" course_slug=enrolled_course.course.slug %}" class="btn btn-color col-5">View</a>
                               </div>
                             </div>
                           </div>
@@ -92,7 +113,7 @@
             </div>
             <div id="live-panel" class="container tab-pane fade"><br>
               <h3>Live</h3>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+              <p>No OnGoing Live Sessions </p>
             </div>
           </div>
     </div>
