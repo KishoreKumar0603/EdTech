@@ -83,12 +83,14 @@ supabase = create_client(SUPABASE_STORAGE_URL, SUPABASE_KEY)
 POSTGRES_URL = os.getenv('POSTGRES_URL')
 url = urlparse(POSTGRES_URL)
 print(POSTGRES_URL)
+
+# print('NAME :', url.path[1:],'\nUSER : ',url.username,'\nPASSWORD : ', url.password,'\nHOST : ',url.hostname,'\nPORT: ', url.port,)
 DATABASES = {
     
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',  # Replace with your database name (likely "postgres")
-        'USER': 'postgres',  # Your Supabase database username
+        'USER': 'postgres.ogfopexbppxzxnmbsqxe',  # Your Supabase database username
         'PASSWORD': 'edtech0603KK',  # Your Supabase database password
         'HOST': 'aws-0-ap-south-1.pooler.supabase.com',  # Your Supabase host
         'PORT': '5432',  # Default PostgreSQL port
