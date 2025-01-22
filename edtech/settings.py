@@ -86,7 +86,7 @@ print(POSTGRES_URL)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': url.path[1:],  # Only the database name (e.g., 'postgres')
+        'NAME': 'postgres',  # Only the database name (e.g., 'postgres')
         'USER': url.username,
         'PASSWORD': url.password,
         'HOST': url.hostname,
