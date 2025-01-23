@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9wy1_vxo)x@mudw$t75+d+f-g42y=nc0ku%kx(&(yt&eei)kg&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost', '127.0.0.1',
@@ -82,18 +82,15 @@ supabase = create_client(SUPABASE_STORAGE_URL, SUPABASE_KEY)
 
 POSTGRES_URL = os.getenv('POSTGRES_URL')
 url = urlparse(POSTGRES_URL)
-print(POSTGRES_URL)
-
-# print('NAME :', url.path[1:],'\nUSER : ',url.username,'\nPASSWORD : ', url.password,'\nHOST : ',url.hostname,'\nPORT: ', url.port,)
 DATABASES = {
     
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',  # Replace with your database name (likely "postgres")
-        'USER': 'postgres.ogfopexbppxzxnmbsqxe',  # Your Supabase database username
-        'PASSWORD': 'edtech0603KK',  # Your Supabase database password
-        'HOST': 'aws-0-ap-south-1.pooler.supabase.com',  # Your Supabase host
-        'PORT': '5432',  # Default PostgreSQL port
+        'NAME': 'postgres', 
+        'USER': 'postgres.ogfopexbppxzxnmbsqxe',
+        'PASSWORD': 'edtech0603KK',
+        'HOST': 'aws-0-ap-south-1.pooler.supabase.com',
+        'PORT': '5432',
     }
 
     # 'default': {
@@ -106,17 +103,6 @@ DATABASES = {
     # }
 }
 
-# DATABASES = {
-
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': url.path[1:],
-#         'USER': url.username,
-#         'PASSWORD': url.password,
-#         'HOST': url.hostname,
-#         'PORT': url.port,
-#     }
-# }
 
 
 # Password validation
@@ -175,8 +161,6 @@ SESSION_SAVE_EVERY_REQUEST = True  # Prevents extending the session on each requ
 
 LOGIN_URL = '/login/'
 
-
-DEBUG = False
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = not DEBUG
+SESSION_COOKIE_SECURE =  not DEBUG
+CSRF_COOKIE_SECURE =  not DEBUG

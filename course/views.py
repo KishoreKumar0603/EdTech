@@ -39,6 +39,9 @@ def login(request):
     return render(request, "course/registration/login.html")
 
 #userName Validation
+
+
+
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 @ensure_csrf_cookie
@@ -66,7 +69,6 @@ def validate_userEmail(request):
 
 
 # Registration view
-
 def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
