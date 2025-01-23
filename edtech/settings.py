@@ -87,17 +87,6 @@ print(POSTGRES_URL)
 # print('NAME :', url.path[1:],'\nUSER : ',url.username,'\nPASSWORD : ', url.password,'\nHOST : ',url.hostname,'\nPORT: ', url.port,)
 DATABASES = {
     
-<<<<<<< HEAD
-  'default': {
-      'ENGINE': 'django.db.backends.postgresql',
-      'NAME': 'Edtech',
-      'USER': 'postgres',
-      'PASSWORD': 'lohieth',
-      'HOST': 'localhost' ,
-      'PORT': '5432',
-  }
-    
-=======
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',  # Replace with your database name (likely "postgres")
@@ -115,7 +104,6 @@ DATABASES = {
     #     'HOST': url.hostname,
     #     'PORT': url.port,
     # }
->>>>>>> 09e91811245e7902d117c78a41e53546ad9dda8b
 }
 
 # DATABASES = {
