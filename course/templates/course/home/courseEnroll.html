@@ -6,7 +6,7 @@
 {% endblock title %}
 {% block content %}
 <div class="container my-5">
-    <h2 class="text-center mb-4">Course Registration</h2>
+    <h2 class="text-center mb-4"><span class="theme">C</span>ourse <span class="theme">R</span>egistration</h2>
     <form method="post">
         {% csrf_token %}
         <!-- Name Field -->
@@ -35,7 +35,7 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Price :{{course.course_cost}} </label>
+            <label class="form-label">Price :{{course.course_cost}}.Rs </label>
         </div>
 
         <!-- Submit Button -->
