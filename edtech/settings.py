@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9wy1_vxo)x@mudw$t75+d+f-g42y=nc0ku%kx(&(yt&eei)kg&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost', '127.0.0.1'
@@ -173,7 +173,7 @@ SESSION_SAVE_EVERY_REQUEST = True  # Prevents extending the session on each requ
 LOGIN_URL = '/login/'
 
 
-DEBUG = False
-SECURE_SSL_REDIRECT = False
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+
+SECURE_SSL_REDIRECT = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
