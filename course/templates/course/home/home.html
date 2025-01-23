@@ -31,20 +31,33 @@
         </div>
     </div>
 </div>
-<div class="container mb-5" id="about">
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <h2>ABOUT</h2>
+<div class="container mb-5 py-5" id="about" style="background: #f9f9f9; border-radius: 15px;">
+    <div class="row align-items-center">
+        <!-- Title Section -->
+        <div class="col-12 text-center mb-4">
+            <h2 style="font-weight: bold; color: #333;">About Us</h2>
+            <p style="font-size: 1.2rem; color: #555;">Empowering Learners Through Flexible and Interactive Online Education</p>
+            <hr style="width: 60px; height: 3px; background-color: #007bff; border: none; margin: 10px auto;">
         </div>
-        <hr>
-        <div class="col-md-6 col-12">
-            At EdTech, we redefine online learning with flexible, weekend-focused classes designed for busy learners. Whether you're a student, a professional, or someone looking to acquire new skills, our platform ensures a seamless and enriching learning experience. With interactive sessions led by expert educators, we empower you to achieve your goals from the comfort of your home.
+
+        <!-- Left Content -->
+        <div class="col-md-6 col-12 text-center text-md-left">
+            <img src="{%static "img/background/About.png"%}" class="img-fluid" width="500" alt="" class="img">
         </div>
+
+        <!-- Right Content -->
         <div class="col-md-6 col-12">
-            Our weekend classes combine convenience with quality, allowing you to balance learning with your daily commitments. Featuring live sessions, engaging study materials, and collaborative activities, our programs are crafted to enhance your knowledge and skills. Join us to unlock your potential and stay ahead in today’s fast-paced world.
+            <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">
+                At <strong>EdTech</strong>, we are transforming the way people learn online by offering flexible, weekend-focused classes tailored for busy learners. Whether you are a student, a professional, or someone eager to acquire new skills, our platform provides a seamless and enriching educational experience.
+            </p>
+            <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">
+                Our expertly crafted programs feature interactive sessions led by experienced educators, high-quality study materials, and collaborative learning activities. With a focus on convenience, quality, and engagement, we empower you to achieve your goals without compromising your daily commitments. Join us and unlock your true potential in today's competitive world.
+            </p>
+            <a href="{% url 'courses' %}" class="btn btn-color">Explore</a>
         </div>
     </div>
 </div>
+
 <footer class="footer mt-auto py-3 theme-bg" id="contact">
     <div class="container">
         <div class="row">
@@ -62,9 +75,9 @@
             <!-- Contact Info -->
             <div class="col-md-4 mb-3 mb-md-0">
                 <h5>Contact Us</h5>
-                <p>Email: info@example.com</p>
-                <p>Phone: +91 1234567890</p>
-                <p>Address: 123 Main St, New Delhi, India</p>
+                <p>Email: <a href="mailto:22cs074@kpriet.ac.in">22cs074@kpriet.ac.in</a> & <a href="mailto:22cs079@kpriet.ac.in"> 22cs079@kpriet.ac.in</a></p>
+                <p>Linkedin: <a href="https://www.linkedin.com/in/kishorekumar-s-256b10254/">kishorekumar S</a> & <a href="https://www.linkedin.com/in/lohieth-r/">lohieth-r</a></p>
+                <p>Address: Arasur, Coimbatore, TamilNadu, India.</p>
             </div>
 
             <!-- Social Media Links -->
@@ -87,7 +100,7 @@
         
         <div class="row mt-4">
             <div class="col-12 text-center">
-                <p class="mb-0">&copy; 2024 EdTech. All rights reserved.</p>
+                <p class="mb-0">&copy; 2025 EdTech. All rights reserved.</p>
             </div>
         </div>
     </div>
