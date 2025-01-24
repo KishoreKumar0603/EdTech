@@ -31,79 +31,98 @@
         </div>
     </div>
 </div>
-<div class="container mb-5 py-5" id="about" style="background: #f9f9f9; border-radius: 15px;">
+<div class="container p-0 my-5 w-75" id="about" style="border-radius: 15px; box-shadow: 0 4px 10px rgba(154, 154, 154, 0.8);">
+    <!-- Mac-style Navigation Bar -->
+    <div class="mac-nav-bar" style="background: #1e1e1e; padding: 10px; border-radius: 15px 15px 0 0;">
+        <div style="display: flex; justify-content: flex-end; align-items: center;">
+            <span style="width: 12px; height: 12px; background-color: #ff5f57; border-radius: 50%; margin-right: 8px;"></span>
+            <span style="width: 12px; height: 12px; background-color: #ffbd2e; border-radius: 50%; margin-right: 8px;"></span>
+            <span style="width: 12px; height: 12px; background-color: #28c940; border-radius: 50%;"></span>
+        </div>
+    </div>
+
     <div class="row align-items-center">
         <!-- Title Section -->
-        <div class="col-12 text-center mb-4">
-            <h2 style="font-weight: bold; color: #333;">About Us</h2>
-            <p style="font-size: 1.2rem; color: #555;">Empowering Learners Through Flexible and Interactive Online Education</p>
+        <div class="col-12 text-center pt-5 px-5">
+            <h2 style="font-weight: bold;">About Us</h2>
+            <p style="font-size: 1.2rem;">Empowering Learners Through Flexible and Interactive Online Education</p>
             <hr style="width: 60px; height: 3px; background-color: #007bff; border: none; margin: 10px auto;">
         </div>
 
-        <!-- Left Content -->
-        <div class="col-md-6 col-12 text-center text-md-left">
-            <img src="{%static "img/background/About.png"%}" class="img-fluid" width="500" alt="" class="img">
-        </div>
+        <div class="col-12 px-5 pt-4 mb-4 d-flex justify-content-center">
+            <div class="row">
+                <!-- Left Content -->
+                <div class="col-md-6 text-md-left text-center">
+                    <img src="{% static 'img/background/About.png' %}" class="img-fluid" width="400" alt="Illustration of an online learning platform with people and content." style="border-radius: 10px;">
+                </div>
 
-        <!-- Right Content -->
-        <div class="col-md-6 col-12">
-            <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">
-                At <strong>EdTech</strong>, we are transforming the way people learn online by offering flexible, weekend-focused classes tailored for busy learners. Whether you are a student, a professional, or someone eager to acquire new skills, our platform provides a seamless and enriching educational experience.
-            </p>
-            <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">
-                Our expertly crafted programs feature interactive sessions led by experienced educators, high-quality study materials, and collaborative learning activities. With a focus on convenience, quality, and engagement, we empower you to achieve your goals without compromising your daily commitments. Join us and unlock your true potential in today's competitive world.
-            </p>
-            <a href="{% url 'courses' %}" class="btn btn-color">Explore</a>
+                <!-- Right Content -->
+                <div class="col-md-6 text-center d-flex justify-content-center flex-column">
+                    <p style="width: 400; line-height: 1.8;text-align: justify;width: 100%;">
+                        At <strong>EdTech</strong>, we are transforming the way people learn online by offering flexible, weekend-focused classes tailored for busy learners. Whether you are a student, a professional, or someone eager to acquire new skills, our platform provides a seamless and enriching educational experience.
+                    </p>
+                    <p style="font-size: 0.9rem; line-height: 1.8;text-align: justify;">
+                        Our expertly crafted programs feature interactive sessions led by experienced educators, high-quality study materials, and collaborative learning activities. With a focus on convenience, quality, and engagement, we empower you to achieve your goals without compromising your daily commitments. Join us and unlock your true potential in today's competitive world.
+                    </p>
+                    <a href="{% url 'courses' %}" class="btn btn-color" style="background-color: #ff6600; color: #fff;  border-radius: 5px;">Explore</a>
+                </div>
+            </div>
+            
         </div>
+        
     </div>
 </div>
 
-<footer class="footer mt-auto py-3 theme-bg" id="contact">
+
+<footer class="bg-light py-4">
     <div class="container">
-        <div class="row">
-            <!-- Footer Links -->
-            <div class="col-md-4 mb-3 mb-md-0">
-                <h5>Quick Links</h5>
-                <ul class="list-unstyled">
-                    <li><a href="{% url 'home' %}" class="text-decoration-none">Home</a></li>
-                    <li><a href="{% url 'courses' %}" class="text-decoration-none">Courses</a></li>
-                    <li><a href="{% url 'home' %}#about" class="text-decoration-none">About Us</a></li>
-                    <li><a href="{% url "home" %}#contact" class="text-decoration-none">Contact</a></li>
-                </ul>
-            </div>
-
-            <!-- Contact Info -->
-            <div class="col-md-4 mb-3 mb-md-0">
-                <h5>Contact Us</h5>
-                <p>Email: <a href="mailto:22cs074@kpriet.ac.in">22cs074@kpriet.ac.in</a> & <a href="mailto:22cs079@kpriet.ac.in"> 22cs079@kpriet.ac.in</a></p>
-                <p>Linkedin: <a href="https://www.linkedin.com/in/kishorekumar-s-256b10254/">kishorekumar S</a> & <a href="https://www.linkedin.com/in/lohieth-r/">lohieth-r</a></p>
-                <p>Address: Arasur, Coimbatore, TamilNadu, India.</p>
-            </div>
-
-            <!-- Social Media Links -->
-            <div class="col-md-4 text-md-end">
-                <h5>Follow Us</h5>
-                <a href="#" class="text-light me-3">
-                    <i class="fab fa-facebook"></i>
-                </a>
-                <a href="#" class="text-light me-3">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="#" class="text-light me-3">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="#" class="text-light">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-            </div>
+      <div class="row text-center text-md-start">
+        <!-- EdTech Links -->
+        <div class="col-md-3 mb-3">
+          <h5 class="fw-bold">EdTech</h5>
+          <ul class="list-unstyled">
+            <li><a href="{% url 'home' %}" class="text-dark text-decoration-none">Home</a></li>
+            <li><a href="{% url 'courses' %}" class="text-dark text-decoration-none">Courses</a></li>
+            <li><a href="{% url 'home' %}#about" class="text-dark text-decoration-none">About Us</a></li>
+            <li><a href="{% url "home" %}#contact" class="text-dark text-decoration-none">Contact</a></li>
+        </ul>
         </div>
-        
-        <div class="row mt-4">
-            <div class="col-12 text-center">
-                <p class="mb-0">&copy; 2025 EdTech. All rights reserved.</p>
-            </div>
+  
+        <!-- Contact Details 1 -->
+        <div class="col-md-3 mb-3">
+          <h5 class="fw-bold">Contact</h5>
+          <ul class="list-unstyled">
+            <li><strong>Kishore Kumar</strong></li>
+            <li><a href="mailto:22cs074@kpriet.ac.in" class="text-dark text-decoration-none">Email</a></li>
+            <li><a href="https://www.linkedin.com/in/kishorekumar-s-256b10254/" class="text-dark text-decoration-none">LinkedIn</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">GitHub</a></li>
+          </ul>
         </div>
+  
+        <!-- Contact Details 2 -->
+        <div class="col-md-3 mb-3">
+          <h5 class="fw-bold">Contact</h5>
+          <ul class="list-unstyled">
+            <li><strong>Lohith</strong></li>
+            <li><a href="mailto:22cs079@kpriet.ac.in" class="text-dark text-decoration-none">Email</a></li>
+            <li><a href="https://www.linkedin.com/in/lohieth-r/" class="text-dark text-decoration-none">LinkedIn</a></li>
+            <li><a href="#" class="text-dark text-decoration-none">GitHub</a></li>
+          </ul>
+        </div>
+  
+        <!-- Address -->
+        <div class="col-md-3 mb-3">
+          <h5 class="fw-bold">Address</h5>
+          <p class="mb-0">32/3 B, West Street, Arasur, Coimbatore, Tamil Nadu, India.</p>
+        </div>
+      </div>
+  
+      <div class="text-center mt-4">
+        <p class="mb-0">© 2025 EdTech. All rights reserved.</p>
+      </div>
     </div>
-</footer>
+  </footer>
+  
+
 
 {% endblock content %}
