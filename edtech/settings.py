@@ -13,10 +13,7 @@ SECRET_KEY = 'django-insecure-9wy1_vxo)x@mudw$t75+d+f-g42y=nc0ku%kx(&(yt&eei)kg&
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost', '127.0.0.1',
-    '.vercel.app',
-    'db.supabase.co',
-    'db.ogfopexbppxzxnmbsqxe.supabase.co',
+    'localhost', '127.0.0.1'
 ]
 
 
@@ -161,6 +158,8 @@ SESSION_SAVE_EVERY_REQUEST = True  # Prevents extending the session on each requ
 
 LOGIN_URL = '/login/'
 
+
+
 SECURE_SSL_REDIRECT = not DEBUG
-SESSION_COOKIE_SECURE =  not DEBUG
-CSRF_COOKIE_SECURE =  not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG

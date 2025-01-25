@@ -18,7 +18,7 @@ img{
 .nav-item .nav-link
 {
     color:#000000 !important;
-    transition: all 0.3s;
+    /* transition: all 0.3s; */
 }
 .theme{
     color:#FD5D00 !important;
