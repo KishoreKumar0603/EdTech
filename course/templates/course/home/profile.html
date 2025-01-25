@@ -25,6 +25,13 @@
             padding: 10px 20px;
             text-decoration: none;
         }
+        .sidebar ul li{
+            padding: 0;
+        }
+        
+        .sidebar ul li:hover {
+            border: none;
+        }
         .main-content {
             margin-left: 250px;
             padding: 20px;
@@ -49,6 +56,25 @@
                 margin-left: 0;
             }
         }
+        .tab-content {
+            margin-top: 20px;
+        }
+
+        .nav-item .nav-link{
+            padding: 15px 20px;
+            border: none;
+            border-radius: 0;
+        }
+        .nav-tabs .nav-link.active{
+            background-color: #FD5D00;
+            color: white !important;
+        }
+        .tab-content .row{
+            border-radius: 15px; 
+            background-color: #eaeaea;
+            box-shadow: 0 4px 10px rgba(154, 154, 154, 0.8);
+        }
+
     </style>
 </head>
 <body>
@@ -58,71 +84,122 @@
             <div id="sidebarMenu" class="col-md-3 col-lg-2 sidebar">
                 <button class="btn btn-dark d-md-none mb-3" onclick="toggleSidebar()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-xl-heavy md:hidden"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 8C3 7.44772 3.44772 7 4 7H20C20.5523 7 21 7.44772 21 8C21 8.55228 20.5523 9 20 9H4C3.44772 9 3 8.55228 3 8ZM3 16C3 15.4477 3.44772 15 4 15H14C14.5523 15 15 15.4477 15 16C15 16.5523 14.5523 17 14 17H4C3.44772 17 3 16.5523 3 16Z" fill="currentColor"></path></svg></button>
                 <nav>
-                    <ul class="navbar-nav">
+                    <ul class="nav flex-column nav-tabs">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'home' %}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="{% url 'profile' %}">Profile</a>
+                            <a class="nav-link active" data-bs-toggle="tab" href="#profileTab">Profile</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url "courses" %}">Courses</a>
+                            <a class="nav-link" data-bs-toggle="tab" href="#coursesTab">Courses</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Certificates</a>
+                            <a class="nav-link" data-bs-toggle="tab" href="#certificatesTab">Certificates</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled" href="">Payments</a>
+                            <a class="nav-link disabled">Payments</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url "home" %}#about">About</a>
+                            <a class="nav-link" data-bs-toggle="tab" href="#aboutTab">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled" href="">Settings</a>
+                            <a class="nav-link" data-bs-toggle="tab" href="#settingsTab">Settings</a>
                         </li>
                     </ul>
                 </nav>
+                
             </div>
 
             <!-- Main Content Area -->
             <div class="col main-content">
-                <div class="d-flex align-items-center p-0">
-                    <button class="btn d-md-none mb-3 btn-dark" type="button" onclick="toggleSidebar()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-xl-heavy md:hidden"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 8C3 7.44772 3.44772 7 4 7H20C20.5523 7 21 7.44772 21 8C21 8.55228 20.5523 9 20 9H4C3.44772 9 3 8.55228 3 8ZM3 16C3 15.4477 3.44772 15 4 15H14C14.5523 15 15 15.4477 15 16C15 16.5523 14.5523 17 14 17H4C3.44772 17 3 16.5523 3 16Z" fill="currentColor"></path></svg></button>
+                <div class="tab-content">
+                    <div class="d-flex align-items-center p-0">
+                        <button class="btn d-md-none mb-3 btn-dark" type="button" onclick="toggleSidebar()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icon-xl-heavy md:hidden"><path fill-rule="evenodd" clip-rule="evenodd" d="M3 8C3 7.44772 3.44772 7 4 7H20C20.5523 7 21 7.44772 21 8C21 8.55228 20.5523 9 20 9H4C3.44772 9 3 8.55228 3 8ZM3 16C3 15.4477 3.44772 15 4 15H14C14.5523 15 15 15.4477 15 16C15 16.5523 14.5523 17 14 17H4C3.44772 17 3 16.5523 3 16Z" fill="currentColor"></path></svg></button>
+                    </div>
+                    <!-- Profile Tab -->
+                    <div class="tab-pane fade show active" id="profileTab">
+                        <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+                            <div class="row p-4">
+                                <div class="profile-picture mb-3">
+                                    <img src="{{ student.get_valid_profile_picture }}" alt="User" class="img-thumbnail">
+                                </div>
+                                
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="firstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" id="firstName" name="first_name" value="{{ student.first_name }}" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="lastName" class="form-label">Last Name</label>
+                                        <input type="text" class="form-control" id="lastName" name="last_name" value="{{ student.last_name }}" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" value="{{ student.email }}" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label">Phone Number</label>
+                                        <input type="text" class="form-control" id="phone" name="phone" value="{{ student.phone }}" placeholder="(+91)"readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="profilePicture" class="form-label">Profile Picture</label>
+                                        <input type="file" class="form-control" id="profilePicture" name="profile_picture" disabled>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-color" onclick="enableEditing()">Edit</button>
+                                        <button type="submit" class="btn btn-success" id="saveButton" disabled>Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>    
+                    </div>
+                        
+
+                    <!-- Courses Tab -->
+                    <div class="tab-pane fade" id="coursesTab">
+                        <h2>Courses</h2>
+                        <p>List of your courses will appear here.</p>
+                        <a href="{% url 'courses' %}" class="btn btn-color">Explore</a>
+                    </div>
+
+                    <!-- Certificates Tab -->
+                    <div class="tab-pane fade" id="certificatesTab">
+                        <h2>Certificates</h2>
+                        <p>Your certificates will appear here.</p>
+                    </div>
+
+                    <!-- About Tab -->
+                    <div class="tab-pane fade" id="aboutTab">
+                        <h2>About</h2>
+                        <p>Information about the application or user.</p>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div class="tab-pane fade" id="settingsTab">
+                        <h2>Settings</h2>
+                        <form method="post" enctype="multipart/form-data" class="">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="firstName" class="form-label">Old Password</label>
+                                <input type="text" class="form-control" id="firstName" name="first_name" value="{{ student.first_name }}" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-color" id="saveButton" >Save</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="profile-picture mb-3">
-                    <img src="{{ student.get_valid_profile_picture }}" alt="User" class="img-thumbnail">
-                </div>
-                
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="firstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="firstName" name="first_name" value="{{ student.first_name }}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="lastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" name="last_name" value="{{ student.last_name }}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{ student.email }}" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="phone" name="phone" value="{{ student.phone }}" placeholder="(+91)"readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="profilePicture" class="form-label">Profile Picture</label>
-                        <input type="file" class="form-control" id="profilePicture" name="profile_picture" disabled>
-                    </div>
-                    <div>
-                        <button type="button" class="btn btn-primary" onclick="enableEditing()">Edit</button>
-                        <button type="submit" class="btn btn-success" id="saveButton" disabled>Save</button>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
+                
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
