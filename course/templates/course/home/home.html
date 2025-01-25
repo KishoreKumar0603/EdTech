@@ -4,6 +4,7 @@
 {% block title %}
     Home | EdTech
 {% endblock title %}
+{%block css%}{% static "css/home.css" %}{%endblock css%}
 {% block content %}
 <style>
     .home-container{
@@ -13,11 +14,19 @@
 
 <div class="container-fluid home-container d-flex flex-row align-items-center vh-75">
     <div class="row">
-        <div class="content-container d-flex justify-content-center flex-column align-items-center col-md-6 col-12">
+        <div class="content-container d-flex justify-content-center flex-column align-items-center col-md-6 col-12" >
             <div class="row w-75">
                 <div class="intro-content col-12">
-                    <div class="welc">
-                        <h1>Welcome,<span class="theme"> {% if student_username %}{{student_username}}{% else %}<a href="{% url 'login' %}" class="theme text-decoration-none">Login</a>{% endif %}</span></h1>
+                    <div class="welc" id="welc-container">
+                        <h1 id="username">Welcome,
+                            <span class="theme"> 
+                                {% if student_username %}
+                                    {{student_username}}
+                                {% else %}
+                                    <a href="{% url 'login' %}" class="theme text-decoration-none">Login</a>
+                                {% endif %}
+                            </span>
+                        </h1>
                     </div>
                     <p class="theme-2">What We Actually doing is that we teach people with Live Session and We provide multiple online sessions for people to clear their Doubts...</p>
                 </div>
@@ -25,46 +34,44 @@
                     <a href="{% url 'courses' %}" class="btn btn-color">Explore</a>
                 </div>
             </div>
+            {% if student_username %}
+                <img src="{% static "img/background/components/Crown.png" %}" alt="crown" class="img-crown-for-user" id="crown-img">
+            {% endif %}
         </div>
         <div class="col-md-6 d-none d-md-block">
             <img src="{%static "img/background/homeback.png"%}" class="img-fluid" width="500" alt="" class="img">
         </div>
     </div>
 </div>
-<div class="container p-0 my-5 w-75" id="about" style="border-radius: 15px; box-shadow: 0 4px 10px rgba(154, 154, 154, 0.8);">
-    <!-- Mac-style Navigation Bar -->
-    <div class="mac-nav-bar" style="background: #1e1e1e; padding: 10px; border-radius: 15px 15px 0 0;">
+<div class="container p-0 my-5 w-75" id="about">
+    <div class="mac-nav-bar">
         <div style="display: flex; justify-content: flex-end; align-items: center;">
-            <span style="width: 12px; height: 12px; background-color: #ff5f57; border-radius: 50%; margin-right: 8px;"></span>
-            <span style="width: 12px; height: 12px; background-color: #ffbd2e; border-radius: 50%; margin-right: 8px;"></span>
-            <span style="width: 12px; height: 12px; background-color: #28c940; border-radius: 50%;"></span>
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
     </div>
 
     <div class="row align-items-center">
-        <!-- Title Section -->
         <div class="col-12 text-center pt-5 px-5">
-            <h2 style="font-weight: bold;">About Us</h2>
-            <p style="font-size: 1.2rem;">Empowering Learners Through Flexible and Interactive Online Education</p>
-            <hr style="width: 60px; height: 3px; background-color: #007bff; border: none; margin: 10px auto;">
+            <h2>About Us</h2>
+            <p class="theme-2">Empowering Learners Through Flexible and Interactive Online Education</p>
+            <hr>
         </div>
 
         <div class="col-12 px-5 pt-4 mb-4 d-flex justify-content-center">
             <div class="row">
-                <!-- Left Content -->
                 <div class="col-md-6 text-md-left text-center">
-                    <img src="{% static 'img/background/About.png' %}" class="img-fluid" width="400" alt="Illustration of an online learning platform with people and content." style="border-radius: 10px;">
+                    <img src="{% static 'img/background/About.png' %}" class="img-fluid" width="400" alt="Illustration of an online learning platform with people and content.">
                 </div>
-
-                <!-- Right Content -->
                 <div class="col-md-6 text-center d-flex justify-content-center flex-column">
-                    <p style="width: 400; line-height: 1.8;text-align: justify;width: 100%;">
+                    <p class="theme-2">
                         At <strong>EdTech</strong>, we are transforming the way people learn online by offering flexible, weekend-focused classes tailored for busy learners. Whether you are a student, a professional, or someone eager to acquire new skills, our platform provides a seamless and enriching educational experience.
                     </p>
-                    <p style="font-size: 0.9rem; line-height: 1.8;text-align: justify;">
+                    <p class="theme-2 d-none d-md-block">
                         Our expertly crafted programs feature interactive sessions led by experienced educators, high-quality study materials, and collaborative learning activities. With a focus on convenience, quality, and engagement, we empower you to achieve your goals without compromising your daily commitments. Join us and unlock your true potential in today's competitive world.
                     </p>
-                    <a href="{% url 'courses' %}" class="btn btn-color" style="background-color: #ff6600; color: #fff;  border-radius: 5px;">Explore</a>
+                    <a href="{% url 'courses' %}" class="btn btn-color">Explore</a>
                 </div>
             </div>
             
@@ -74,10 +81,9 @@
 </div>
 
 
-<footer class="bg-light py-4">
+<footer class="bg-light p-5 mt-5">
     <div class="container">
       <div class="row text-center text-md-start">
-        <!-- EdTech Links -->
         <div class="col-md-3 mb-3">
           <h5 class="fw-bold">EdTech</h5>
           <ul class="list-unstyled">
@@ -87,8 +93,7 @@
             <li><a href="{% url "home" %}#contact" class="text-dark text-decoration-none">Contact</a></li>
         </ul>
         </div>
-  
-        <!-- Contact Details 1 -->
+
         <div class="col-md-3 mb-3">
           <h5 class="fw-bold">Contact</h5>
           <ul class="list-unstyled">
@@ -98,19 +103,17 @@
             <li><a href="#" class="text-dark text-decoration-none">GitHub</a></li>
           </ul>
         </div>
-  
-        <!-- Contact Details 2 -->
+
         <div class="col-md-3 mb-3">
           <h5 class="fw-bold">Contact</h5>
           <ul class="list-unstyled">
-            <li><strong>Lohith</strong></li>
+            <li><strong>Lohieth</strong></li>
             <li><a href="mailto:22cs079@kpriet.ac.in" class="text-dark text-decoration-none">Email</a></li>
             <li><a href="https://www.linkedin.com/in/lohieth-r/" class="text-dark text-decoration-none">LinkedIn</a></li>
             <li><a href="#" class="text-dark text-decoration-none">GitHub</a></li>
           </ul>
         </div>
   
-        <!-- Address -->
         <div class="col-md-3 mb-3">
           <h5 class="fw-bold">Address</h5>
           <p class="mb-0">32/3 B, West Street, Arasur, Coimbatore, Tamil Nadu, India.</p>
@@ -123,6 +126,4 @@
     </div>
   </footer>
   
-
-
 {% endblock content %}

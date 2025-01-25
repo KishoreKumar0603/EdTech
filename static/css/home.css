@@ -1,12 +1,25 @@
-/* Container Style */
+.content-container
+{
+    position: relative;
+
+}
+.img-crown-for-user {
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    transition: all 0.2s ease-in-out;
+    top: 18%;
+    left: 31%;
+}
+
+
 #about {
-    border-radius: 15px;
+    border-radius: 15px; 
     box-shadow: 0 4px 10px rgba(154, 154, 154, 0.8);
 }
 
-/* Mac-style Navigation Bar */
 .mac-nav-bar {
-    background: #1e1e1e;
+    background: #4A4A4A;
     padding: 10px;
     border-radius: 15px 15px 0 0;
 }
@@ -30,7 +43,6 @@
     background-color: #28c940;
 }
 
-/* Title Section */
 #about h2 {
     font-weight: bold;
 }
@@ -42,27 +54,29 @@
 #about hr {
     width: 60px;
     height: 3px;
-    background-color: #007bff;
+    background-color: rgb(131, 131, 131);;
     border: none;
     margin: 10px auto;
 }
 
-/* Left Content (Image) */
 #about img {
     border-radius: 10px;
 }
 
-/* Right Content (Text) */
 #about .col-md-6 p {
-    font-size: 1.1rem;
-    line-height: 1.8;
+    font-size: 0.99rem;
+    line-height: 1.5;
     text-align: justify;
 }
 
-/* Explore Button */
-.btn-color {
-    background-color: #ff6600;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
+
+@media (min-width:1237px) {
+    .img-crown-for-user {
+        height: 100px;
+        width: 100px;
+        top: 18%;
+        left: 31%;
+    }
+    
+
 }
