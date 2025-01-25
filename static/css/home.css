@@ -4,12 +4,12 @@
 
 }
 .img-crown-for-user {
+    display: none;
     height: 100px;
     width: 100px;
     position: absolute;
     transition: all 0.2s ease-in-out;
-    top: 18%;
-    left: 31%;
+    
 }
 
 
@@ -71,12 +71,32 @@
 
 
 @media (min-width:1237px) {
-    .img-crown-for-user {
+    .img-crown-for-user 
+    {
+        display: block;
+        height: 100px;
+        width: 100px;
+        top: 16%;
+        left: 37%;
+    }
+}
+@media (min-width:1413px) {
+    .img-crown-for-user 
+    {
+        display: block;
         height: 100px;
         width: 100px;
         top: 18%;
-        left: 31%;
+        left: 32%;
     }
-    
-
+}
+@media (min-width:1800px) {
+    .img-crown-for-user 
+    {
+        display: block;
+        height: 100px;
+        width: 100px;
+        top: 18%;
+        left: 28%;
+    }
 }

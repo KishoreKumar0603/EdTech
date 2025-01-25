@@ -1,6 +1,6 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg fixed-top" >
-    <div class="container-fluid px-5">
+    <div class="container">
       <a class="navbar-brand" href="{% url "home" %}">Ed<span class="theme">Tech</span></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -20,10 +20,16 @@
             <a class="nav-link" href="{% url 'home' %}#contact">Contact</a>
           </li>
           <li class="nav-item ms-auto">
-            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#notificationModal"><img src="{% static "img/notifications-icon.png" %} " class="img-fluid" alt="" height="26px" width="26px"></a>
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#notificationModal">
+              {% if active_page == 'notification' %}
+                  <img src="{% static "img/notifications-icon-active.png" %} " class="img" alt="" height="30px" width="30px">
+              {% else %}
+                  <img src="{% static "img/notifications-icon.png" %} " class="img" alt="" height="30px" width="30px">
+              {% endif %}
+            </a>
           </li>
           <li class="nav-item ms-auto">
-            <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#demo"><img src="{% static "img/Vector.png" %}" class="img-fluid" alt="" height="26px" width="26px"></a>
+            <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#demo"><img src="{% static "img/Vector.png" %}" class="img img-fluid" alt="" height="30px" width="30px"></a>
           </li>
       </div>
     </div>

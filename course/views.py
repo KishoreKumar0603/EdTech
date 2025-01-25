@@ -18,8 +18,8 @@ def logout_view(request):
     logout(request)
     request.session.flush() 
     return redirect('login')
-
-
+#password change
+#need to write
 
 
 # login & register view
@@ -38,10 +38,8 @@ def login(request):
             messages.error(request, "Invalid username or password")  
     return render(request, "course/registration/login.html")
 
+
 #userName Validation
-
-
-
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 @ensure_csrf_cookie
@@ -65,8 +63,6 @@ def validate_userEmail(request):
         'is_taken':Student.objects.filter(email=userEmail).exists()
     }
     return JsonResponse(data)
-
-
 
 # Registration view
 def register(request):
@@ -223,9 +219,9 @@ def unenroll_course(request, course_slug):
         enrollment.delete()
     else:
         messages.error(request, "You are not enrolled in this course.")
-
-    # Redirect back to the course detail page or another relevant page
     return redirect('course_detail', course_slug=course_slug)  
+
+
 #Progress view
 from django.utils.safestring import mark_safe
 
@@ -260,6 +256,7 @@ def profile_view(request):
     student = get_object_or_404(Student, username=student_username)
     
     if request.method == 'POST':
+        student.username = request.POST.get('username')
         student.first_name = request.POST.get('first_name')
         student.last_name = request.POST.get('last_name')
         student.email = request.POST.get('email')
@@ -280,12 +277,6 @@ def profile_view(request):
 
 
 #Notification View
-
-def notifications(request):
-    return render(request,'course/home/notifications.html')
-
-
-
 def notifications_view(request):
     now = timezone.now()
     today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -298,6 +289,7 @@ def notifications_view(request):
         'today_notifications': today_notifications,
         'yesterday_notifications': yesterday_notifications,
         'earlier_notifications': earlier_notifications,
+        'active_page':"notification"
     }
     return render(request, 'course/home/notifications.html', context)
 
