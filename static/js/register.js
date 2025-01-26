@@ -89,7 +89,6 @@ function isValidPhone(phone) {
     return phoneRegex.test(phone);
 }
 
-// Validate Email
 document.getElementById('email').addEventListener('input', function () {
     const email = this.value.trim();
     const feedback = document.getElementById('email-feedback');

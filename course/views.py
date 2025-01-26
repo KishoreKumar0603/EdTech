@@ -12,15 +12,57 @@ from django.contrib.auth import logout
 from datetime import timedelta
 from django.utils import timezone
 from django.http import JsonResponse
-
+from django.db.models import Q
+import time
 #logout
 def logout_view(request):
     logout(request)
     request.session.flush() 
     return redirect('login')
-#password change
-#need to write
 
+
+#forgot password
+def forgot_password(request):
+
+    if request.method == 'POST':
+        usernameOrEmail = request.POST.get('username')
+        newPass = request.POST.get('Newpassword')
+        confirmPass = request.POST.get('Confirmpassword')
+        try:
+            student = Student.objects.get(Q(username = usernameOrEmail) | Q(email=usernameOrEmail))
+            
+            if newPass == confirmPass:
+                student.password =  make_password(newPass)
+                student.save()
+                messages.success(request,"Password Changed Successfully")
+                return redirect('login')
+            
+        except Student.DoesNotExist:
+            messages.error("UserName not found in Db")
+    return render(request,'course/registration/forgotPassword.html')
+
+#password change
+def change_password(request):
+    student_username = request.session.get('student_user')
+    student = get_object_or_404(Student, username=student_username)
+
+    if request.method == 'POST':
+        oldPassWord = request.POST.get('oldPass')
+        newPassWord = request.POST.get('newPassword')
+        confirmPassWord = request.POST.get('confirmPassword')
+
+        if check_password(oldPassWord, student.password):
+            if newPassWord == confirmPassWord:
+                student.password = make_password(newPassWord)
+                student.save()
+                messages.success(request, "Password updated successfully!")
+                return redirect('profile')
+            else:
+                messages.error(request, "New password and confirm password do not match.")
+        else:
+            messages.error(request, "Old password is incorrect.")
+
+    return render(request, 'course/home/profile.html')
 
 # login & register view
 def login(request):
@@ -49,7 +91,7 @@ def validate_username(request):
         return JsonResponse({'error': 'Invalid request'}, status=400)
     
     data = {
-        'is_taken': Student.objects.filter(username=username).exists()
+        'is_taken': Student.objects.filter(Q(username=username) | Q(email=username)).exists()
     }
     return JsonResponse(data)
 

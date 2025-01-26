@@ -24,7 +24,7 @@ class StudentUserMiddleware:
             '/',
             '/validate-username/',
             '/validate-email/',
-            '/verify-otp/',
+            '/forgot-password/'
         ]
         if request.path in excluded_paths:
             return None

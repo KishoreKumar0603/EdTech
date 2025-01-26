@@ -11,7 +11,7 @@
         <!-- Left Side (Course Info) -->
         <div class="col-md-4">
             <div class="course-image mb-3">
-                <img src="{{ course.course_thumbnail }}" class="img-fluid rounded" alt="Course Thumbnail">
+                <img src="{{ course.course_thumbnail }}" class="img-fluid rounded" alt="Course Thumbnail" loading="lazy">
             </div>
             <h2>{{ course.course_title | default:"Course Title" }}</h2>
             <p class="ongoing">Ongoing</p>

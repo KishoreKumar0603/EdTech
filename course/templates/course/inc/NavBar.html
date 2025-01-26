@@ -22,14 +22,14 @@
           <li class="nav-item ms-auto">
             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#notificationModal">
               {% if active_page == 'notification' %}
-                  <img src="{% static "img/notifications-icon-active.png" %} " class="img" alt="" height="30px" width="30px">
+                  <img src="{% static "img/notifications-icon-active.png" %} " class="img" alt="" height="30px" width="30px" loading="lazy">
               {% else %}
-                  <img src="{% static "img/notifications-icon.png" %} " class="img" alt="" height="30px" width="30px">
+                  <img src="{% static "img/notifications-icon.png" %} " class="img" alt="" height="30px" width="30px" loading="lazy">
               {% endif %}
             </a>
           </li>
           <li class="nav-item ms-auto">
-            <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#demo"><img src="{% static "img/Vector.png" %}" class="img img-fluid" alt="" height="30px" width="30px"></a>
+            <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#demo"><img src="{% static "img/Vector.png" %}" class="img img-fluid" alt="" height="30px" width="30px" loading="lazy"></a>
           </li>
       </div>
     </div>
@@ -62,7 +62,7 @@
                     {% for notification in today_notifications %}
                         <div class="d-flex align-items-center notification-card mb-3">
                             <div class="icon-container me-2">
-                                <img src="https://via.placeholder.com/30" alt="icon">
+                                <img src="https://via.placeholder.com/30" alt="icon" loading="lazy">
                             </div>
                             <div>
                                 <h5>{{ notification.title }}</h5>
@@ -79,66 +79,6 @@
                       <div>No new notifications for today.</div>
                   {% endif %}
                  </div>
-                {% comment %} <div class="notification-section">
-                    <h5>Today</h5>
-
-                    <!-- Notification Card -->
-                    <div class="d-flex align-items-center notification-card">
-                        <div class="icon-container">
-                            <img src="https://via.placeholder.com/30" alt="icon">
-                        </div>
-                        <div>
-                            <h5>New Category Course!</h5>
-                            <p>New 3D Design Course is Available...</p>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-center notification-card">
-                        <div class="icon-container">
-                            <img src="https://via.placeholder.com/30" alt="icon">
-                        </div>
-                        <div>
-                            <h5>New Category Course!</h5>
-                            <p>New 3D Design Course is Available...</p>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-center notification-card">
-                        <div class="icon-container">
-                            <img src="https://via.placeholder.com/30" alt="icon">
-                        </div>
-                        <div>
-                            <h5>Today's Special Offers</h5>
-                            <p>You have made a course payment...</p>
-                        </div>
-                    </div>
-
-                    <!-- Yesterday Section -->
-                    <h5 class="mt-4">Yesterday</h5>
-
-                    <div class="d-flex align-items-center notification-card">
-                        <div class="icon-container">
-                            <img src="https://via.placeholder.com/30" alt="icon">
-                        </div>
-                        <div>
-                            <h5>Credit Card Connected!</h5>
-                            <p>Credit Card has been linked...</p>
-                        </div>
-                    </div>
-
-                    <!-- Earlier Section -->
-                    <h5 class="mt-4">Nov 20, 2024</h5>
-
-                    <div class="d-flex align-items-center notification-card">
-                        <div class="icon-container">
-                            <img src="https://via.placeholder.com/30" alt="icon">
-                        </div>
-                        <div>
-                            <h5>Account Setup Successful!</h5>
-                            <p>Your account has been created...</p>
-                        </div>
-                    </div>
-                </div> {% endcomment %}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

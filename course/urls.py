@@ -11,6 +11,8 @@ urlpatterns = [
     path('login/',views.login,name='login'),
     path('register/',views.register,name='register'),
     path('logout/', views.logout_view, name='logout'),
+    path('change-password/', views.change_password, name='change_password'),
+    path('forgot-password/',views.forgot_password, name='forgot_password'),
 
 
     path('course/course-detail/<slug:course_slug>/', views.course_about, name='course_about'),
@@ -24,6 +26,6 @@ urlpatterns = [
     
     
     #progress bar
-    path('progress-chart/<str:username>/', views.student_progress_chart, name='student_progress_chart'),
+    # path('progress-chart/<str:username>/', views.student_progress_chart, name='student_progress_chart'),
 
 ]
