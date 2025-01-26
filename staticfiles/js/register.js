@@ -17,8 +17,15 @@ document.getElementById('username').addEventListener('input', function () {
     const numberRegex = /^[0-9]+$/;
     const startsWithNumberRegex = /^[0-9]/;
     const containsSpaceRegex = /\s/;
-    const userNameRegex = /^[a-zA-Z0-9]+$/;
+    const userNameRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]+$/;
 
+    
+    if (containsSpaceRegex.test(username)) {
+        feedback.textContent = 'Username cannot contain spaces.';
+        inputField.classList.add('is-invalid');
+        inputField.classList.remove('is-valid');
+        return;
+    }
     if(!userNameRegex.test(username))
     {
         feedback.textContent = 'Username should be Combination of Alphabets & Numbers';
@@ -36,12 +43,6 @@ document.getElementById('username').addEventListener('input', function () {
 
     if (startsWithNumberRegex.test(username)) {
         feedback.textContent = 'Username cannot start with a number.';
-        inputField.classList.add('is-invalid');
-        inputField.classList.remove('is-valid');
-        return;
-    }
-    if (containsSpaceRegex.test(username)) {
-        feedback.textContent = 'Username cannot contain spaces.';
         inputField.classList.add('is-invalid');
         inputField.classList.remove('is-valid');
         return;
@@ -88,7 +89,6 @@ function isValidPhone(phone) {
     return phoneRegex.test(phone);
 }
 
-// Validate Email
 document.getElementById('email').addEventListener('input', function () {
     const email = this.value.trim();
     const feedback = document.getElementById('email-feedback');

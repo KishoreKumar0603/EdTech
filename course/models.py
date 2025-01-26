@@ -59,7 +59,7 @@ class Course(models.Model):
     course_skills = models.CharField(max_length=3000, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     lock = models.BooleanField(default=False, help_text="Tick - Locked, Untick - Unlocked")
-    slug = models.SlugField(unique=True, null=False, blank=False)
+    slug = models.SlugField(unique=True, null=False, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:

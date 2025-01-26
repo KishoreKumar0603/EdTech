@@ -6,7 +6,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from supabase import create_client
 from dotenv import load_dotenv
 import os
-# Inline admin for Checkpoints with StackedInline for vertical layout
+from PIL import Image
+from io import BytesIO
+
 class CheckPointInline(admin.StackedInline):
     model = Checkpoint
     extra = 1
@@ -26,9 +28,24 @@ class CourseAdmin(admin.ModelAdmin):
     list_display = ('course_title', 'domain', 'course_duration', 'course_cost', 'lock')
     search_fields = ('course_title',)
 
+    def compress_image(self, uploaded_file, max_size=(800, 800), quality=85):
+        
+        try:
+            image = Image.open(uploaded_file)
+            image = image.convert("RGB")  
+
+            image.thumbnail(max_size, Image.Resampling.LANCZOS)
+
+            output = BytesIO()
+            image.save(output, format="JPEG", quality=quality)
+            output.seek(0)
+
+            return output
+        except Exception as e:
+            raise Exception(f"Error compressing image: {e}")
+
     def delete_old_file_from_supabase(self, bucket_name, old_file_url):
         try:
-            # Extract the file path from the full URL
             file_url_without_query = old_file_url.split('?')[0]
             file_path = file_url_without_query.split(f"{supabase_url}/storage/v1/object/public/{bucket_name}/")[-1]
             
@@ -47,22 +64,18 @@ class CourseAdmin(admin.ModelAdmin):
             print(f"Error during old file deletion: {e}")
 
     def save_model(self, request, obj, form, change):
-        # Check if there is a new file being uploaded for the thumbnail
         uploaded_file = request.FILES.get("course_thumbnail_file")
         
         if uploaded_file:
-            file_content = uploaded_file.read()
+            compressed_file = self.compress_image(uploaded_file)
             timestamp = int(time.time())
             file_name = f"{obj.course_title}_{timestamp}.jpg"
 
-            # If it's an update (change is True) and there's an old thumbnail, delete it from Supabase
             if change and obj.course_thumbnail:
-                print("changing....")
                 self.delete_old_file_from_supabase('courseThumbnails', obj.course_thumbnail)
 
-            # Upload the new thumbnail to Supabase
             try:
-                response = supabase.storage.from_("courseThumbnails").upload(file_name, file_content)
+                response = supabase.storage.from_("courseThumbnails").upload(file_name, compressed_file.getvalue())
                 print(f"Upload response: {response}")
                 
                 if hasattr(response, 'path') and response.path:
@@ -70,40 +83,15 @@ class CourseAdmin(admin.ModelAdmin):
                     print(f"New thumbnail uploaded successfully: {obj.course_thumbnail}")
             except Exception as e:
                 raise Exception(f"Failed to upload thumbnail: {e}")
-
-        # Always call the superclass save_model to save the object in the database
         super().save_model(request, obj, form, change)
 
     def delete_model(self, request, obj):
-        # Before deleting the object, check if there is a course thumbnail and delete it from Supabase
-        print("delete_model is called")
         if obj.course_thumbnail:
             print("deleting the old image")
             self.delete_old_file_from_supabase('courseThumbnails', obj.course_thumbnail)
-
-        # Proceed with the usual deletion of the course model
         super().delete_model(request, obj)
 
 
-# def save_model(self, request, obj, form, change):
-#     uploaded_file = request.FILES.get("course_thumbnail_file")
-#     if uploaded_file:
-#         file_content = uploaded_file.read()
-#         timestamp = int(time.time())
-#         file_name = f"{obj.course_title}_{timestamp}.jpg"
-
-#         # Upload to Supabase
-#         try:
-#             response = supabase.storage.from_("courseThumbnails").upload(file_name, file_content)
-#             print(response)
-
-#         except Exception as e:
-#             raise Exception(f"Failed to upload thumbnail: {e}")
-#         obj.course_thumbnail = supabase.storage.from_("courseThumbnails").get_public_url(file_name)
-
-#     super().save_model(request, obj, form, change)
-
-    
 
 class NotificationAdmin(admin.ModelAdmin):
     list_display = ('title', 'type', 'created_at')

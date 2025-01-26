@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9wy1_vxo)x@mudw$t75+d+f-g42y=nc0ku%kx(&(yt&eei)kg&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost', '127.0.0.1'
@@ -135,18 +135,28 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
-STATIC_URL = 'static/'
-MEDIA_URL =  '/img/'
-MEDIA_ROOT = BASE_DIR/'static'
 
+STATIC_URL = '/static/' 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "static", 
 ]
+
+MEDIA_URL = '/media/'  
+MEDIA_ROOT = BASE_DIR / 'media'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+
+# STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+# STATIC_URL = 'static/'
+# MEDIA_URL =  '/img/'
+# MEDIA_ROOT = BASE_DIR/'static'
+
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+# ]
+# # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+# # Default primary key field type
+# # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
