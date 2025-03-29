@@ -10,10 +10,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9wy1_vxo)x@mudw$t75+d+f-g42y=nc0ku%kx(&(yt&eei)kg&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost', '127.0.0.1'
+    'localhost', '127.0.0.1',
+    'ed-tech-3u7zvn5yf-kishorekumars-projects-f69373c8.vercel.app',
+    '.vercel.app',
+    'db.supabase.co',
+    'db.ogfopexbppxzxnmbsqxe.supabase.co',
+    
 ]
 
 
