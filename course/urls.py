@@ -23,9 +23,5 @@ urlpatterns = [
     #Form validation
     path('validate-username/', views.validate_username, name='validate_username'),
     path('validate-email/', views.validate_userEmail, name='validate_email'),
-    
-    
-    #progress bar
-    # path('progress-chart/<str:username>/', views.student_progress_chart, name='student_progress_chart'),
 
 ]

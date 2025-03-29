@@ -42,7 +42,7 @@
                           <div class="card-body">
                             <div class="row ps-2">
                               <h4 class="card-title col-12 h-100">{{course.course_title}}</h4>
-                              <div class="col-12"><img src="{%static 'img/courseImg/components/course-ratings.png'%}" class=" ratings" alt="" loading="lazy"></div>
+                              <div class="col-12"><img src="https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/components//course-ratings.png" class=" ratings" alt="course_rating" loading="lazy"></div>
                               
                               <a href="{% url 'course_about' course_slug=course.slug%}" class="btn btn-color col-12 mt-2">More</a>
                             </div>
@@ -50,7 +50,7 @@
                         </div>
                       </div>
                       {% if course.lock %}
-                        <img src="{% static "img/img-course-lock.svg" %}" alt="" class="img img-fluid img-course-lock" loading="lazy">
+                        <img src="{% static "img/img-course-lock.svg" %}" alt="course-lock.png" class="img img-fluid img-course-lock" loading="lazy">
                       {% endif %}
                     </div>
                   {% endfor %}
@@ -64,7 +64,7 @@
                   <div class="course-navs course-1 rounded shadow-for-course p-3 course-details-user mt-4">
                     <div class="row">
                       <div class="col-12 col-md-3 h-100 mb-2 ">
-                        <img src="{{enrolled_course.course.course_thumbnail}}" alt=""class="img img-fluid" loading="lazy" >
+                        <img src="{{enrolled_course.course.course_thumbnail}}" alt="course-thumnail.jpg"class="img img-fluid" loading="lazy" >
                       </div>
                       <div class="col-12 col-md-9">
                         <div class="row g-0">
@@ -99,8 +99,8 @@
                           </div>
                           <div class="col-10">
                             <div class="d-flex flex-row justify-contet-center align-items center" style="height:20px;">
-                              <img src="{% static "img/courseImg/components/course-ratings.png" %}" alt="" class="ratings" loading="lazy">
-                              <p class="text-blue-ongoing ps-1 ">OnGoing <img src="{% static "img/courseImg/components/course-fire.png" %}" alt="" height="15px" width="18px" class=" ps-1" loading="lazy"></p>
+                              <img src="https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/components//course-ratings.png" alt="ratings.png" class="ratings" loading="lazy">
+                              <p class="text-blue-ongoing ps-1 ">OnGoing <img src="https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/components//course-fire.png" alt="fire-icon.png" height="15px" width="18px" class=" ps-1" loading="lazy"></p>
                             </div>
                            
                             <p class="theme-2">Duration: {{ enrolled_course.course.course_duration }}</p>

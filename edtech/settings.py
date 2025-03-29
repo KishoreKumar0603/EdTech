@@ -7,7 +7,8 @@ from supabase import create_client
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-9wy1_vxo)x@mudw$t75+d+f-g42y=nc0ku%kx(&(yt&eei)kg&'
+# SECRET_KEY = 'django-insecure-9wy1_vxo)x@mudw$t75+d+f-g42y=nc0ku%kx(&(yt&eei)kg&'
+SECRET_KEY = 'fez7JZik8RoyWwFNIMYrcsmeL49oAutr4JZqoSYyjzsy7ylxEQ-1-QRKbOb5CI5UL_M'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -150,7 +151,6 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'  
 MEDIA_ROOT = BASE_DIR / 'media'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 # STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 # STATIC_URL = 'static/'
 # MEDIA_URL =  '/img/'

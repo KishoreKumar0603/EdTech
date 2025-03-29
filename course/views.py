@@ -14,6 +14,7 @@ from django.utils import timezone
 from django.http import JsonResponse
 from django.db.models import Q
 import time
+from django.core.cache import cache
 #logout
 def logout_view(request):
     logout(request)
@@ -44,8 +45,11 @@ def forgot_password(request):
 #password change
 def change_password(request):
     student_username = request.session.get('student_user')
-    student = get_object_or_404(Student, username=student_username)
-
+    student = cache.get_or_set(
+        f"student_{student_username}", 
+        lambda: Student.objects.get(username=student_username), 
+        timeout=3600
+    )
     if request.method == 'POST':
         oldPassWord = request.POST.get('oldPass')
         newPassWord = request.POST.get('newPassword')
@@ -70,7 +74,11 @@ def login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')      
         try:
-            student = Student.objects.get(username=username)
+            student = cache.get_or_set(
+                f"student_{username}", 
+                lambda: Student.objects.get(username=username), 
+                timeout=3600
+            )
             if check_password(password, student.password):
                 request.session['student_user'] = student.username
                 return redirect('home')
@@ -135,21 +143,33 @@ def register(request):
 def home(request):
     student_username = request.session.get('student_user', None)
     if not student_username:
+        print("user name not passing")
         return render(request, 'course/home/home.html', context=None)
     try:
-        user = Student.objects.get(username=student_username)
-        now = timezone.now()
-        today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
-        yesterday_start = today_start - timedelta(days=1)
-        today_notifications = Notification.objects.filter(created_at__gte=today_start)
-        yesterday_notifications = Notification.objects.filter(created_at__gte=yesterday_start, created_at__lt=today_start)
-        earlier_notifications = Notification.objects.filter(created_at__lt=yesterday_start)
-        context = {
+        user = cache.get_or_set(
+                f"student_{student_username}", 
+                lambda: Student.objects.get(username=student_username), 
+                timeout=3600
+            )
+        notifications = cache.get("notifications")
+        if not notifications:
+            now = timezone.now()
+            today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+            yesterday_start = today_start - timedelta(days=1)
+            today_notifications = Notification.objects.filter(created_at__gte=today_start)
+            yesterday_notifications = Notification.objects.filter(created_at__gte=yesterday_start, created_at__lt=today_start)
+            earlier_notifications = Notification.objects.filter(created_at__lt=yesterday_start)
+            context = {
+                'student_username': user.first_name.capitalize(),
+                'today_notifications': today_notifications,
+                'yesterday_notifications': yesterday_notifications,
+                'earlier_notifications': earlier_notifications,
+            }  
+            cache.set("notifications", context, timeout=3600)
+        context ={ 
+            "notification":notifications,
             'student_username': user.first_name.capitalize(),
-            'today_notifications': today_notifications,
-            'yesterday_notifications': yesterday_notifications,
-            'earlier_notifications': earlier_notifications,
-        }  
+            }
     except Student.DoesNotExist:
         context = None
 
@@ -160,13 +180,24 @@ def home(request):
 # course View
 def course(request):
     student_username = request.session.get('student_user', None)
-    courses = Course.objects.all().order_by('id')
+    courses = cache.get_or_set(
+                "courses", 
+                lambda: Course.objects.all().order_by('id'), 
+                timeout=3600
+            )      
     context = {'courses': courses}
-    
     if student_username:
         try:
-            user = Student.objects.get(username=student_username)
-            user_enrolled_course = user.enrollments.all()
+            user = cache.get_or_set(
+                f"student_{student_username}", 
+                lambda: Student.objects.get(username=student_username), 
+                timeout=3600
+            )
+            user_enrolled_course = cache.get_or_set(
+                f"enrolled_{student_username}", 
+                lambda: user.enrollments.all(), 
+                timeout=3600
+            )
             context.update({
                 "courses":courses,
                 'student_username': user.first_name.capitalize(),
@@ -180,8 +211,11 @@ def course(request):
 
 # course About
 def course_about(request,course_slug):
-    
-    course = Course.objects.filter(slug = course_slug).first()
+    course = cache.get_or_set(
+            f"course_{course_slug}", 
+            lambda: Course.objects.filter(slug = course_slug).first(), 
+            timeout=3600
+        )
     checkpoints = course.checkpoint_set.all()
     if course:
         skills = course.get_skill_list()  
@@ -195,14 +229,17 @@ def course_about(request,course_slug):
             'skills': skills,
             'checkpoints': checkpoints
         }
-        return render(request,'course/home/courseAbout.html',context)
+        return render(request, 'course/home/courseAbout.html', context)
     else:
-        messages.warning(request,"No such course found")
+        messages.warning(request, "No such course found")
         return redirect('courses')
-
 #course details
 def course_details(request, course_slug):
-    course = get_object_or_404(Course, slug=course_slug)
+    course = cache.get_or_set(
+            f"course_{course_slug}", 
+            lambda: Course.objects.filter(slug = course_slug).first(), 
+            timeout=3600
+        )
     checkpoints = Checkpoint.objects.filter(course=course) 
     for checkpoint in checkpoints:
             checkpoint.technology_list = checkpoint.technology_used.split(",")
@@ -214,7 +251,6 @@ def course_details(request, course_slug):
             'skills': skills,
             'checkpoints': checkpoints
         }
-    
     return render(request, 'course/home/courseDetails.html', context)
 
 
@@ -222,9 +258,17 @@ def course_details(request, course_slug):
 
 #Enrolled course Details
 def course_enroll(request, course_slug):
-    course = get_object_or_404(Course, slug=course_slug)
+    course = cache.get_or_set(
+        f"course_{course_slug}", 
+        lambda: Course.objects.filter(slug = course_slug).first(), 
+        timeout=3600
+    )
     student_username = request.session.get('student_user')
-    student = get_object_or_404(Student, username=student_username)
+    student = cache.get_or_set(
+            f"student_{student_username}", 
+            lambda: Student.objects.get(username=student_username), 
+            timeout=3600
+        )
     initial_data = {
         'name': f"{student.first_name} {student.last_name}",
         'email': student.email,
@@ -237,6 +281,7 @@ def course_enroll(request, course_slug):
             return redirect('course_detail', course_slug=course_slug)
         
         Enrollment.objects.create(student=student, course=course)
+        cache.delete(f"enrolled_{student_username}")
         messages.success(request, "You have been successfully enrolled in the course!")
         return redirect('course_detail', course_slug=course_slug)
 
@@ -251,35 +296,30 @@ def course_enroll(request, course_slug):
 
 #unEnroll course 
 def unenroll_course(request, course_slug):
-    course = get_object_or_404(Course, slug=course_slug)
+    course = cache.get_or_set(
+        f"course_{course_slug}", 
+        lambda: Course.objects.filter(slug = course_slug).first(), 
+        timeout=1800
+    )
+    print("Course : ",course.course_title)
     student_username = request.session.get('student_user')
-    student = get_object_or_404(Student, username=student_username)
-
+    student = cache.get_or_set(
+        f"student_{student_username}", 
+        lambda: Student.objects.get(username=student_username), 
+        timeout=3600
+    )
+    print("userName : ",student.username)
     # Check if the student is enrolled in the course
     enrollment = Enrollment.objects.filter(student=student, course=course).first()
     if enrollment:
+        print("deleted successfull")
         enrollment.delete()
+        cache.delete(f"student_{student_username}")
+        cache.delete(f"enrolled_{student_username}")
     else:
+        print("error")
         messages.error(request, "You are not enrolled in this course.")
     return redirect('course_detail', course_slug=course_slug)  
-
-
-#Progress view
-from django.utils.safestring import mark_safe
-
-def student_progress_chart(request, username):
-    student = get_object_or_404(Student, username=username)
-    enrollments = Enrollment.objects.filter(student=student).order_by('enrollment_date')
-
-    courses = [enrollment.course.course_title for enrollment in enrollments]
-    progress = [enrollment.progress_percentage for enrollment in enrollments]
-
-    context = {
-        'courses': mark_safe(json.dumps(courses)),
-        'progress': mark_safe(json.dumps(progress)), 
-        'student_name': student.username,
-    }
-    return render(request, 'course/home/student_progress_chart.html', context)
 
 
 
@@ -295,7 +335,11 @@ def live(request):
 from utils.supabase_utils import upload_profile_image
 def profile_view(request):
     student_username = request.session.get('student_user')
-    student = get_object_or_404(Student, username=student_username)
+    student = cache.get_or_set(
+        f"student_{student_username}", 
+        lambda: Student.objects.get(username=student_username), 
+        timeout=3600
+    )
     
     if request.method == 'POST':
         student.username = request.POST.get('username')
@@ -309,33 +353,35 @@ def profile_view(request):
             student.profile_picture = upload_profile_image(profile_picture,student)
 
         student.save()
+        cache.set(f"student_{student_username}", student, timeout=3600)
         return redirect('profile')
 
-    context = {
-        'student': student,
-    }
+    context = {'student': student}
     return render(request, 'course/home/profile.html', context)
 
 
 
 #Notification View
 def notifications_view(request):
-    now = timezone.now()
-    today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
-    yesterday_start = today_start - timedelta(days=1)
-    today_notifications = Notification.objects.filter(created_at__gte=today_start)
-    yesterday_notifications = Notification.objects.filter(created_at__gte=yesterday_start, created_at__lt=today_start)
-    earlier_notifications = Notification.objects.filter(created_at__lt=yesterday_start)
+    cache_key = "notifications"
+    notifications = cache.get(cache_key)
 
-    context = {
-        'today_notifications': today_notifications,
-        'yesterday_notifications': yesterday_notifications,
-        'earlier_notifications': earlier_notifications,
-        'active_page':"notification"
-    }
+    if not notifications:
+
+        now = timezone.now()
+        today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        yesterday_start = today_start - timedelta(days=1)
+        today_notifications = list(Notification.objects.filter(created_at__gte=today_start))
+        yesterday_notifications = list(Notification.objects.filter(created_at__gte=yesterday_start, created_at__lt=today_start))
+        earlier_notifications = list(Notification.objects.filter(created_at__lt=yesterday_start))
+
+        notifications = {
+            'today_notifications': today_notifications,
+            'yesterday_notifications': yesterday_notifications,
+            'earlier_notifications': earlier_notifications,
+            'active_page':"notification"
+        }
+        cache.set(cache_key, notifications, timeout=3600)
+
+    context = {**notifications, 'active_page': "notification"}
     return render(request, 'course/home/notifications.html', context)
-
-
-
-
-#upload profile

@@ -8,6 +8,89 @@
 {% block content %}
 <div class="container mt-5">
     <h1>Notifications</h1>
+
+    <!-- Today Notifications -->
+    {% if today_notifications %}
+        <h5>Today</h5>
+        {% for notification in today_notifications %}
+            <div class="d-flex align-items-center notification-card mb-3">
+                <div class="icon-container me-2">
+                    <img src="https://via.placeholder.com/30" alt="icon" loading="lazy">
+                </div>
+                <div>
+                    <h5>{{ notification.title }}</h5>
+                    <p>{{ notification.message }}</p>
+                    {% if notification.extra_data %}
+                        {% for key, value in notification.extra_data.items %}
+                            <p><strong>{{ key|title }}:</strong> {{ value }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div>No new notifications for today.</div>
+    {% endif %}
+
+    <!-- Yesterday Notifications -->
+    {% if yesterday_notifications %}
+        <h5 class="mt-4">Yesterday</h5>
+        {% for notification in yesterday_notifications %}
+            <div class="d-flex align-items-center notification-card mb-3">
+                <div class="icon-container me-2">
+                    <img src="https://via.placeholder.com/30" alt="icon" loading="lazy">
+                </div>
+                <div>
+                    <h5>{{ notification.title }}</h5>
+                    <p>{{ notification.message }}</p>
+                    {% if notification.extra_data %}
+                        {% for key, value in notification.extra_data.items %}
+                            <p><strong>{{ key|title }}:</strong> {{ value }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div>No notifications for yesterday.</div>
+    {% endif %}
+
+    <!-- Earlier Notifications -->
+    {% if earlier_notifications %}
+        <h5 class="mt-4">Earlier</h5>
+        {% for notification in earlier_notifications %}
+            <div class="d-flex align-items-center notification-card mb-3">
+                <div class="icon-container me-2">
+                    <img src="https://via.placeholder.com/30" alt="icon" loading="lazy">
+                </div>
+                <div>
+                    <h5>{{ notification.title }}</h5>
+                    <p>{{ notification.message }}</p>
+                    {% if notification.extra_data %}
+                        {% for key, value in notification.extra_data.items %}
+                            <p><strong>{{ key|title }}:</strong> {{ value }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div>No earlier notifications available.</div>
+    {% endif %}
+</div>
+{% endblock content %}
+
+
+{% comment %} {% extends "course/layouts/main.html" %}
+{% load static %}
+
+{% block title %}
+    Notifications
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Notifications</h1>
     
     <!-- Today Notifications -->
     {% if today_notifications %}
@@ -78,122 +161,5 @@
         <div>No earlier notifications available.</div>
     {% endif %}
     
-</div>
-{% endblock content %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{% comment %} {% extends "course/layouts/main.html" %}
-{% load static %}
-
-{% block title %}
-    Notifications
-{% endblock title %}
-
-{% block content %}
-<div class="container mt-5">
-    <h1>Notifications</h1>
-    
-    <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    
-                    <!-- Today Notifications -->
-                    {% if today_notifications %}
-                        <h5>Today</h5>
-                        {% for notification in today_notifications %}
-                            <div class="d-flex align-items-center notification-card mb-3">
-                                <div class="icon-container me-2">
-                                    <img src="https://via.placeholder.com/30" alt="icon">
-                                </div>
-                                <div>
-                                    <h5>{{ notification.title }}</h5>
-                                    <p>{{ notification.message }}</p>
-                                    {% if notification.extra_data %}
-                                        {% for key, value in notification.extra_data.items %}
-                                            <p><strong>{{ key|title }}:</strong> {{ value }}</p>
-                                        {% endfor %}
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <div>No new Notifications</div>
-                    {% endif %}
-
-                    <!-- Yesterday Notifications -->
-                    {% if yesterday_notifications %}
-                    <h5 class="mt-4">Yesterday</h5>
-                    {% for notification in yesterday_notifications %}
-                        <div class="d-flex align-items-center notification-card mb-3">
-                            <div class="icon-container me-2">
-                                <img src="https://via.placeholder.com/30" alt="icon">
-                            </div>
-                            <div>
-                                <h5>{{ notification.title }}</h5>
-                                <p>{{ notification.message }}</p>
-                                {% if notification.extra_data %}
-                                    {% for key, value in notification.extra_data.items %}
-                                        <p><strong>{{ key|title }}:</strong> {{ value }}</p>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                    {% endif %}
-
-                    <!-- Earlier Notifications -->
-                    {% if earlier_notifications %}
-                    <h5 class="mt-4">Earlier</h5>
-                    {% for notification in earlier_notifications %}
-                        <div class="d-flex align-items-center notification-card mb-3">
-                            <div class="icon-container me-2">
-                                <img src="https://via.placeholder.com/30" alt="icon">
-                            </div>
-                            <div>
-                                <h5>{{ notification.title }}</h5>
-                                <p>{{ notification.message }}</p>
-                                {% if notification.extra_data %}
-                                    {% for key, value in notification.extra_data.items %}
-                                        <p><strong>{{ key|title }}:</strong> {{ value }}</p>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                    {% endif %}
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 {% endblock content %} {% endcomment %}
