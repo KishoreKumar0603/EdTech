@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'course',
-    "compressor",
 ]
 
 MIDDLEWARE = [
@@ -152,7 +151,6 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'  
 MEDIA_ROOT = BASE_DIR / 'media'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATICFILES_FINDERS = ["compressor.finders.CompressorFinder"]
 # STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 # STATIC_URL = 'static/'
 # MEDIA_URL =  '/img/'
