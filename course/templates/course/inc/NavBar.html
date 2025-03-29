@@ -22,14 +22,14 @@
           <li class="nav-item ms-auto">
             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#notificationModal">
               {% if active_page == 'notification' %}
-                  <img src="{% static "img/notifications-icon-active.png" %} " class="img" alt="" height="30px" width="30px" loading="lazy">
+                  <img src="https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/components//notifications-icon-active.png " class="img" alt="notification-icon.png" height="30px" width="30px" loading="lazy">
               {% else %}
-                  <img src="{% static "img/notifications-icon.png" %} " class="img" alt="" height="30px" width="30px" loading="lazy">
+                  <img src="https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/components//notifications-icon.png" class="img" alt="notification-icon.png" height="30px" width="30px" loading="lazy">
               {% endif %}
             </a>
           </li>
           <li class="nav-item ms-auto">
-            <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#demo"><img src="{% static "img/Vector.png" %}" class="img img-fluid" alt="" height="30px" width="30px" loading="lazy"></a>
+            <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#demo"><img src="https://ogfopexbppxzxnmbsqxe.supabase.co/storage/v1/object/public/components//Vector.png" class="img img-fluid" alt="profile.png" height="30px" width="30px" loading="lazy"></a>
           </li>
       </div>
     </div>
@@ -62,7 +62,7 @@
                     {% for notification in today_notifications %}
                         <div class="d-flex align-items-center notification-card mb-3">
                             <div class="icon-container me-2">
-                                <img src="https://via.placeholder.com/30" alt="icon" loading="lazy">
+                                <img src="https://via.placeholder.com/30" alt="icon"  loading="lazy">
                             </div>
                             <div>
                                 <h5>{{ notification.title }}</h5>
